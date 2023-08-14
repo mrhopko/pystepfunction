@@ -1,0 +1,2969 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>machine.tasks API documentation</title>
+<meta name="description" content="Tasks for stepfunction machine …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>machine.tasks</code></h1>
+</header>
+<section id="section-intro">
+<p>Tasks for stepfunction machine</p>
+<p>Build a stepfunction machine by creating tasks and connecting them with <code>and_then</code> or <code>&gt;&gt;</code> operator.</p>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; pystepfunction.machine.tasks import *
+retry = [Retry(error_equals=[&quot;States.ALL&quot;], interval_seconds=1, max_attempts=3)]
+branch1 = Branch(Task(&quot;1&quot;) &gt;&gt; Task(&quot;2&quot;))
+branch2 = Branch(Task(&quot;3&quot;).retry(retry) &gt;&gt; PassTask(&quot;pass&quot;) &gt;&gt; Task(&quot;4&quot;))
+branch_parallel = Branch(
+    Task(&quot;start&quot;) &gt;&gt; ParallelTask(&quot;par&quot;, [branch1, branch2]) &gt;&gt; Task(&quot;end&quot;).is_end()
+)
+asl = branch_parallel.to_asl()
+logger.info(asl)
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Tasks for stepfunction machine
+
+Build a stepfunction machine by creating tasks and connecting them with `and_then` or `&gt;&gt;` operator.
+
+Example:
+    &gt;&gt;&gt; pystepfunction.machine.tasks import *
+    retry = [Retry(error_equals=[&#34;States.ALL&#34;], interval_seconds=1, max_attempts=3)]
+    branch1 = Branch(Task(&#34;1&#34;) &gt;&gt; Task(&#34;2&#34;))
+    branch2 = Branch(Task(&#34;3&#34;).retry(retry) &gt;&gt; PassTask(&#34;pass&#34;) &gt;&gt; Task(&#34;4&#34;))
+    branch_parallel = Branch(
+        Task(&#34;start&#34;) &gt;&gt; ParallelTask(&#34;par&#34;, [branch1, branch2]) &gt;&gt; Task(&#34;end&#34;).is_end()
+    )
+    asl = branch_parallel.to_asl()
+    logger.info(asl)
+&#34;&#34;&#34;
+import types
+from itertools import chain
+from typing import Any, Optional, List, Dict, Callable
+from dataclasses import dataclass
+from abc import ABC
+from enum import Enum
+
+
+class ErrorStates(Enum):
+    &#34;&#34;&#34;Stepfunction error states - these should probably be constants&#34;&#34;&#34;
+
+    ALL = &#34;States.ALL&#34;
+    BRANCH_FAILED = &#34;States.BranchFailed&#34;
+    DATA_LIMIT_EXCEEDED = &#34;States.DataLimitExceeded&#34;
+    EXCEED_TOLERATED_FAILIURE_THRESHOLD = &#34;States.ExceedToleratedFailiureThreshold&#34;
+    HEARTBEAT_TIMEOUT = &#34;States.HeartbeatTimeout&#34;
+    INTRINSIC_FAILURE = &#34;States.IntrinsicFailure&#34;
+    ITEM_READER_FAILED = &#34;States.ItemReaderFailed&#34;
+    NO_CHOICE_MATCHED = &#34;States.NoChoiceMatched&#34;
+    PARAMETER_PATH_FAILURE = &#34;States.ParameterPathFailure&#34;
+    PERMISSIONS = &#34;States.Permissions&#34;
+    RESULT_PATH_MATCH_FAILURE = &#34;States.ResultPathMatchFailure&#34;
+    RESULT_WRITER_FAILED = &#34;States.ResultWriterFailed&#34;
+    RUNTIME = &#34;States.Runtime&#34;
+    TASK_FAILED = &#34;States.TaskFailed&#34;
+    TIMEOUT = &#34;States.Timeout&#34;
+
+
+class IncompleteTask(Exception):
+    pass
+
+
+@dataclass
+class State:
+    &#34;&#34;&#34;representation of the internal stepfunction state&#34;&#34;&#34;
+
+    value: dict
+    context: dict
+
+
+@dataclass
+class Retry:
+    &#34;&#34;&#34;Retry configuration for a task&#34;&#34;&#34;
+
+    error_equals: List[str]
+    &#34;&#34;&#34;List of error states to retry on&#34;&#34;&#34;
+    interval_seconds: int
+    &#34;&#34;&#34;Interval in seconds between retries&#34;&#34;&#34;
+    max_attempts: int
+    &#34;&#34;&#34;Maximum number of retries&#34;&#34;&#34;
+    backoff_rate: float = 1.0
+    &#34;&#34;&#34;Backoff rate for retries&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            &#34;ErrorEquals&#34;: self.error_equals,
+            &#34;IntervalSeconds&#34;: self.interval_seconds,
+            &#34;MaxAttempts&#34;: self.max_attempts,
+            &#34;BackoffRate&#34;: self.backoff_rate,
+        }
+
+
+@dataclass
+class Catcher:
+    &#34;&#34;&#34;Catcher configuration for a task&#34;&#34;&#34;
+
+    error_equals: List[str]
+    &#34;&#34;&#34;List of error states to catch&#34;&#34;&#34;
+    next: str
+    &#34;&#34;&#34;Next task to execute&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            &#34;ErrorEquals&#34;: self.error_equals,
+            &#34;Next&#34;: self.next,
+        }
+
+
+class Task(ABC):
+    &#34;&#34;&#34;Base class for all tasks&#34;&#34;&#34;
+
+    task_type = &#34;Task&#34;
+    &#34;&#34;&#34;Task type for ASL&#34;&#34;&#34;
+    resource = &#34;&#34;
+    &#34;&#34;&#34;Task resource for ASL&#34;&#34;&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a task
+
+        Args:
+            name (str): Name of the task
+        &#34;&#34;&#34;
+        self._next: Optional[List[&#34;Task&#34;]] = None
+        &#34;&#34;&#34;Next task in the stepfunction machine&#34;&#34;&#34;
+        self.on_error: Optional[&#34;Task&#34;] = None
+        &#34;&#34;&#34;Task to execute on error&#34;&#34;&#34;
+        self.name = str(name)
+        &#34;&#34;&#34;Name of the task&#34;&#34;&#34;
+        self.end: bool = False
+        &#34;&#34;&#34;Is the task the end of the stepfunction branch&#34;&#34;&#34;
+        self.payload: dict = {}
+        &#34;&#34;&#34;Payload for the task - used with parameters&#34;&#34;&#34;
+        self.parameters: dict = {}
+        &#34;&#34;&#34;Parameters for the task&#34;&#34;&#34;
+        self.retries: List[Retry] = []
+        &#34;&#34;&#34;Retry configuration for the task&#34;&#34;&#34;
+        self.catcher: List[Catcher] = []
+        &#34;&#34;&#34;Catcher configuration for the task&#34;&#34;&#34;
+
+    def exec(state: State) -&gt; State:
+        return State
+
+    def next(self) -&gt; Optional[&#34;Task&#34;]:
+        &#34;&#34;&#34;Get the next task in the stepfunction machine&#34;&#34;&#34;
+        if self._next is None:
+            return None
+        if len(self._next) == 0:
+            return None
+        return self._next[0]
+
+    def set_next(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Overrides the immediate next task if it exists
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        self._next = [task]
+        return self
+
+    def and_then(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Appends the task to the end of the current task chain
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        return self.__rshift__(task)
+
+    def __rshift__(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Appends the task to the end of the current task chain
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        if self.next() is None:
+            self._next = [task]
+        else:
+            self.next().__rshift__(task)
+        return self
+
+    def set_payload(self, state_keys: Dict[str, List[str]], fixed_keys: dict):
+        &#34;&#34;&#34;Set the payload for the task
+
+        Used in Lambdas and glue tasks to send data to a job of function
+
+        Args:
+            state_keys (Dict[str, List[str]]): Keys to extract from the state
+            fixed_keys (dict): Fixed keys to add to the payload
+        &#34;&#34;&#34;
+        self.payload = {f&#34;{k}.$&#34;: f&#34;$.{&#39;.&#39;.join(v)}&#34; for k, v in state_keys.items()}
+        self.payload.update(fixed_keys)
+        self.parameters.update(
+            {
+                &#34;Payload&#34;: self.payload,
+            }
+        )
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {
+            &#34;Type&#34;: self.task_type,
+            &#34;Resource&#34;: self.resource,
+            &#34;End&#34;: self.end,
+        }
+        if len(self.parameters.items()) &gt; 0:
+            asl.update({&#34;Parameters&#34;: self.parameters})
+        if self.next() is not None:
+            asl.update({&#34;Next&#34;: self.next().name})
+        if len(self.retries) &gt; 0:
+            asl.update({&#34;Retry&#34;: [retry.to_asl() for retry in self.retries]})
+        if len(self.catcher) &gt; 0:
+            asl.update({&#34;Catch&#34;: self.catcher})
+
+        return {self.name: asl}
+
+    def is_end(self) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the task as the end of the stepfunction branch&#34;&#34;&#34;
+        self.end = True
+        return self
+
+    def retry(self, retries: List[Retry]) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the retry configuration for the task
+
+        Args:
+            retries (List[Retry]): Retry configuration for the task
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.retries = retries
+        return self
+
+    def catch_task(self, catchers: List[Catcher]) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the catcher configuration for the task
+
+        Args:
+            catchers (List[Catcher]): Catcher configuration for the task
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.catcher = catchers
+        return self
+
+
+class PassTask(Task):
+    &#34;&#34;&#34;Pass task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Pass&#34;
+    &#34;&#34;&#34;Task type for AS = Pass&#34;&#34;&#34;
+
+    def __init__(self, name: str, result: dict = {}) -&gt; None:
+        &#34;&#34;&#34;Initialize a pass task
+
+        Args:
+            name (str): Name of the task
+            result (dict, optional): Result of the task. Defaults to {}. result is the payload of the next task.
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.result = result
+        &#34;&#34;&#34;Result of the task. result is the payload of the next task.&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {&#34;Type&#34;: self.task_type, &#34;End&#34;: self.end}
+        if len(self.result.items()) &gt; 0:
+            asl.update({&#34;Result&#34;: self.result})
+        return {self.name: asl}
+
+
+class LambdaTask(Task):
+    &#34;&#34;&#34;Lambda task for stepfunction machine
+
+    Properties:
+        function_arn (str): ARN of the lambda function
+    &#34;&#34;&#34;
+
+    resource: str = &#34;arn:aws:states:::lambda:invoke&#34;
+    &#34;&#34;&#34;Task resource for ASL = Lambda:invoke&#34;&#34;&#34;
+
+    def __init__(self, name: str, function_arn: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a lambda task
+
+        Args:
+            name (str): Name of the task
+            function_arn (str): ARN of the lambda function&#34;&#34;&#34;
+        super().__init__(name)
+        self.function_arn = function_arn
+        &#34;&#34;&#34;ARN of the lambda function&#34;&#34;&#34;
+        self.parameters.update({&#34;FunctionName&#34;: self.function_arn})
+
+    def with_payload(
+        self, state_keys: Dict[str, List[str]], fixed_keys: dict
+    ) -&gt; &#34;LambdaTask&#34;:
+        &#34;&#34;&#34;Set the payload for the task
+
+        Used in Lambdas to send data to a function
+
+        Args:
+            state_keys (Dict[str, List[str]]): Keys to extract from the state
+            fixed_keys (dict): Fixed keys to add to the payload
+
+        Returns:
+            LambdaTask: The task&#34;&#34;&#34;
+        self.set_payload(state_keys=state_keys, fixed_keys=fixed_keys)
+        return self
+
+
+class GlueTask(Task):
+    &#34;&#34;&#34;Glue task for stepfunction machine&#34;&#34;&#34;
+
+    resource: str = &#34;arn:aws:states:::glue:startJobRun.sync&#34;
+
+    def __init__(self, name: str, job_name: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a glue task
+
+        Args:
+            name (str): Name of the task
+            job_name (str): Name of the glue job&#34;&#34;&#34;
+        super().__init__(name)
+        self.job_name = job_name
+        &#34;&#34;&#34;Name of the glue job&#34;&#34;&#34;
+        self.parameters.update({&#34;JobName&#34;: self.job_name})
+
+    def with_payload(
+        self, state_keys: Dict[str, List[str]], fixed_keys: dict
+    ) -&gt; &#34;GlueTask&#34;:
+        &#34;&#34;&#34;Set the payload for the task
+
+        Used in glue jobs to send data to a job
+
+        Args:
+            state_keys (Dict[str, List[str]]): Keys to extract from the state
+            fixed_keys (dict): Fixed keys to add to the payload&#34;&#34;&#34;
+        self.set_payload(state_keys=state_keys, fixed_keys=fixed_keys)
+        return self
+
+
+class WaitTask(Task):
+    &#34;&#34;&#34;Wait task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Wait&#34;
+
+    def __init__(self, name) -&gt; None:
+        &#34;&#34;&#34;Initialize a wait task
+
+        Args:
+            name (str): Name of the task
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.seconds = 0
+        &#34;&#34;&#34;Number of seconds to wait&#34;&#34;&#34;
+        self.timestamp = &#34;&#34;
+        &#34;&#34;&#34;Timestamp to wait until&#34;&#34;&#34;
+        self.seconds_keys: List[str] = []
+        &#34;&#34;&#34;List of keys to extract the number of seconds to wait from the state&#34;&#34;&#34;
+        self.timestamp_keys: List[str] = []
+        &#34;&#34;&#34;List of keys to extract the timestamp to wait until from the state&#34;&#34;&#34;
+
+    def wait_seconds(self, seconds: int = 0, seconds_keys: List[str] = []) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the number of seconds to wait
+
+        Args:
+            seconds (int, optional): Number of seconds to wait. Defaults to 0.
+            seconds_keys (List[str], optional): List of keys to extract the number of seconds to wait from the state. Defaults to [].
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.seconds = seconds
+        self.seconds_keys = seconds_keys
+        return self
+
+    def wait_timestamp(
+        self, timestamp: str = &#34;&#34;, timestamp_keys: List[str] = []
+    ) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the timestamp to wait until
+
+        Args:
+            timestamp (str, optional): Timestamp to wait until. Defaults to &#34;&#34;.
+            timestamp_keys (List[str], optional): List of keys to extract the timestamp to wait until from the state. Defaults to [].
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.timestamp = timestamp
+        self.timestamp_keys = timestamp_keys
+        return self
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {&#34;Type&#34;: self.task_type}
+        if self.next() is not None:
+            asl[&#34;Next&#34;] = self.next()
+        if self.seconds &gt; 0:
+            asl[&#34;Seconds&#34;] = self.seconds
+        elif self.timestamp != &#34;&#34;:
+            asl[&#34;Timestamp&#34;] = self.timestamp
+        elif len(self.seconds_keys) &gt; 0:
+            asl[&#34;SecondsPath&#34;] = f&#34;$.{&#39;.&#39;.join(self.seconds_keys)}&#34;
+        elif len(self.timestamp_keys) &gt; 0:
+            asl[&#34;TimestampPath&#34;] = f&#34;$.{&#39;.&#39;.join(self.timestamp_keys)}&#34;
+        return asl
+
+
+class SucceedTask(Task):
+    &#34;&#34;&#34;Succeed task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Succeed&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        super().__init__(name)
+
+
+class FailTask(Task):
+    &#34;&#34;&#34;Fail task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Fail&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        super().__init__(name)
+        self.cause = &#34;&#34;
+        &#34;&#34;&#34;Cause of the failure&#34;&#34;&#34;
+        self.error = &#34;&#34;
+        &#34;&#34;&#34;Error message of the failure&#34;&#34;&#34;
+
+    def set_cause(self, cause: str, error: str) -&gt; &#34;FailTask&#34;:
+        &#34;&#34;&#34;Set the cause for the failure
+
+        Args:
+            cause (str): Cause of the failure
+            error (str): Error message of the failure&#34;&#34;&#34;
+        self.cause = cause
+        self.error = error
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            self.name: {
+                &#34;Type&#34;: self.task_type,
+                &#34;Cause&#34;: self.cause,
+                &#34;Error&#34;: self.error,
+            }
+        }
+
+
+class DmsTask(Task):
+    def exec(state: State) -&gt; State:
+        return super().exec()
+
+
+class SdkTask(Task):
+    def exec(state: State) -&gt; State:
+        return super().exec()
+
+
+class InputTask(Task):
+    def exec(state: State) -&gt; State:
+        return super().exec()
+
+
+class ChooseBranch:
+    def exec(state: State) -&gt; State:
+        return super().exec()
+
+
+class FailTask(Task):
+    def exec(state: State) -&gt; State:
+        return super().exec()
+
+
+class ChoiceRule:
+    &#34;&#34;&#34;Choice rule for stepfunction machine&#34;&#34;&#34;
+
+    def __init__(
+        self,
+        variable: str,
+        condition: str,
+        value: Optional[int | bool | str | float] = None,
+        next: Optional[Task] = None,
+    ) -&gt; None:
+        &#34;&#34;&#34;Initialize a choice rule
+
+        Args:
+            variable (str): Variable to check
+            condition (str): Condition to check
+            value (int | bool | str | float, optional): Value to check. Defaults to None.
+            next (Task, optional): Next task to execute. Defaults to None.
+        &#34;&#34;&#34;
+        self.variable: str = f&#34;$.{variable}&#34;
+        &#34;&#34;&#34;Variable to check&#34;&#34;&#34;
+        self.condition: str = condition
+        &#34;&#34;&#34;Condition to check&#34;&#34;&#34;
+        self.value = value
+        &#34;&#34;&#34;Value to compare to&#34;&#34;&#34;
+        self.next = next
+        &#34;&#34;&#34;Next task to execute&#34;&#34;&#34;
+        self._and_rules: List[&#34;ChoiceRule&#34;] = []
+        self._or_rules: List[&#34;ChoiceRule&#34;] = []
+        self._is_not: bool = False
+
+    def __not__(self) -&gt; &#34;ChoiceRule&#34;:
+        self._is_not = True
+        return self
+
+    def __and__(self, rule: &#34;ChoiceRule&#34;) -&gt; &#34;ChoiceRule&#34;:
+        self._and_rules.append(rule)
+        return self
+
+    def __or__(self, rule: &#34;ChoiceRule&#34;) -&gt; &#34;ChoiceRule&#34;:
+        self._or_rules.append(rule)
+        return self
+
+    def _short_asl(self) -&gt; dict:
+        short_asl = {&#34;Variable&#34;: self.variable, &#34;Condition&#34;: self.condition}
+        if self.value is not None:
+            short_asl[&#34;Value&#34;] = self.value
+        if self._is_not:
+            return {&#34;Not&#34;: short_asl}
+        return short_asl
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        if len(self._and_rules) &gt; 0:
+            rule_list = [self._short_asl()] + [
+                rule._short_asl() for rule in self._and_rules
+            ]
+            return {&#34;And&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+        if len(self._or_rules) &gt; 0:
+            rule_list = [self._short_asl()] + [
+                rule._short_asl() for rule in self._or_rules
+            ]
+            return {&#34;Or&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+        asl = self._short_asl()
+        asl[&#34;Next&#34;] = self.next.name
+        return asl
+
+
+class ChoiceTask(Task):
+    &#34;&#34;&#34;Choice task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Choice&#34;
+
+    def __init__(self, name: str, choices: List[ChoiceRule], default: Task) -&gt; None:
+        &#34;&#34;&#34;Initialize a choice task
+
+        Args:
+            name (str): Name of the task
+            choices (List[ChoiceRule]): List of choice rules
+            default (Task): Default task to execute
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.choices = choices
+        &#34;&#34;&#34;List of choice rules&#34;&#34;&#34;
+        self.default = default
+        &#34;&#34;&#34;Default task to execute&#34;&#34;&#34;
+        self._next = []
+        for choice in choices:
+            self._get_next(choice.next)
+
+    def _get_next(self, task: Optional[Task]):
+        if task is None:
+            return
+        self._next.append(task)
+        if task.next() is None:
+            return
+        for t in task._next:
+            self._get_next(t)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            self.name: {
+                &#34;Type&#34;: self.task_type,
+                &#34;Choices&#34;: [choice.to_asl() for choice in self.choices],
+                &#34;Default&#34;: self.default.name,
+            }
+        }
+
+
+class Branch:
+    &#34;&#34;&#34;A sequence of tasks to execute in a stepfunction machine&#34;&#34;&#34;
+
+    def __init__(self, start_task: Task, comment: str = &#34;&#34;) -&gt; None:
+        self.start_task = start_task
+        &#34;&#34;&#34;The first task to execute&#34;&#34;&#34;
+        self.comment = comment
+        &#34;&#34;&#34;Comment for the stepfunction machine&#34;&#34;&#34;
+        self.task_dict: dict = {}
+        &#34;&#34;&#34;Dictionary of all tasks in the stepfunction machine&#34;&#34;&#34;
+        self.task_list: List[Task] = []
+        &#34;&#34;&#34;List of all tasks in the stepfunction machine&#34;&#34;&#34;
+
+    def build_task_list(self, task: Task):
+        &#34;&#34;&#34;Build the list of tasks in the stepfunction machine
+
+        Recursively checks task.next()
+
+        Args:
+            task (Task): The task to add to the list
+        &#34;&#34;&#34;
+        if task.name in self.task_dict:
+            return
+        self.task_dict[task.name] = task
+        self.task_list.append(task)
+        if task.next() is None:
+            return
+        for t in task._next:
+            self.build_task_list(t)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        self.build_task_list(self.start_task)
+        asl = {}
+        for task in self.task_list:
+            asl.update(task.to_asl())
+        return {&#34;Comment&#34;: self.comment, &#34;StartAt&#34;: self.start_task.name, &#34;States&#34;: asl}
+
+
+class ParallelTask(Task):
+    &#34;&#34;&#34;Parallel task for stepfunction machine
+
+    Execute several branches in parallel
+
+    Properties:
+        branches (List[Branch]): List of branches to execute
+    &#34;&#34;&#34;
+
+    task_type = &#34;Parallel&#34;
+
+    def __init__(self, name: str, branches: List[Branch]) -&gt; None:
+        &#34;&#34;&#34;Initialize a parallel task
+
+        Args:
+            name (str): Name of the task
+            branches (List[Branch]): List of branches to execute
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.branches = branches
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {
+            &#34;Type&#34;: self.task_type,
+            &#34;End&#34;: self.end,
+            &#34;Branches&#34;: [branch.to_asl() for branch in self.branches],
+        }
+        if self.next() is not None:
+            asl[&#34;Next&#34;] = self.next().name
+        return {self.name: asl}</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="machine.tasks.Branch"><code class="flex name class">
+<span>class <span class="ident">Branch</span></span>
+<span>(</span><span>start_task: <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a>, comment: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A sequence of tasks to execute in a stepfunction machine</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Branch:
+    &#34;&#34;&#34;A sequence of tasks to execute in a stepfunction machine&#34;&#34;&#34;
+
+    def __init__(self, start_task: Task, comment: str = &#34;&#34;) -&gt; None:
+        self.start_task = start_task
+        &#34;&#34;&#34;The first task to execute&#34;&#34;&#34;
+        self.comment = comment
+        &#34;&#34;&#34;Comment for the stepfunction machine&#34;&#34;&#34;
+        self.task_dict: dict = {}
+        &#34;&#34;&#34;Dictionary of all tasks in the stepfunction machine&#34;&#34;&#34;
+        self.task_list: List[Task] = []
+        &#34;&#34;&#34;List of all tasks in the stepfunction machine&#34;&#34;&#34;
+
+    def build_task_list(self, task: Task):
+        &#34;&#34;&#34;Build the list of tasks in the stepfunction machine
+
+        Recursively checks task.next()
+
+        Args:
+            task (Task): The task to add to the list
+        &#34;&#34;&#34;
+        if task.name in self.task_dict:
+            return
+        self.task_dict[task.name] = task
+        self.task_list.append(task)
+        if task.next() is None:
+            return
+        for t in task._next:
+            self.build_task_list(t)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        self.build_task_list(self.start_task)
+        asl = {}
+        for task in self.task_list:
+            asl.update(task.to_asl())
+        return {&#34;Comment&#34;: self.comment, &#34;StartAt&#34;: self.start_task.name, &#34;States&#34;: asl}</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.Branch.comment"><code class="name">var <span class="ident">comment</span></code></dt>
+<dd>
+<div class="desc"><p>Comment for the stepfunction machine</p></div>
+</dd>
+<dt id="machine.tasks.Branch.start_task"><code class="name">var <span class="ident">start_task</span></code></dt>
+<dd>
+<div class="desc"><p>The first task to execute</p></div>
+</dd>
+<dt id="machine.tasks.Branch.task_dict"><code class="name">var <span class="ident">task_dict</span></code></dt>
+<dd>
+<div class="desc"><p>Dictionary of all tasks in the stepfunction machine</p></div>
+</dd>
+<dt id="machine.tasks.Branch.task_list"><code class="name">var <span class="ident">task_list</span></code></dt>
+<dd>
+<div class="desc"><p>List of all tasks in the stepfunction machine</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.Branch.build_task_list"><code class="name flex">
+<span>def <span class="ident">build_task_list</span></span>(<span>self, task: <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Build the list of tasks in the stepfunction machine</p>
+<p>Recursively checks task.next()</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>task</code></strong> :&ensp;<code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></dt>
+<dd>The task to add to the list</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def build_task_list(self, task: Task):
+    &#34;&#34;&#34;Build the list of tasks in the stepfunction machine
+
+    Recursively checks task.next()
+
+    Args:
+        task (Task): The task to add to the list
+    &#34;&#34;&#34;
+    if task.name in self.task_dict:
+        return
+    self.task_dict[task.name] = task
+    self.task_list.append(task)
+    if task.next() is None:
+        return
+    for t in task._next:
+        self.build_task_list(t)</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Branch.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    self.build_task_list(self.start_task)
+    asl = {}
+    for task in self.task_list:
+        asl.update(task.to_asl())
+    return {&#34;Comment&#34;: self.comment, &#34;StartAt&#34;: self.start_task.name, &#34;States&#34;: asl}</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="machine.tasks.Catcher"><code class="flex name class">
+<span>class <span class="ident">Catcher</span></span>
+<span>(</span><span>error_equals: List[str], next: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Catcher configuration for a task</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Catcher:
+    &#34;&#34;&#34;Catcher configuration for a task&#34;&#34;&#34;
+
+    error_equals: List[str]
+    &#34;&#34;&#34;List of error states to catch&#34;&#34;&#34;
+    next: str
+    &#34;&#34;&#34;Next task to execute&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            &#34;ErrorEquals&#34;: self.error_equals,
+            &#34;Next&#34;: self.next,
+        }</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="machine.tasks.Catcher.error_equals"><code class="name">var <span class="ident">error_equals</span> : List[str]</code></dt>
+<dd>
+<div class="desc"><p>List of error states to catch</p></div>
+</dd>
+<dt id="machine.tasks.Catcher.next"><code class="name">var <span class="ident">next</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Next task to execute</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.Catcher.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    return {
+        &#34;ErrorEquals&#34;: self.error_equals,
+        &#34;Next&#34;: self.next,
+    }</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="machine.tasks.ChoiceRule"><code class="flex name class">
+<span>class <span class="ident">ChoiceRule</span></span>
+<span>(</span><span>variable: str, condition: str, value: Union[int, bool, str, float, ForwardRef(None)] = None, next: Optional[<a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a>] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Choice rule for stepfunction machine</p>
+<p>Initialize a choice rule</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>variable</code></strong> :&ensp;<code>str</code></dt>
+<dd>Variable to check</dd>
+<dt><strong><code>condition</code></strong> :&ensp;<code>str</code></dt>
+<dd>Condition to check</dd>
+<dt>value (int | bool | str | float, optional): Value to check. Defaults to None.</dt>
+<dt><strong><code>next</code></strong> :&ensp;<code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code>, optional</dt>
+<dd>Next task to execute. Defaults to None.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ChoiceRule:
+    &#34;&#34;&#34;Choice rule for stepfunction machine&#34;&#34;&#34;
+
+    def __init__(
+        self,
+        variable: str,
+        condition: str,
+        value: Optional[int | bool | str | float] = None,
+        next: Optional[Task] = None,
+    ) -&gt; None:
+        &#34;&#34;&#34;Initialize a choice rule
+
+        Args:
+            variable (str): Variable to check
+            condition (str): Condition to check
+            value (int | bool | str | float, optional): Value to check. Defaults to None.
+            next (Task, optional): Next task to execute. Defaults to None.
+        &#34;&#34;&#34;
+        self.variable: str = f&#34;$.{variable}&#34;
+        &#34;&#34;&#34;Variable to check&#34;&#34;&#34;
+        self.condition: str = condition
+        &#34;&#34;&#34;Condition to check&#34;&#34;&#34;
+        self.value = value
+        &#34;&#34;&#34;Value to compare to&#34;&#34;&#34;
+        self.next = next
+        &#34;&#34;&#34;Next task to execute&#34;&#34;&#34;
+        self._and_rules: List[&#34;ChoiceRule&#34;] = []
+        self._or_rules: List[&#34;ChoiceRule&#34;] = []
+        self._is_not: bool = False
+
+    def __not__(self) -&gt; &#34;ChoiceRule&#34;:
+        self._is_not = True
+        return self
+
+    def __and__(self, rule: &#34;ChoiceRule&#34;) -&gt; &#34;ChoiceRule&#34;:
+        self._and_rules.append(rule)
+        return self
+
+    def __or__(self, rule: &#34;ChoiceRule&#34;) -&gt; &#34;ChoiceRule&#34;:
+        self._or_rules.append(rule)
+        return self
+
+    def _short_asl(self) -&gt; dict:
+        short_asl = {&#34;Variable&#34;: self.variable, &#34;Condition&#34;: self.condition}
+        if self.value is not None:
+            short_asl[&#34;Value&#34;] = self.value
+        if self._is_not:
+            return {&#34;Not&#34;: short_asl}
+        return short_asl
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        if len(self._and_rules) &gt; 0:
+            rule_list = [self._short_asl()] + [
+                rule._short_asl() for rule in self._and_rules
+            ]
+            return {&#34;And&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+        if len(self._or_rules) &gt; 0:
+            rule_list = [self._short_asl()] + [
+                rule._short_asl() for rule in self._or_rules
+            ]
+            return {&#34;Or&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+        asl = self._short_asl()
+        asl[&#34;Next&#34;] = self.next.name
+        return asl</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.ChoiceRule.condition"><code class="name">var <span class="ident">condition</span></code></dt>
+<dd>
+<div class="desc"><p>Condition to check</p></div>
+</dd>
+<dt id="machine.tasks.ChoiceRule.next"><code class="name">var <span class="ident">next</span></code></dt>
+<dd>
+<div class="desc"><p>Next task to execute</p></div>
+</dd>
+<dt id="machine.tasks.ChoiceRule.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<div class="desc"><p>Value to compare to</p></div>
+</dd>
+<dt id="machine.tasks.ChoiceRule.variable"><code class="name">var <span class="ident">variable</span></code></dt>
+<dd>
+<div class="desc"><p>Variable to check</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.ChoiceRule.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    if len(self._and_rules) &gt; 0:
+        rule_list = [self._short_asl()] + [
+            rule._short_asl() for rule in self._and_rules
+        ]
+        return {&#34;And&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+    if len(self._or_rules) &gt; 0:
+        rule_list = [self._short_asl()] + [
+            rule._short_asl() for rule in self._or_rules
+        ]
+        return {&#34;Or&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+    asl = self._short_asl()
+    asl[&#34;Next&#34;] = self.next.name
+    return asl</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="machine.tasks.ChoiceTask"><code class="flex name class">
+<span>class <span class="ident">ChoiceTask</span></span>
+<span>(</span><span>name: str, choices: List[<a title="machine.tasks.ChoiceRule" href="#machine.tasks.ChoiceRule">ChoiceRule</a>], default: <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Choice task for stepfunction machine</p>
+<p>Initialize a choice task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>choices</code></strong> :&ensp;<code>List[<a title="machine.tasks.ChoiceRule" href="#machine.tasks.ChoiceRule">ChoiceRule</a>]</code></dt>
+<dd>List of choice rules</dd>
+<dt><strong><code>default</code></strong> :&ensp;<code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></dt>
+<dd>Default task to execute</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ChoiceTask(Task):
+    &#34;&#34;&#34;Choice task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Choice&#34;
+
+    def __init__(self, name: str, choices: List[ChoiceRule], default: Task) -&gt; None:
+        &#34;&#34;&#34;Initialize a choice task
+
+        Args:
+            name (str): Name of the task
+            choices (List[ChoiceRule]): List of choice rules
+            default (Task): Default task to execute
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.choices = choices
+        &#34;&#34;&#34;List of choice rules&#34;&#34;&#34;
+        self.default = default
+        &#34;&#34;&#34;Default task to execute&#34;&#34;&#34;
+        self._next = []
+        for choice in choices:
+            self._get_next(choice.next)
+
+    def _get_next(self, task: Optional[Task]):
+        if task is None:
+            return
+        self._next.append(task)
+        if task.next() is None:
+            return
+        for t in task._next:
+            self._get_next(t)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            self.name: {
+                &#34;Type&#34;: self.task_type,
+                &#34;Choices&#34;: [choice.to_asl() for choice in self.choices],
+                &#34;Default&#34;: self.default.name,
+            }
+        }</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.ChoiceTask.choices"><code class="name">var <span class="ident">choices</span></code></dt>
+<dd>
+<div class="desc"><p>List of choice rules</p></div>
+</dd>
+<dt id="machine.tasks.ChoiceTask.default"><code class="name">var <span class="ident">default</span></code></dt>
+<dd>
+<div class="desc"><p>Default task to execute</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.ChooseBranch"><code class="flex name class">
+<span>class <span class="ident">ChooseBranch</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ChooseBranch:
+    def exec(state: State) -&gt; State:
+        return super().exec()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.ChooseBranch.exec"><code class="name flex">
+<span>def <span class="ident">exec</span></span>(<span>state: <a title="machine.tasks.State" href="#machine.tasks.State">State</a>) ‑> <a title="machine.tasks.State" href="#machine.tasks.State">State</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exec(state: State) -&gt; State:
+    return super().exec()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="machine.tasks.DmsTask"><code class="flex name class">
+<span>class <span class="ident">DmsTask</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all tasks</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DmsTask(Task):
+    def exec(state: State) -&gt; State:
+        return super().exec()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.DmsTask.exec"><code class="name flex">
+<span>def <span class="ident">exec</span></span>(<span>state: <a title="machine.tasks.State" href="#machine.tasks.State">State</a>) ‑> <a title="machine.tasks.State" href="#machine.tasks.State">State</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exec(state: State) -&gt; State:
+    return super().exec()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.ErrorStates"><code class="flex name class">
+<span>class <span class="ident">ErrorStates</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Stepfunction error states - these should probably be constants</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ErrorStates(Enum):
+    &#34;&#34;&#34;Stepfunction error states - these should probably be constants&#34;&#34;&#34;
+
+    ALL = &#34;States.ALL&#34;
+    BRANCH_FAILED = &#34;States.BranchFailed&#34;
+    DATA_LIMIT_EXCEEDED = &#34;States.DataLimitExceeded&#34;
+    EXCEED_TOLERATED_FAILIURE_THRESHOLD = &#34;States.ExceedToleratedFailiureThreshold&#34;
+    HEARTBEAT_TIMEOUT = &#34;States.HeartbeatTimeout&#34;
+    INTRINSIC_FAILURE = &#34;States.IntrinsicFailure&#34;
+    ITEM_READER_FAILED = &#34;States.ItemReaderFailed&#34;
+    NO_CHOICE_MATCHED = &#34;States.NoChoiceMatched&#34;
+    PARAMETER_PATH_FAILURE = &#34;States.ParameterPathFailure&#34;
+    PERMISSIONS = &#34;States.Permissions&#34;
+    RESULT_PATH_MATCH_FAILURE = &#34;States.ResultPathMatchFailure&#34;
+    RESULT_WRITER_FAILED = &#34;States.ResultWriterFailed&#34;
+    RUNTIME = &#34;States.Runtime&#34;
+    TASK_FAILED = &#34;States.TaskFailed&#34;
+    TIMEOUT = &#34;States.Timeout&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="machine.tasks.ErrorStates.ALL"><code class="name">var <span class="ident">ALL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.BRANCH_FAILED"><code class="name">var <span class="ident">BRANCH_FAILED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.DATA_LIMIT_EXCEEDED"><code class="name">var <span class="ident">DATA_LIMIT_EXCEEDED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.EXCEED_TOLERATED_FAILIURE_THRESHOLD"><code class="name">var <span class="ident">EXCEED_TOLERATED_FAILIURE_THRESHOLD</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.HEARTBEAT_TIMEOUT"><code class="name">var <span class="ident">HEARTBEAT_TIMEOUT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.INTRINSIC_FAILURE"><code class="name">var <span class="ident">INTRINSIC_FAILURE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.ITEM_READER_FAILED"><code class="name">var <span class="ident">ITEM_READER_FAILED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.NO_CHOICE_MATCHED"><code class="name">var <span class="ident">NO_CHOICE_MATCHED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.PARAMETER_PATH_FAILURE"><code class="name">var <span class="ident">PARAMETER_PATH_FAILURE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.PERMISSIONS"><code class="name">var <span class="ident">PERMISSIONS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.RESULT_PATH_MATCH_FAILURE"><code class="name">var <span class="ident">RESULT_PATH_MATCH_FAILURE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.RESULT_WRITER_FAILED"><code class="name">var <span class="ident">RESULT_WRITER_FAILED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.RUNTIME"><code class="name">var <span class="ident">RUNTIME</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.TASK_FAILED"><code class="name">var <span class="ident">TASK_FAILED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.ErrorStates.TIMEOUT"><code class="name">var <span class="ident">TIMEOUT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="machine.tasks.FailTask"><code class="flex name class">
+<span>class <span class="ident">FailTask</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all tasks</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FailTask(Task):
+    &#34;&#34;&#34;Fail task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Fail&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        super().__init__(name)
+        self.cause = &#34;&#34;
+        &#34;&#34;&#34;Cause of the failure&#34;&#34;&#34;
+        self.error = &#34;&#34;
+        &#34;&#34;&#34;Error message of the failure&#34;&#34;&#34;
+
+    def set_cause(self, cause: str, error: str) -&gt; &#34;FailTask&#34;:
+        &#34;&#34;&#34;Set the cause for the failure
+
+        Args:
+            cause (str): Cause of the failure
+            error (str): Error message of the failure&#34;&#34;&#34;
+        self.cause = cause
+        self.error = error
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            self.name: {
+                &#34;Type&#34;: self.task_type,
+                &#34;Cause&#34;: self.cause,
+                &#34;Error&#34;: self.error,
+            }
+        }</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.FailTask.cause"><code class="name">var <span class="ident">cause</span></code></dt>
+<dd>
+<div class="desc"><p>Cause of the failure</p></div>
+</dd>
+<dt id="machine.tasks.FailTask.error"><code class="name">var <span class="ident">error</span></code></dt>
+<dd>
+<div class="desc"><p>Error message of the failure</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.FailTask.exec"><code class="name flex">
+<span>def <span class="ident">exec</span></span>(<span>state: <a title="machine.tasks.State" href="#machine.tasks.State">State</a>) ‑> <a title="machine.tasks.State" href="#machine.tasks.State">State</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exec(state: State) -&gt; State:
+    return super().exec()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.GlueTask"><code class="flex name class">
+<span>class <span class="ident">GlueTask</span></span>
+<span>(</span><span>name: str, job_name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Glue task for stepfunction machine</p>
+<p>Initialize a glue task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>job_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the glue job</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GlueTask(Task):
+    &#34;&#34;&#34;Glue task for stepfunction machine&#34;&#34;&#34;
+
+    resource: str = &#34;arn:aws:states:::glue:startJobRun.sync&#34;
+
+    def __init__(self, name: str, job_name: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a glue task
+
+        Args:
+            name (str): Name of the task
+            job_name (str): Name of the glue job&#34;&#34;&#34;
+        super().__init__(name)
+        self.job_name = job_name
+        &#34;&#34;&#34;Name of the glue job&#34;&#34;&#34;
+        self.parameters.update({&#34;JobName&#34;: self.job_name})
+
+    def with_payload(
+        self, state_keys: Dict[str, List[str]], fixed_keys: dict
+    ) -&gt; &#34;GlueTask&#34;:
+        &#34;&#34;&#34;Set the payload for the task
+
+        Used in glue jobs to send data to a job
+
+        Args:
+            state_keys (Dict[str, List[str]]): Keys to extract from the state
+            fixed_keys (dict): Fixed keys to add to the payload&#34;&#34;&#34;
+        self.set_payload(state_keys=state_keys, fixed_keys=fixed_keys)
+        return self</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.GlueTask.job_name"><code class="name">var <span class="ident">job_name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the glue job</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.GlueTask.with_payload"><code class="name flex">
+<span>def <span class="ident">with_payload</span></span>(<span>self, state_keys: Dict[str, List[str]], fixed_keys: dict) ‑> <a title="machine.tasks.GlueTask" href="#machine.tasks.GlueTask">GlueTask</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the payload for the task</p>
+<p>Used in glue jobs to send data to a job</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>state_keys</code></strong> :&ensp;<code>Dict[str, List[str]]</code></dt>
+<dd>Keys to extract from the state</dd>
+<dt><strong><code>fixed_keys</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Fixed keys to add to the payload</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_payload(
+    self, state_keys: Dict[str, List[str]], fixed_keys: dict
+) -&gt; &#34;GlueTask&#34;:
+    &#34;&#34;&#34;Set the payload for the task
+
+    Used in glue jobs to send data to a job
+
+    Args:
+        state_keys (Dict[str, List[str]]): Keys to extract from the state
+        fixed_keys (dict): Fixed keys to add to the payload&#34;&#34;&#34;
+    self.set_payload(state_keys=state_keys, fixed_keys=fixed_keys)
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.IncompleteTask"><code class="flex name class">
+<span>class <span class="ident">IncompleteTask</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IncompleteTask(Exception):
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="machine.tasks.InputTask"><code class="flex name class">
+<span>class <span class="ident">InputTask</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all tasks</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InputTask(Task):
+    def exec(state: State) -&gt; State:
+        return super().exec()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.InputTask.exec"><code class="name flex">
+<span>def <span class="ident">exec</span></span>(<span>state: <a title="machine.tasks.State" href="#machine.tasks.State">State</a>) ‑> <a title="machine.tasks.State" href="#machine.tasks.State">State</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exec(state: State) -&gt; State:
+    return super().exec()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.LambdaTask"><code class="flex name class">
+<span>class <span class="ident">LambdaTask</span></span>
+<span>(</span><span>name: str, function_arn: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lambda task for stepfunction machine</p>
+<h2 id="properties">Properties</h2>
+<p>function_arn (str): ARN of the lambda function</p>
+<p>Initialize a lambda task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>function_arn</code></strong> :&ensp;<code>str</code></dt>
+<dd>ARN of the lambda function</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LambdaTask(Task):
+    &#34;&#34;&#34;Lambda task for stepfunction machine
+
+    Properties:
+        function_arn (str): ARN of the lambda function
+    &#34;&#34;&#34;
+
+    resource: str = &#34;arn:aws:states:::lambda:invoke&#34;
+    &#34;&#34;&#34;Task resource for ASL = Lambda:invoke&#34;&#34;&#34;
+
+    def __init__(self, name: str, function_arn: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a lambda task
+
+        Args:
+            name (str): Name of the task
+            function_arn (str): ARN of the lambda function&#34;&#34;&#34;
+        super().__init__(name)
+        self.function_arn = function_arn
+        &#34;&#34;&#34;ARN of the lambda function&#34;&#34;&#34;
+        self.parameters.update({&#34;FunctionName&#34;: self.function_arn})
+
+    def with_payload(
+        self, state_keys: Dict[str, List[str]], fixed_keys: dict
+    ) -&gt; &#34;LambdaTask&#34;:
+        &#34;&#34;&#34;Set the payload for the task
+
+        Used in Lambdas to send data to a function
+
+        Args:
+            state_keys (Dict[str, List[str]]): Keys to extract from the state
+            fixed_keys (dict): Fixed keys to add to the payload
+
+        Returns:
+            LambdaTask: The task&#34;&#34;&#34;
+        self.set_payload(state_keys=state_keys, fixed_keys=fixed_keys)
+        return self</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.LambdaTask.function_arn"><code class="name">var <span class="ident">function_arn</span></code></dt>
+<dd>
+<div class="desc"><p>ARN of the lambda function</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.LambdaTask.with_payload"><code class="name flex">
+<span>def <span class="ident">with_payload</span></span>(<span>self, state_keys: Dict[str, List[str]], fixed_keys: dict) ‑> <a title="machine.tasks.LambdaTask" href="#machine.tasks.LambdaTask">LambdaTask</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the payload for the task</p>
+<p>Used in Lambdas to send data to a function</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>state_keys</code></strong> :&ensp;<code>Dict[str, List[str]]</code></dt>
+<dd>Keys to extract from the state</dd>
+<dt><strong><code>fixed_keys</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Fixed keys to add to the payload</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="machine.tasks.LambdaTask" href="#machine.tasks.LambdaTask">LambdaTask</a></code></dt>
+<dd>The task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_payload(
+    self, state_keys: Dict[str, List[str]], fixed_keys: dict
+) -&gt; &#34;LambdaTask&#34;:
+    &#34;&#34;&#34;Set the payload for the task
+
+    Used in Lambdas to send data to a function
+
+    Args:
+        state_keys (Dict[str, List[str]]): Keys to extract from the state
+        fixed_keys (dict): Fixed keys to add to the payload
+
+    Returns:
+        LambdaTask: The task&#34;&#34;&#34;
+    self.set_payload(state_keys=state_keys, fixed_keys=fixed_keys)
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.ParallelTask"><code class="flex name class">
+<span>class <span class="ident">ParallelTask</span></span>
+<span>(</span><span>name: str, branches: List[<a title="machine.tasks.Branch" href="#machine.tasks.Branch">Branch</a>])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parallel task for stepfunction machine</p>
+<p>Execute several branches in parallel</p>
+<h2 id="properties">Properties</h2>
+<p>branches (List[Branch]): List of branches to execute</p>
+<p>Initialize a parallel task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>branches</code></strong> :&ensp;<code>List[<a title="machine.tasks.Branch" href="#machine.tasks.Branch">Branch</a>]</code></dt>
+<dd>List of branches to execute</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ParallelTask(Task):
+    &#34;&#34;&#34;Parallel task for stepfunction machine
+
+    Execute several branches in parallel
+
+    Properties:
+        branches (List[Branch]): List of branches to execute
+    &#34;&#34;&#34;
+
+    task_type = &#34;Parallel&#34;
+
+    def __init__(self, name: str, branches: List[Branch]) -&gt; None:
+        &#34;&#34;&#34;Initialize a parallel task
+
+        Args:
+            name (str): Name of the task
+            branches (List[Branch]): List of branches to execute
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.branches = branches
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {
+            &#34;Type&#34;: self.task_type,
+            &#34;End&#34;: self.end,
+            &#34;Branches&#34;: [branch.to_asl() for branch in self.branches],
+        }
+        if self.next() is not None:
+            asl[&#34;Next&#34;] = self.next().name
+        return {self.name: asl}</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.PassTask"><code class="flex name class">
+<span>class <span class="ident">PassTask</span></span>
+<span>(</span><span>name: str, result: dict = {})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Pass task for stepfunction machine</p>
+<p>Initialize a pass task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>result</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>Result of the task. Defaults to {}. result is the payload of the next task.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PassTask(Task):
+    &#34;&#34;&#34;Pass task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Pass&#34;
+    &#34;&#34;&#34;Task type for AS = Pass&#34;&#34;&#34;
+
+    def __init__(self, name: str, result: dict = {}) -&gt; None:
+        &#34;&#34;&#34;Initialize a pass task
+
+        Args:
+            name (str): Name of the task
+            result (dict, optional): Result of the task. Defaults to {}. result is the payload of the next task.
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.result = result
+        &#34;&#34;&#34;Result of the task. result is the payload of the next task.&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {&#34;Type&#34;: self.task_type, &#34;End&#34;: self.end}
+        if len(self.result.items()) &gt; 0:
+            asl.update({&#34;Result&#34;: self.result})
+        return {self.name: asl}</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.PassTask.result"><code class="name">var <span class="ident">result</span></code></dt>
+<dd>
+<div class="desc"><p>Result of the task. result is the payload of the next task.</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.Retry"><code class="flex name class">
+<span>class <span class="ident">Retry</span></span>
+<span>(</span><span>error_equals: List[str], interval_seconds: int, max_attempts: int, backoff_rate: float = 1.0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retry configuration for a task</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Retry:
+    &#34;&#34;&#34;Retry configuration for a task&#34;&#34;&#34;
+
+    error_equals: List[str]
+    &#34;&#34;&#34;List of error states to retry on&#34;&#34;&#34;
+    interval_seconds: int
+    &#34;&#34;&#34;Interval in seconds between retries&#34;&#34;&#34;
+    max_attempts: int
+    &#34;&#34;&#34;Maximum number of retries&#34;&#34;&#34;
+    backoff_rate: float = 1.0
+    &#34;&#34;&#34;Backoff rate for retries&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            &#34;ErrorEquals&#34;: self.error_equals,
+            &#34;IntervalSeconds&#34;: self.interval_seconds,
+            &#34;MaxAttempts&#34;: self.max_attempts,
+            &#34;BackoffRate&#34;: self.backoff_rate,
+        }</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="machine.tasks.Retry.backoff_rate"><code class="name">var <span class="ident">backoff_rate</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Backoff rate for retries</p></div>
+</dd>
+<dt id="machine.tasks.Retry.error_equals"><code class="name">var <span class="ident">error_equals</span> : List[str]</code></dt>
+<dd>
+<div class="desc"><p>List of error states to retry on</p></div>
+</dd>
+<dt id="machine.tasks.Retry.interval_seconds"><code class="name">var <span class="ident">interval_seconds</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Interval in seconds between retries</p></div>
+</dd>
+<dt id="machine.tasks.Retry.max_attempts"><code class="name">var <span class="ident">max_attempts</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Maximum number of retries</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.Retry.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    return {
+        &#34;ErrorEquals&#34;: self.error_equals,
+        &#34;IntervalSeconds&#34;: self.interval_seconds,
+        &#34;MaxAttempts&#34;: self.max_attempts,
+        &#34;BackoffRate&#34;: self.backoff_rate,
+    }</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="machine.tasks.SdkTask"><code class="flex name class">
+<span>class <span class="ident">SdkTask</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all tasks</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SdkTask(Task):
+    def exec(state: State) -&gt; State:
+        return super().exec()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.SdkTask.exec"><code class="name flex">
+<span>def <span class="ident">exec</span></span>(<span>state: <a title="machine.tasks.State" href="#machine.tasks.State">State</a>) ‑> <a title="machine.tasks.State" href="#machine.tasks.State">State</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exec(state: State) -&gt; State:
+    return super().exec()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.State"><code class="flex name class">
+<span>class <span class="ident">State</span></span>
+<span>(</span><span>value: dict, context: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>representation of the internal stepfunction state</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class State:
+    &#34;&#34;&#34;representation of the internal stepfunction state&#34;&#34;&#34;
+
+    value: dict
+    context: dict</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="machine.tasks.State.context"><code class="name">var <span class="ident">context</span> : dict</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="machine.tasks.State.value"><code class="name">var <span class="ident">value</span> : dict</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="machine.tasks.SucceedTask"><code class="flex name class">
+<span>class <span class="ident">SucceedTask</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Succeed task for stepfunction machine</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SucceedTask(Task):
+    &#34;&#34;&#34;Succeed task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Succeed&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        super().__init__(name)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="machine.tasks.Task"><code class="flex name class">
+<span>class <span class="ident">Task</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all tasks</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Task(ABC):
+    &#34;&#34;&#34;Base class for all tasks&#34;&#34;&#34;
+
+    task_type = &#34;Task&#34;
+    &#34;&#34;&#34;Task type for ASL&#34;&#34;&#34;
+    resource = &#34;&#34;
+    &#34;&#34;&#34;Task resource for ASL&#34;&#34;&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a task
+
+        Args:
+            name (str): Name of the task
+        &#34;&#34;&#34;
+        self._next: Optional[List[&#34;Task&#34;]] = None
+        &#34;&#34;&#34;Next task in the stepfunction machine&#34;&#34;&#34;
+        self.on_error: Optional[&#34;Task&#34;] = None
+        &#34;&#34;&#34;Task to execute on error&#34;&#34;&#34;
+        self.name = str(name)
+        &#34;&#34;&#34;Name of the task&#34;&#34;&#34;
+        self.end: bool = False
+        &#34;&#34;&#34;Is the task the end of the stepfunction branch&#34;&#34;&#34;
+        self.payload: dict = {}
+        &#34;&#34;&#34;Payload for the task - used with parameters&#34;&#34;&#34;
+        self.parameters: dict = {}
+        &#34;&#34;&#34;Parameters for the task&#34;&#34;&#34;
+        self.retries: List[Retry] = []
+        &#34;&#34;&#34;Retry configuration for the task&#34;&#34;&#34;
+        self.catcher: List[Catcher] = []
+        &#34;&#34;&#34;Catcher configuration for the task&#34;&#34;&#34;
+
+    def exec(state: State) -&gt; State:
+        return State
+
+    def next(self) -&gt; Optional[&#34;Task&#34;]:
+        &#34;&#34;&#34;Get the next task in the stepfunction machine&#34;&#34;&#34;
+        if self._next is None:
+            return None
+        if len(self._next) == 0:
+            return None
+        return self._next[0]
+
+    def set_next(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Overrides the immediate next task if it exists
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        self._next = [task]
+        return self
+
+    def and_then(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Appends the task to the end of the current task chain
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        return self.__rshift__(task)
+
+    def __rshift__(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Appends the task to the end of the current task chain
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        if self.next() is None:
+            self._next = [task]
+        else:
+            self.next().__rshift__(task)
+        return self
+
+    def set_payload(self, state_keys: Dict[str, List[str]], fixed_keys: dict):
+        &#34;&#34;&#34;Set the payload for the task
+
+        Used in Lambdas and glue tasks to send data to a job of function
+
+        Args:
+            state_keys (Dict[str, List[str]]): Keys to extract from the state
+            fixed_keys (dict): Fixed keys to add to the payload
+        &#34;&#34;&#34;
+        self.payload = {f&#34;{k}.$&#34;: f&#34;$.{&#39;.&#39;.join(v)}&#34; for k, v in state_keys.items()}
+        self.payload.update(fixed_keys)
+        self.parameters.update(
+            {
+                &#34;Payload&#34;: self.payload,
+            }
+        )
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {
+            &#34;Type&#34;: self.task_type,
+            &#34;Resource&#34;: self.resource,
+            &#34;End&#34;: self.end,
+        }
+        if len(self.parameters.items()) &gt; 0:
+            asl.update({&#34;Parameters&#34;: self.parameters})
+        if self.next() is not None:
+            asl.update({&#34;Next&#34;: self.next().name})
+        if len(self.retries) &gt; 0:
+            asl.update({&#34;Retry&#34;: [retry.to_asl() for retry in self.retries]})
+        if len(self.catcher) &gt; 0:
+            asl.update({&#34;Catch&#34;: self.catcher})
+
+        return {self.name: asl}
+
+    def is_end(self) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the task as the end of the stepfunction branch&#34;&#34;&#34;
+        self.end = True
+        return self
+
+    def retry(self, retries: List[Retry]) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the retry configuration for the task
+
+        Args:
+            retries (List[Retry]): Retry configuration for the task
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.retries = retries
+        return self
+
+    def catch_task(self, catchers: List[Catcher]) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the catcher configuration for the task
+
+        Args:
+            catchers (List[Catcher]): Catcher configuration for the task
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.catcher = catchers
+        return self</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.ChoiceTask" href="#machine.tasks.ChoiceTask">ChoiceTask</a></li>
+<li><a title="machine.tasks.DmsTask" href="#machine.tasks.DmsTask">DmsTask</a></li>
+<li><a title="machine.tasks.FailTask" href="#machine.tasks.FailTask">FailTask</a></li>
+<li><a title="machine.tasks.GlueTask" href="#machine.tasks.GlueTask">GlueTask</a></li>
+<li><a title="machine.tasks.InputTask" href="#machine.tasks.InputTask">InputTask</a></li>
+<li><a title="machine.tasks.LambdaTask" href="#machine.tasks.LambdaTask">LambdaTask</a></li>
+<li><a title="machine.tasks.ParallelTask" href="#machine.tasks.ParallelTask">ParallelTask</a></li>
+<li><a title="machine.tasks.PassTask" href="#machine.tasks.PassTask">PassTask</a></li>
+<li><a title="machine.tasks.SdkTask" href="#machine.tasks.SdkTask">SdkTask</a></li>
+<li><a title="machine.tasks.SucceedTask" href="#machine.tasks.SucceedTask">SucceedTask</a></li>
+<li><a title="machine.tasks.WaitTask" href="#machine.tasks.WaitTask">WaitTask</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="machine.tasks.Task.resource"><code class="name">var <span class="ident">resource</span></code></dt>
+<dd>
+<div class="desc"><p>Task resource for ASL</p></div>
+</dd>
+<dt id="machine.tasks.Task.task_type"><code class="name">var <span class="ident">task_type</span></code></dt>
+<dd>
+<div class="desc"><p>Task type for ASL</p></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.Task.catcher"><code class="name">var <span class="ident">catcher</span></code></dt>
+<dd>
+<div class="desc"><p>Catcher configuration for the task</p></div>
+</dd>
+<dt id="machine.tasks.Task.end"><code class="name">var <span class="ident">end</span></code></dt>
+<dd>
+<div class="desc"><p>Is the task the end of the stepfunction branch</p></div>
+</dd>
+<dt id="machine.tasks.Task.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the task</p></div>
+</dd>
+<dt id="machine.tasks.Task.on_error"><code class="name">var <span class="ident">on_error</span></code></dt>
+<dd>
+<div class="desc"><p>Task to execute on error</p></div>
+</dd>
+<dt id="machine.tasks.Task.parameters"><code class="name">var <span class="ident">parameters</span></code></dt>
+<dd>
+<div class="desc"><p>Parameters for the task</p></div>
+</dd>
+<dt id="machine.tasks.Task.payload"><code class="name">var <span class="ident">payload</span></code></dt>
+<dd>
+<div class="desc"><p>Payload for the task - used with parameters</p></div>
+</dd>
+<dt id="machine.tasks.Task.retries"><code class="name">var <span class="ident">retries</span></code></dt>
+<dd>
+<div class="desc"><p>Retry configuration for the task</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.Task.and_then"><code class="name flex">
+<span>def <span class="ident">and_then</span></span>(<span>self, task: <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a>) ‑> <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the next task in the stepfunction machine</p>
+<p>Appends the task to the end of the current task chain</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>task</code></strong> :&ensp;<code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></dt>
+<dd>Next task in the stepfunction machine</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def and_then(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+    Appends the task to the end of the current task chain
+
+    Args:
+        task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+    return self.__rshift__(task)</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Task.catch_task"><code class="name flex">
+<span>def <span class="ident">catch_task</span></span>(<span>self, catchers: List[<a title="machine.tasks.Catcher" href="#machine.tasks.Catcher">Catcher</a>]) ‑> <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the catcher configuration for the task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>catchers</code></strong> :&ensp;<code>List[<a title="machine.tasks.Catcher" href="#machine.tasks.Catcher">Catcher</a>]</code></dt>
+<dd>Catcher configuration for the task</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></dt>
+<dd>The task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def catch_task(self, catchers: List[Catcher]) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the catcher configuration for the task
+
+    Args:
+        catchers (List[Catcher]): Catcher configuration for the task
+
+    Returns:
+        Task: The task&#34;&#34;&#34;
+    self.catcher = catchers
+    return self</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Task.exec"><code class="name flex">
+<span>def <span class="ident">exec</span></span>(<span>state: <a title="machine.tasks.State" href="#machine.tasks.State">State</a>) ‑> <a title="machine.tasks.State" href="#machine.tasks.State">State</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exec(state: State) -&gt; State:
+    return State</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Task.is_end"><code class="name flex">
+<span>def <span class="ident">is_end</span></span>(<span>self) ‑> <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the task as the end of the stepfunction branch</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_end(self) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the task as the end of the stepfunction branch&#34;&#34;&#34;
+    self.end = True
+    return self</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Task.next"><code class="name flex">
+<span>def <span class="ident">next</span></span>(<span>self) ‑> Optional[<a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the next task in the stepfunction machine</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def next(self) -&gt; Optional[&#34;Task&#34;]:
+    &#34;&#34;&#34;Get the next task in the stepfunction machine&#34;&#34;&#34;
+    if self._next is None:
+        return None
+    if len(self._next) == 0:
+        return None
+    return self._next[0]</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Task.retry"><code class="name flex">
+<span>def <span class="ident">retry</span></span>(<span>self, retries: List[<a title="machine.tasks.Retry" href="#machine.tasks.Retry">Retry</a>]) ‑> <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the retry configuration for the task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>retries</code></strong> :&ensp;<code>List[<a title="machine.tasks.Retry" href="#machine.tasks.Retry">Retry</a>]</code></dt>
+<dd>Retry configuration for the task</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></dt>
+<dd>The task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def retry(self, retries: List[Retry]) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the retry configuration for the task
+
+    Args:
+        retries (List[Retry]): Retry configuration for the task
+
+    Returns:
+        Task: The task&#34;&#34;&#34;
+    self.retries = retries
+    return self</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Task.set_next"><code class="name flex">
+<span>def <span class="ident">set_next</span></span>(<span>self, task: <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a>) ‑> <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the next task in the stepfunction machine</p>
+<p>Overrides the immediate next task if it exists</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>task</code></strong> :&ensp;<code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></dt>
+<dd>Next task in the stepfunction machine</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_next(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+    Overrides the immediate next task if it exists
+
+    Args:
+        task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+    self._next = [task]
+    return self</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Task.set_payload"><code class="name flex">
+<span>def <span class="ident">set_payload</span></span>(<span>self, state_keys: Dict[str, List[str]], fixed_keys: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the payload for the task</p>
+<p>Used in Lambdas and glue tasks to send data to a job of function</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>state_keys</code></strong> :&ensp;<code>Dict[str, List[str]]</code></dt>
+<dd>Keys to extract from the state</dd>
+<dt><strong><code>fixed_keys</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Fixed keys to add to the payload</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_payload(self, state_keys: Dict[str, List[str]], fixed_keys: dict):
+    &#34;&#34;&#34;Set the payload for the task
+
+    Used in Lambdas and glue tasks to send data to a job of function
+
+    Args:
+        state_keys (Dict[str, List[str]]): Keys to extract from the state
+        fixed_keys (dict): Fixed keys to add to the payload
+    &#34;&#34;&#34;
+    self.payload = {f&#34;{k}.$&#34;: f&#34;$.{&#39;.&#39;.join(v)}&#34; for k, v in state_keys.items()}
+    self.payload.update(fixed_keys)
+    self.parameters.update(
+        {
+            &#34;Payload&#34;: self.payload,
+        }
+    )</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.Task.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    asl = {
+        &#34;Type&#34;: self.task_type,
+        &#34;Resource&#34;: self.resource,
+        &#34;End&#34;: self.end,
+    }
+    if len(self.parameters.items()) &gt; 0:
+        asl.update({&#34;Parameters&#34;: self.parameters})
+    if self.next() is not None:
+        asl.update({&#34;Next&#34;: self.next().name})
+    if len(self.retries) &gt; 0:
+        asl.update({&#34;Retry&#34;: [retry.to_asl() for retry in self.retries]})
+    if len(self.catcher) &gt; 0:
+        asl.update({&#34;Catch&#34;: self.catcher})
+
+    return {self.name: asl}</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="machine.tasks.WaitTask"><code class="flex name class">
+<span>class <span class="ident">WaitTask</span></span>
+<span>(</span><span>name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Wait task for stepfunction machine</p>
+<p>Initialize a wait task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class WaitTask(Task):
+    &#34;&#34;&#34;Wait task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Wait&#34;
+
+    def __init__(self, name) -&gt; None:
+        &#34;&#34;&#34;Initialize a wait task
+
+        Args:
+            name (str): Name of the task
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.seconds = 0
+        &#34;&#34;&#34;Number of seconds to wait&#34;&#34;&#34;
+        self.timestamp = &#34;&#34;
+        &#34;&#34;&#34;Timestamp to wait until&#34;&#34;&#34;
+        self.seconds_keys: List[str] = []
+        &#34;&#34;&#34;List of keys to extract the number of seconds to wait from the state&#34;&#34;&#34;
+        self.timestamp_keys: List[str] = []
+        &#34;&#34;&#34;List of keys to extract the timestamp to wait until from the state&#34;&#34;&#34;
+
+    def wait_seconds(self, seconds: int = 0, seconds_keys: List[str] = []) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the number of seconds to wait
+
+        Args:
+            seconds (int, optional): Number of seconds to wait. Defaults to 0.
+            seconds_keys (List[str], optional): List of keys to extract the number of seconds to wait from the state. Defaults to [].
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.seconds = seconds
+        self.seconds_keys = seconds_keys
+        return self
+
+    def wait_timestamp(
+        self, timestamp: str = &#34;&#34;, timestamp_keys: List[str] = []
+    ) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the timestamp to wait until
+
+        Args:
+            timestamp (str, optional): Timestamp to wait until. Defaults to &#34;&#34;.
+            timestamp_keys (List[str], optional): List of keys to extract the timestamp to wait until from the state. Defaults to [].
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.timestamp = timestamp
+        self.timestamp_keys = timestamp_keys
+        return self
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {&#34;Type&#34;: self.task_type}
+        if self.next() is not None:
+            asl[&#34;Next&#34;] = self.next()
+        if self.seconds &gt; 0:
+            asl[&#34;Seconds&#34;] = self.seconds
+        elif self.timestamp != &#34;&#34;:
+            asl[&#34;Timestamp&#34;] = self.timestamp
+        elif len(self.seconds_keys) &gt; 0:
+            asl[&#34;SecondsPath&#34;] = f&#34;$.{&#39;.&#39;.join(self.seconds_keys)}&#34;
+        elif len(self.timestamp_keys) &gt; 0:
+            asl[&#34;TimestampPath&#34;] = f&#34;$.{&#39;.&#39;.join(self.timestamp_keys)}&#34;
+        return asl</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="machine.tasks.WaitTask.seconds"><code class="name">var <span class="ident">seconds</span></code></dt>
+<dd>
+<div class="desc"><p>Number of seconds to wait</p></div>
+</dd>
+<dt id="machine.tasks.WaitTask.seconds_keys"><code class="name">var <span class="ident">seconds_keys</span></code></dt>
+<dd>
+<div class="desc"><p>List of keys to extract the number of seconds to wait from the state</p></div>
+</dd>
+<dt id="machine.tasks.WaitTask.timestamp"><code class="name">var <span class="ident">timestamp</span></code></dt>
+<dd>
+<div class="desc"><p>Timestamp to wait until</p></div>
+</dd>
+<dt id="machine.tasks.WaitTask.timestamp_keys"><code class="name">var <span class="ident">timestamp_keys</span></code></dt>
+<dd>
+<div class="desc"><p>List of keys to extract the timestamp to wait until from the state</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="machine.tasks.WaitTask.wait_seconds"><code class="name flex">
+<span>def <span class="ident">wait_seconds</span></span>(<span>self, seconds: int = 0, seconds_keys: List[str] = []) ‑> <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the number of seconds to wait</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>seconds</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Number of seconds to wait. Defaults to 0.</dd>
+<dt><strong><code>seconds_keys</code></strong> :&ensp;<code>List[str]</code>, optional</dt>
+<dd>List of keys to extract the number of seconds to wait from the state. Defaults to [].</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></dt>
+<dd>The task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def wait_seconds(self, seconds: int = 0, seconds_keys: List[str] = []) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the number of seconds to wait
+
+    Args:
+        seconds (int, optional): Number of seconds to wait. Defaults to 0.
+        seconds_keys (List[str], optional): List of keys to extract the number of seconds to wait from the state. Defaults to [].
+
+    Returns:
+        Task: The task&#34;&#34;&#34;
+    self.seconds = seconds
+    self.seconds_keys = seconds_keys
+    return self</code></pre>
+</details>
+</dd>
+<dt id="machine.tasks.WaitTask.wait_timestamp"><code class="name flex">
+<span>def <span class="ident">wait_timestamp</span></span>(<span>self, timestamp: str = '', timestamp_keys: List[str] = []) ‑> <a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the timestamp to wait until</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamp</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Timestamp to wait until. Defaults to "".</dd>
+<dt><strong><code>timestamp_keys</code></strong> :&ensp;<code>List[str]</code>, optional</dt>
+<dd>List of keys to extract the timestamp to wait until from the state. Defaults to [].</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></dt>
+<dd>The task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def wait_timestamp(
+    self, timestamp: str = &#34;&#34;, timestamp_keys: List[str] = []
+) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the timestamp to wait until
+
+    Args:
+        timestamp (str, optional): Timestamp to wait until. Defaults to &#34;&#34;.
+        timestamp_keys (List[str], optional): List of keys to extract the timestamp to wait until from the state. Defaults to [].
+
+    Returns:
+        Task: The task&#34;&#34;&#34;
+    self.timestamp = timestamp
+    self.timestamp_keys = timestamp_keys
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="machine" href="index.html">machine</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="machine.tasks.Branch" href="#machine.tasks.Branch">Branch</a></code></h4>
+<ul class="two-column">
+<li><code><a title="machine.tasks.Branch.build_task_list" href="#machine.tasks.Branch.build_task_list">build_task_list</a></code></li>
+<li><code><a title="machine.tasks.Branch.comment" href="#machine.tasks.Branch.comment">comment</a></code></li>
+<li><code><a title="machine.tasks.Branch.start_task" href="#machine.tasks.Branch.start_task">start_task</a></code></li>
+<li><code><a title="machine.tasks.Branch.task_dict" href="#machine.tasks.Branch.task_dict">task_dict</a></code></li>
+<li><code><a title="machine.tasks.Branch.task_list" href="#machine.tasks.Branch.task_list">task_list</a></code></li>
+<li><code><a title="machine.tasks.Branch.to_asl" href="#machine.tasks.Branch.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.Catcher" href="#machine.tasks.Catcher">Catcher</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.Catcher.error_equals" href="#machine.tasks.Catcher.error_equals">error_equals</a></code></li>
+<li><code><a title="machine.tasks.Catcher.next" href="#machine.tasks.Catcher.next">next</a></code></li>
+<li><code><a title="machine.tasks.Catcher.to_asl" href="#machine.tasks.Catcher.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.ChoiceRule" href="#machine.tasks.ChoiceRule">ChoiceRule</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.ChoiceRule.condition" href="#machine.tasks.ChoiceRule.condition">condition</a></code></li>
+<li><code><a title="machine.tasks.ChoiceRule.next" href="#machine.tasks.ChoiceRule.next">next</a></code></li>
+<li><code><a title="machine.tasks.ChoiceRule.to_asl" href="#machine.tasks.ChoiceRule.to_asl">to_asl</a></code></li>
+<li><code><a title="machine.tasks.ChoiceRule.value" href="#machine.tasks.ChoiceRule.value">value</a></code></li>
+<li><code><a title="machine.tasks.ChoiceRule.variable" href="#machine.tasks.ChoiceRule.variable">variable</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.ChoiceTask" href="#machine.tasks.ChoiceTask">ChoiceTask</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.ChoiceTask.choices" href="#machine.tasks.ChoiceTask.choices">choices</a></code></li>
+<li><code><a title="machine.tasks.ChoiceTask.default" href="#machine.tasks.ChoiceTask.default">default</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.ChooseBranch" href="#machine.tasks.ChooseBranch">ChooseBranch</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.ChooseBranch.exec" href="#machine.tasks.ChooseBranch.exec">exec</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.DmsTask" href="#machine.tasks.DmsTask">DmsTask</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.DmsTask.exec" href="#machine.tasks.DmsTask.exec">exec</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.ErrorStates" href="#machine.tasks.ErrorStates">ErrorStates</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.ErrorStates.ALL" href="#machine.tasks.ErrorStates.ALL">ALL</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.BRANCH_FAILED" href="#machine.tasks.ErrorStates.BRANCH_FAILED">BRANCH_FAILED</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.DATA_LIMIT_EXCEEDED" href="#machine.tasks.ErrorStates.DATA_LIMIT_EXCEEDED">DATA_LIMIT_EXCEEDED</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.EXCEED_TOLERATED_FAILIURE_THRESHOLD" href="#machine.tasks.ErrorStates.EXCEED_TOLERATED_FAILIURE_THRESHOLD">EXCEED_TOLERATED_FAILIURE_THRESHOLD</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.HEARTBEAT_TIMEOUT" href="#machine.tasks.ErrorStates.HEARTBEAT_TIMEOUT">HEARTBEAT_TIMEOUT</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.INTRINSIC_FAILURE" href="#machine.tasks.ErrorStates.INTRINSIC_FAILURE">INTRINSIC_FAILURE</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.ITEM_READER_FAILED" href="#machine.tasks.ErrorStates.ITEM_READER_FAILED">ITEM_READER_FAILED</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.NO_CHOICE_MATCHED" href="#machine.tasks.ErrorStates.NO_CHOICE_MATCHED">NO_CHOICE_MATCHED</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.PARAMETER_PATH_FAILURE" href="#machine.tasks.ErrorStates.PARAMETER_PATH_FAILURE">PARAMETER_PATH_FAILURE</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.PERMISSIONS" href="#machine.tasks.ErrorStates.PERMISSIONS">PERMISSIONS</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.RESULT_PATH_MATCH_FAILURE" href="#machine.tasks.ErrorStates.RESULT_PATH_MATCH_FAILURE">RESULT_PATH_MATCH_FAILURE</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.RESULT_WRITER_FAILED" href="#machine.tasks.ErrorStates.RESULT_WRITER_FAILED">RESULT_WRITER_FAILED</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.RUNTIME" href="#machine.tasks.ErrorStates.RUNTIME">RUNTIME</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.TASK_FAILED" href="#machine.tasks.ErrorStates.TASK_FAILED">TASK_FAILED</a></code></li>
+<li><code><a title="machine.tasks.ErrorStates.TIMEOUT" href="#machine.tasks.ErrorStates.TIMEOUT">TIMEOUT</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.FailTask" href="#machine.tasks.FailTask">FailTask</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.FailTask.cause" href="#machine.tasks.FailTask.cause">cause</a></code></li>
+<li><code><a title="machine.tasks.FailTask.error" href="#machine.tasks.FailTask.error">error</a></code></li>
+<li><code><a title="machine.tasks.FailTask.exec" href="#machine.tasks.FailTask.exec">exec</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.GlueTask" href="#machine.tasks.GlueTask">GlueTask</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.GlueTask.job_name" href="#machine.tasks.GlueTask.job_name">job_name</a></code></li>
+<li><code><a title="machine.tasks.GlueTask.with_payload" href="#machine.tasks.GlueTask.with_payload">with_payload</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.IncompleteTask" href="#machine.tasks.IncompleteTask">IncompleteTask</a></code></h4>
+</li>
+<li>
+<h4><code><a title="machine.tasks.InputTask" href="#machine.tasks.InputTask">InputTask</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.InputTask.exec" href="#machine.tasks.InputTask.exec">exec</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.LambdaTask" href="#machine.tasks.LambdaTask">LambdaTask</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.LambdaTask.function_arn" href="#machine.tasks.LambdaTask.function_arn">function_arn</a></code></li>
+<li><code><a title="machine.tasks.LambdaTask.with_payload" href="#machine.tasks.LambdaTask.with_payload">with_payload</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.ParallelTask" href="#machine.tasks.ParallelTask">ParallelTask</a></code></h4>
+</li>
+<li>
+<h4><code><a title="machine.tasks.PassTask" href="#machine.tasks.PassTask">PassTask</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.PassTask.result" href="#machine.tasks.PassTask.result">result</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.Retry" href="#machine.tasks.Retry">Retry</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.Retry.backoff_rate" href="#machine.tasks.Retry.backoff_rate">backoff_rate</a></code></li>
+<li><code><a title="machine.tasks.Retry.error_equals" href="#machine.tasks.Retry.error_equals">error_equals</a></code></li>
+<li><code><a title="machine.tasks.Retry.interval_seconds" href="#machine.tasks.Retry.interval_seconds">interval_seconds</a></code></li>
+<li><code><a title="machine.tasks.Retry.max_attempts" href="#machine.tasks.Retry.max_attempts">max_attempts</a></code></li>
+<li><code><a title="machine.tasks.Retry.to_asl" href="#machine.tasks.Retry.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.SdkTask" href="#machine.tasks.SdkTask">SdkTask</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.SdkTask.exec" href="#machine.tasks.SdkTask.exec">exec</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.State" href="#machine.tasks.State">State</a></code></h4>
+<ul class="">
+<li><code><a title="machine.tasks.State.context" href="#machine.tasks.State.context">context</a></code></li>
+<li><code><a title="machine.tasks.State.value" href="#machine.tasks.State.value">value</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.SucceedTask" href="#machine.tasks.SucceedTask">SucceedTask</a></code></h4>
+</li>
+<li>
+<h4><code><a title="machine.tasks.Task" href="#machine.tasks.Task">Task</a></code></h4>
+<ul class="two-column">
+<li><code><a title="machine.tasks.Task.and_then" href="#machine.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="machine.tasks.Task.catch_task" href="#machine.tasks.Task.catch_task">catch_task</a></code></li>
+<li><code><a title="machine.tasks.Task.catcher" href="#machine.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="machine.tasks.Task.end" href="#machine.tasks.Task.end">end</a></code></li>
+<li><code><a title="machine.tasks.Task.exec" href="#machine.tasks.Task.exec">exec</a></code></li>
+<li><code><a title="machine.tasks.Task.is_end" href="#machine.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="machine.tasks.Task.name" href="#machine.tasks.Task.name">name</a></code></li>
+<li><code><a title="machine.tasks.Task.next" href="#machine.tasks.Task.next">next</a></code></li>
+<li><code><a title="machine.tasks.Task.on_error" href="#machine.tasks.Task.on_error">on_error</a></code></li>
+<li><code><a title="machine.tasks.Task.parameters" href="#machine.tasks.Task.parameters">parameters</a></code></li>
+<li><code><a title="machine.tasks.Task.payload" href="#machine.tasks.Task.payload">payload</a></code></li>
+<li><code><a title="machine.tasks.Task.resource" href="#machine.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="machine.tasks.Task.retries" href="#machine.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="machine.tasks.Task.retry" href="#machine.tasks.Task.retry">retry</a></code></li>
+<li><code><a title="machine.tasks.Task.set_next" href="#machine.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="machine.tasks.Task.set_payload" href="#machine.tasks.Task.set_payload">set_payload</a></code></li>
+<li><code><a title="machine.tasks.Task.task_type" href="#machine.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="machine.tasks.Task.to_asl" href="#machine.tasks.Task.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="machine.tasks.WaitTask" href="#machine.tasks.WaitTask">WaitTask</a></code></h4>
+<ul class="two-column">
+<li><code><a title="machine.tasks.WaitTask.seconds" href="#machine.tasks.WaitTask.seconds">seconds</a></code></li>
+<li><code><a title="machine.tasks.WaitTask.seconds_keys" href="#machine.tasks.WaitTask.seconds_keys">seconds_keys</a></code></li>
+<li><code><a title="machine.tasks.WaitTask.timestamp" href="#machine.tasks.WaitTask.timestamp">timestamp</a></code></li>
+<li><code><a title="machine.tasks.WaitTask.timestamp_keys" href="#machine.tasks.WaitTask.timestamp_keys">timestamp_keys</a></code></li>
+<li><code><a title="machine.tasks.WaitTask.wait_seconds" href="#machine.tasks.WaitTask.wait_seconds">wait_seconds</a></code></li>
+<li><code><a title="machine.tasks.WaitTask.wait_timestamp" href="#machine.tasks.WaitTask.wait_timestamp">wait_timestamp</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
