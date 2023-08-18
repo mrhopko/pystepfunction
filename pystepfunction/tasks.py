@@ -20,78 +20,8 @@ from typing import Any, Optional, List, Dict, Callable
 from dataclasses import dataclass
 from abc import ABC
 from enum import Enum
-
-
-class ErrorStates(Enum):
-    """Stepfunction error states - these should probably be constants"""
-
-    ALL = "States.ALL"
-    BRANCH_FAILED = "States.BranchFailed"
-    DATA_LIMIT_EXCEEDED = "States.DataLimitExceeded"
-    EXCEED_TOLERATED_FAILIURE_THRESHOLD = "States.ExceedToleratedFailiureThreshold"
-    HEARTBEAT_TIMEOUT = "States.HeartbeatTimeout"
-    INTRINSIC_FAILURE = "States.IntrinsicFailure"
-    ITEM_READER_FAILED = "States.ItemReaderFailed"
-    NO_CHOICE_MATCHED = "States.NoChoiceMatched"
-    PARAMETER_PATH_FAILURE = "States.ParameterPathFailure"
-    PERMISSIONS = "States.Permissions"
-    RESULT_PATH_MATCH_FAILURE = "States.ResultPathMatchFailure"
-    RESULT_WRITER_FAILED = "States.ResultWriterFailed"
-    RUNTIME = "States.Runtime"
-    TASK_FAILED = "States.TaskFailed"
-    TIMEOUT = "States.Timeout"
-
-
-class IncompleteTask(Exception):
-    pass
-
-
-@dataclass
-class State:
-    """representation of the internal stepfunction state"""
-
-    value: dict
-    context: dict
-
-
-@dataclass
-class Retry:
-    """Retry configuration for a task"""
-
-    error_equals: List[str]
-    """List of error states to retry on"""
-    interval_seconds: int
-    """Interval in seconds between retries"""
-    max_attempts: int
-    """Maximum number of retries"""
-    backoff_rate: float = 1.0
-    """Backoff rate for retries"""
-
-    def to_asl(self) -> dict:
-        """Convert to ASL"""
-        return {
-            "ErrorEquals": self.error_equals,
-            "IntervalSeconds": self.interval_seconds,
-            "MaxAttempts": self.max_attempts,
-            "BackoffRate": self.backoff_rate,
-        }
-
-
-@dataclass
-class Catcher:
-    """Catcher configuration for a task"""
-
-    error_equals: List[str]
-    """List of error states to catch"""
-    next: str
-    """Next task to execute"""
-
-    def to_asl(self) -> dict:
-        """Convert to ASL"""
-        return {
-            "ErrorEquals": self.error_equals,
-            "Next": self.next,
-        }
+from pystepfunction.errors import ErrorHandler, Retry
+from pystepfunction.state import InputState, OutputState, State
 
 
 class Task(ABC):
@@ -101,6 +31,12 @@ class Task(ABC):
     """Task type for ASL"""
     resource = ""
     """Task resource for ASL"""
+    resource_return: dict = {}
+    """Shape of return data from the task resource"""
+    input_state: Optional[State] = None
+    """Used for testing inputs/outputs"""
+    output_state: Optional[State] = None
+    """used for testing inputs/outputs"""
 
     def __init__(self, name: str) -> None:
         """Initialize a task
@@ -110,20 +46,18 @@ class Task(ABC):
         """
         self._next: Optional[List["Task"]] = None
         """Next task in the stepfunction machine"""
-        self.on_error: Optional["Task"] = None
+        self._on_error: Optional["Task"] = None
         """Task to execute on error"""
         self.name = str(name)
         """Name of the task"""
         self.end: bool = False
         """Is the task the end of the stepfunction branch"""
-        self.payload: dict = {}
-        """Payload for the task - used with parameters"""
-        self.parameters: dict = {}
-        """Parameters for the task"""
-        self.retries: List[Retry] = []
-        """Retry configuration for the task"""
-        self.catcher: List[Catcher] = []
-        """Catcher configuration for the task"""
+        self.error_handler: Optional[ErrorHandler] = None
+        """Error handling for the task"""
+        self.input_state: Optional[InputState] = None
+        """Manipulate the input state for the task"""
+        self.output_state: Optional[OutputState] = None
+        """Manipulate the output state for the task"""
 
     def exec(state: State) -> State:
         return State
@@ -168,23 +102,6 @@ class Task(ABC):
             self.next().__rshift__(task)
         return self
 
-    def set_payload(self, state_keys: Dict[str, List[str]], fixed_keys: dict):
-        """Set the payload for the task
-
-        Used in Lambdas and glue tasks to send data to a job of function
-
-        Args:
-            state_keys (Dict[str, List[str]]): Keys to extract from the state
-            fixed_keys (dict): Fixed keys to add to the payload
-        """
-        self.payload = {f"{k}.$": f"$.{'.'.join(v)}" for k, v in state_keys.items()}
-        self.payload.update(fixed_keys)
-        self.parameters.update(
-            {
-                "Payload": self.payload,
-            }
-        )
-
     def to_asl(self) -> dict:
         """Convert to ASL"""
         asl = {
@@ -192,14 +109,12 @@ class Task(ABC):
             "Resource": self.resource,
             "End": self.end,
         }
-        if len(self.parameters.items()) > 0:
-            asl.update({"Parameters": self.parameters})
         if self.next() is not None:
             asl.update({"Next": self.next().name})
-        if len(self.retries) > 0:
-            asl.update({"Retry": [retry.to_asl() for retry in self.retries]})
-        if len(self.catcher) > 0:
-            asl.update({"Catch": self.catcher})
+        if self.input_state is not None:
+            asl.update(self.input_state.to_asl())
+        if self.output_state is not None:
+            asl.update(self.output_state.to_asl())
 
         return {self.name: asl}
 
@@ -208,27 +123,50 @@ class Task(ABC):
         self.end = True
         return self
 
-    def retry(self, retries: List[Retry]) -> "Task":
-        """Set the retry configuration for the task
+    def with_input(self, input_state: InputState) -> "Task":
+        """Set the input state for the task
 
         Args:
-            retries (List[Retry]): Retry configuration for the task
-
-        Returns:
-            Task: The task"""
-        self.retries = retries
+            input_state (InputState): Input state for the task"""
+        if self.has_input_state():
+            self.input_state = self.input_state.merge_state(input_state)
+        else:
+            self.input_state = input_state
         return self
 
-    def catch_task(self, catchers: List[Catcher]) -> "Task":
-        """Set the catcher configuration for the task
+    def with_output(self, output_state: OutputState) -> "Task":
+        """Set the output state for the task
 
         Args:
-            catchers (List[Catcher]): Catcher configuration for the task
-
-        Returns:
-            Task: The task"""
-        self.catcher = catchers
+            output_state (OutputState): Output state for the task"""
+        self.output_state = output_state
         return self
+
+    def with_error_handler(self, error_handler: ErrorHandler) -> "Task":
+        """Set the error handler for the task
+
+        Args:
+            error_handler (ErrorHandler): Error handler for the task"""
+        self.error_handler = error_handler
+        return self
+
+    def has_error_handler(self) -> bool:
+        self.error_handler is not None
+
+    def has_input_state(self) -> bool:
+        self.input_state is not None
+
+    def has_output_state(self) -> bool:
+        self.output_state is not None
+
+    def has_next(self) -> bool:
+        if self._next is None:
+            return False
+        return len(self._next) > 0
+
+    @classmethod
+    def _get_task_class_name(cls) -> str:
+        return cls.__class__.__name__
 
 
 class PassTask(Task):
@@ -274,23 +212,14 @@ class LambdaTask(Task):
             function_arn (str): ARN of the lambda function"""
         super().__init__(name)
         self.function_arn = function_arn
-        """ARN of the lambda function"""
-        self.parameters.update({"FunctionName": self.function_arn})
+        self.input_state = InputState(parameters={"FunctionName": self.function_arn})
 
-    def with_payload(
-        self, state_keys: Dict[str, List[str]], fixed_keys: dict
-    ) -> "LambdaTask":
+    def with_payload(self, payload: dict) -> "LambdaTask":
         """Set the payload for the task
 
-        Used in Lambdas to send data to a function
-
         Args:
-            state_keys (Dict[str, List[str]]): Keys to extract from the state
-            fixed_keys (dict): Fixed keys to add to the payload
-
-        Returns:
-            LambdaTask: The task"""
-        self.set_payload(state_keys=state_keys, fixed_keys=fixed_keys)
+            payload (dict): Payload for the task"""
+        self.input_state.with_parameter("Payload", payload)
         return self
 
 
@@ -306,21 +235,15 @@ class GlueTask(Task):
             name (str): Name of the task
             job_name (str): Name of the glue job"""
         super().__init__(name)
+        self.input_state = InputState(parameters={"JobName": job_name})
         self.job_name = job_name
-        """Name of the glue job"""
-        self.parameters.update({"JobName": self.job_name})
 
-    def with_payload(
-        self, state_keys: Dict[str, List[str]], fixed_keys: dict
-    ) -> "GlueTask":
+    def with_payload(self, payload: dict) -> "LambdaTask":
         """Set the payload for the task
 
-        Used in glue jobs to send data to a job
-
         Args:
-            state_keys (Dict[str, List[str]]): Keys to extract from the state
-            fixed_keys (dict): Fixed keys to add to the payload"""
-        self.set_payload(state_keys=state_keys, fixed_keys=fixed_keys)
+            payload (dict): Payload for the task"""
+        self.input_state.with_parameter("Payload", payload)
         return self
 
 
@@ -564,75 +487,3 @@ class ChoiceTask(Task):
                 "Default": self.default.name,
             }
         }
-
-
-class Branch:
-    """A sequence of tasks to execute in a stepfunction machine"""
-
-    def __init__(self, start_task: Task, comment: str = "") -> None:
-        self.start_task = start_task
-        """The first task to execute"""
-        self.comment = comment
-        """Comment for the stepfunction machine"""
-        self.task_dict: dict = {}
-        """Dictionary of all tasks in the stepfunction machine"""
-        self.task_list: List[Task] = []
-        """List of all tasks in the stepfunction machine"""
-
-    def build_task_list(self, task: Task):
-        """Build the list of tasks in the stepfunction machine
-
-        Recursively checks task.next()
-
-        Args:
-            task (Task): The task to add to the list
-        """
-        if task.name in self.task_dict:
-            return
-        self.task_dict[task.name] = task
-        self.task_list.append(task)
-        if task.next() is None:
-            return
-        for t in task._next:
-            self.build_task_list(t)
-
-    def to_asl(self) -> dict:
-        """Convert to ASL"""
-        self.build_task_list(self.start_task)
-        asl = {}
-        for task in self.task_list:
-            asl.update(task.to_asl())
-        return {"Comment": self.comment, "StartAt": self.start_task.name, "States": asl}
-
-
-class ParallelTask(Task):
-    """Parallel task for stepfunction machine
-
-    Execute several branches in parallel
-
-    Properties:
-        branches (List[Branch]): List of branches to execute
-    """
-
-    task_type = "Parallel"
-
-    def __init__(self, name: str, branches: List[Branch]) -> None:
-        """Initialize a parallel task
-
-        Args:
-            name (str): Name of the task
-            branches (List[Branch]): List of branches to execute
-        """
-        super().__init__(name)
-        self.branches = branches
-
-    def to_asl(self) -> dict:
-        """Convert to ASL"""
-        asl = {
-            "Type": self.task_type,
-            "End": self.end,
-            "Branches": [branch.to_asl() for branch in self.branches],
-        }
-        if self.next() is not None:
-            asl["Next"] = self.next().name
-        return {self.name: asl}

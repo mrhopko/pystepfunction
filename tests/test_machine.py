@@ -1,14 +1,14 @@
-from pystepfunction.machine.tasks import (
+from pystepfunction.errors import ErrorHandler
+from pystepfunction.tasks import (
     ChoiceRule,
     ChoiceTask,
     GlueTask,
-    Branch,
-    ParallelTask,
     PassTask,
     Retry,
     Task,
     LambdaTask,
 )
+from pystepfunction.branch import Branch, ParallelTask
 from logging import getLogger
 
 logger = getLogger(__name__)
@@ -23,20 +23,17 @@ def test_task():
 
 
 def test_lambda_task():
-    l = LambdaTask("test_lambda", "test_arn").with_payload(
-        state_keys={"statekey1": ["key1", "key2"]}, fixed_keys={"fixed1": "fixed"}
-    )
+    l = LambdaTask("test_lambda", "test_arn").with_payload({"key1.$": "$.value1"})
     asl = l.to_asl()
     logger.info(asl)
     assert asl["test_lambda"]["Type"] == "Task"
     assert asl["test_lambda"]["Resource"] == "arn:aws:states:::lambda:invoke"
-    assert asl["test_lambda"]["Parameters"]["Payload"]["statekey1.$"] == "$.key1.key2"
-    assert asl["test_lambda"]["Parameters"]["Payload"]["fixed1"] == "fixed"
+    assert asl["test_lambda"]["Parameters"]["Payload"]["key1.$"] == "$.value1"
 
 
 def test_glue_task():
     l = GlueTask("test_glue", "glue_job").with_payload(
-        state_keys={"statekey1": ["key1", "key2"]}, fixed_keys={"fixed1": "fixed"}
+        {"statekey1.$": "$.key1.key2", "fixed1": "fixed"}
     )
     asl = l.to_asl()
     logger.info(asl)
@@ -55,6 +52,7 @@ def test_branch():
     )
     machine = Branch(comment="mmm", start_task=branch)
     asl = machine.to_asl()
+    assert branch.has_next()
     logger.info(asl)
     assert asl["Comment"] == "mmm"
     assert len(asl["States"].items()) == 3
@@ -102,9 +100,13 @@ def test_paralell():
 
 
 def test_parallel_branch():
-    retry = [Retry(error_equals=["States.ALL"], interval_seconds=1, max_attempts=3)]
+    error_handler = ErrorHandler(
+        [Retry(error_equals=["States.ALL"], interval_seconds=1, max_attempts=3)]
+    )
     branch1 = Branch(Task("1") >> Task("2"))
-    branch2 = Branch(Task("3").retry(retry) >> PassTask("pass") >> Task("4"))
+    branch2 = Branch(
+        Task("3").with_error_handler(error_handler) >> PassTask("pass") >> Task("4")
+    )
     branch_parallel = Branch(
         Task("start") >> ParallelTask("par", [branch1, branch2]) >> Task("end").is_end()
     )
