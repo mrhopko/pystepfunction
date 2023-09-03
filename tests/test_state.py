@@ -1,47 +1,94 @@
 from logging import getLogger
-from pystepfunction.state import InputState, OutputState, State
+from pystepfunction.tasks import Task, TaskInputState, TaskOutputState
+from pystepfunction.state import StateMachine
 
 logger = getLogger(__name__)
 
 
 def test_input_state():
     expect_output = "val22"
-    test_value = {"key1": "val1", "key2": {"key22": expect_output}}
-    test_state = State(value=test_value).with_logger(logger)
+    init_state = {"key1": "val1", "key2": {"key22": expect_output}}
     input_path = "$.key2.key22"
-    parameters = {"new_key22.$": input_path, "fixed_key": "fixed_value"}
+    expect_input_path = expect_output
 
-    parameter_value = test_state.get_paramaters(parameters)
-    assert parameter_value == {"new_key22": expect_output, "fixed_key": "fixed_value"}
-    new_state = test_state.get_path_state(input_path)
-    assert new_state.value == expect_output
+    parameters = {"new_key22.$": "$", "fixed_key": "fixed_value"}
+    expect_parameters = {"new_key22": expect_output, "fixed_key": "fixed_value"}
 
-    input_state = InputState(
-        input_path="$.key2", parameters={"new_key.$": "$.key22"}
-    ).with_logger(logger)
-    result_state = input_state.apply_to_state(test_state, logger)
-    assert result_state.value == {"new_key": expect_output}
+    task = Task("task1").with_input(input_path=input_path, parameters=parameters)
+
+    test_state = StateMachine(state=init_state).with_logger(logger)
+
+    test_state.apply_input_path(task)
+    assert test_state.state == expect_input_path
+
+    test_state.apply_input_parameters(task)
+    assert test_state.state == expect_parameters
 
 
 def test_output_state():
     expect_output = {"key222": "val222"}
-    test_value = {"key1": "val1", "key2": {"key22": expect_output}}
+    init_state = {"key1": "val1", "key2": {"key22": expect_output}}
     test_resource_result = {"resource2": "value2", "resource1": "value1"}
-    test_state = State(value=test_value).with_resource_result(test_resource_result)
-
     result_selector = {"selected_result.$": "$.resource2", "fixed_key": "fixed_value"}
-    output_state = OutputState(result_selector=result_selector, result_path="$.key3")
+    result_path = "$.key3"
+    output_path = "$.key2.key22"
 
-    output_after_result_selector = output_state.apply_result_selector(test_state)
-    assert output_after_result_selector.resource_result == {
-        "selected_result": "value2",
-        "fixed_key": "fixed_value",
+    expect_result_path = init_state.copy()
+    expect_result_path.update(
+        {"key3": {"selected_result": "value2", "fixed_key": "fixed_value"}}
+    )
+    expected_output_path = expect_output
+
+    task = (
+        Task("task1")
+        .with_resource_result(test_resource_result)
+        .with_output(
+            result_selector=result_selector,
+            result_path=result_path,
+            output_path=output_path,
+        )
+    )
+    state_machine = StateMachine(state=init_state).with_logger(logger)
+    state_machine.apply_result_path(task)
+
+    assert state_machine.state == expect_result_path
+
+    state_machine.apply_output_path(task)
+    assert state_machine.state == expected_output_path
+
+
+def test_input_output_state():
+    # initialise a StateMachine with a logger and state
+    logger = getLogger(__name__)
+    init_state = {
+        "init_key1": "init_value1",
+        "init_key2": {"init_key22": "init_value22"},
+    }
+    sm = StateMachine(state=init_state).with_logger(logger)
+
+    # create a task with input and output states and an expected resource result
+    # select init_key2 and assign its value to new_key
+    # assign a reource_result representing the data returned from the task resource
+    # select resource2 from resource_result and assign its value to selected_result
+    # insert selected_result into the state at path task1_result
+    task = (
+        Task("task1")
+        .with_input(input_path="$.init_key2", parameters={"new_key.$": "$.init_key22"})
+        .with_resource_result({"resource1": "value1", "resource2": "value2"})
+        .with_output(
+            result_selector={"selected_result.$": "$.resource2"},
+            result_path="$.task1_result",
+        )
+    )
+
+    # apply the task data manipulation to the statemachine
+    sm.apply_task(task)
+    logger.info(sm.state)
+
+    # check the state is as expected
+    expected_state = {
+        "new_key": "init_value22",
+        "task1_result": {"selected_result": "value2"},
     }
 
-    output_after_result_path = output_state.apply_result_path(
-        output_after_result_selector
-    )
-    test_value.update({"key3": output_after_result_selector.resource_result})
-    assert output_after_result_path.value == test_value
-
-    assert output_state.apply_to_state(test_state).value == test_value
+    assert sm.state == expected_state

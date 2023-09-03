@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"group": "Task", "id": "Task1", "label": "Task1", "level": 0, "physics": false, "shape": "box", "title": "{\u0027Task1\u0027: {\u0027Type\u0027: \u0027Task\u0027, \u0027Resource\u0027: \u0027\u0027, \u0027End\u0027: False, \u0027Next\u0027: \u0027Task2\u0027, \u0027Retry\u0027: [{\u0027ErrorEquals\u0027: [\u0027States.ALL\u0027], \u0027IntervalSeconds\u0027: 1, \u0027MaxAttempts\u0027: 3, \u0027BackoffRate\u0027: 1.0}], \u0027Catch\u0027: [{\u0027ErrorEquals\u0027: [\u0027States.ALL\u0027], \u0027Next\u0027: \u0027Fail\u0027}]}}"}, {"group": "Task", "id": "Task2", "label": "Task2", "level": 0, "physics": false, "shape": "box", "title": "{\u0027Task2\u0027: {\u0027Type\u0027: \u0027Task\u0027, \u0027Resource\u0027: \u0027\u0027, \u0027End\u0027: False, \u0027Next\u0027: \u0027Task3\u0027}}"}, {"group": "Task", "id": "Task3", "label": "Task3", "level": 0, "physics": false, "shape": "box", "title": "{\u0027Task3\u0027: {\u0027Type\u0027: \u0027Task\u0027, \u0027Resource\u0027: \u0027\u0027, \u0027End\u0027: False, \u0027Next\u0027: \u0027ChoiceTask1\u0027}}"}, {"group": "Choice", "id": "ChoiceTask1", "label": "ChoiceTask1", "level": 0, "physics": false, "shape": "box", "title": "{\u0027ChoiceTask1\u0027: {\u0027Type\u0027: \u0027Choice\u0027, \u0027Choices\u0027: [{\u0027Variable\u0027: \u0027$.var1\u0027, \u0027Condition\u0027: \u0027cond1\u0027, \u0027Next\u0027: \u0027Task-c1\u0027}, {\u0027Variable\u0027: \u0027$.var2\u0027, \u0027Condition\u0027: \u0027cond2\u0027, \u0027Next\u0027: \u0027Task-c2\u0027}], \u0027Default\u0027: \u0027Task-c1\u0027}}"}, {"group": "Task", "id": "Task-c1", "label": "Task-c1", "level": 0, "physics": false, "shape": "box", "title": "{\u0027Task-c1\u0027: {\u0027Type\u0027: \u0027Task\u0027, \u0027Resource\u0027: \u0027\u0027, \u0027End\u0027: False}}"}, {"group": "Task", "id": "Task-c2", "label": "Task-c2", "level": 0, "physics": false, "shape": "box", "title": "{\u0027Task-c2\u0027: {\u0027Type\u0027: \u0027Task\u0027, \u0027Resource\u0027: \u0027\u0027, \u0027End\u0027: False, \u0027Next\u0027: \u0027Task-c3\u0027}}"}, {"group": "Task", "id": "Task-c3", "label": "Task-c3", "level": 0, "physics": false, "shape": "box", "title": "{\u0027Task-c3\u0027: {\u0027Type\u0027: \u0027Task\u0027, \u0027Resource\u0027: \u0027\u0027, \u0027End\u0027: False}}"}, {"group": "Fail", "id": "Fail", "label": "Fail", "level": 0, "physics": false, "shape": "box", "title": "{\u0027Fail\u0027: {\u0027Type\u0027: \u0027Fail\u0027, \u0027Cause\u0027: \u0027\u0027, \u0027Error\u0027: \u0027\u0027}}"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "Task1", "label": "", "physics": false, "title": "Next: Task2", "to": "Task2"}, {"arrows": "to", "from": "Task1", "label": "[\u0027States.ALL\u0027]", "physics": false, "title": "[\u0027States.ALL\u0027]", "to": "Fail"}, {"arrows": "to", "from": "Task2", "label": "", "physics": false, "title": "Next: Task3", "to": "Task3"}, {"arrows": "to", "from": "Task3", "label": "", "physics": false, "title": "Next: ChoiceTask1", "to": "ChoiceTask1"}, {"arrows": "to", "from": "ChoiceTask1", "label": "{\u0027Variable\u0027: \u0027$.var1\u0027, \u0027Condition\u0027: \u0027cond1\u0027}", "physics": false, "title": "{\u0027Variable\u0027: \u0027$.var1\u0027, \u0027Condition\u0027: \u0027cond1\u0027, \u0027Next\u0027: \u0027Task-c1\u0027}", "to": "Task-c1"}, {"arrows": "to", "from": "ChoiceTask1", "label": "{\u0027Variable\u0027: \u0027$.var2\u0027, \u0027Condition\u0027: \u0027cond2\u0027}", "physics": false, "title": "{\u0027Variable\u0027: \u0027$.var2\u0027, \u0027Condition\u0027: \u0027cond2\u0027, \u0027Next\u0027: \u0027Task-c2\u0027}", "to": "Task-c2"}, {"arrows": "to", "from": "Task-c2", "label": "", "physics": false, "title": "Next: Task-c3", "to": "Task-c3"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": false,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

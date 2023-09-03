@@ -1,0 +1,29 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pystepfunction"
+version = "0.1.102"
+description = "Create AWS Step Functions asl.json with Python"
+readme = "README.md"
+authors = [
+    { name = "Chris Hopkinson", email = "therealchrishopkinson@hotmail.com" },
+]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["aws", "stepfunctions", "step functions"]
+dependencies = ["glom", "pyvis", "jsonpath-ng"]
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["black", "pytest"]
+
+[project.urls]
+Homepage = "https://github.com/mrhopko/pystepfunction"

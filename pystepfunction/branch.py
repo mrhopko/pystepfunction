@@ -1,12 +1,56 @@
+"""
+A branch is a sequence of tasks in a stepfunction machine.
+
+`Branch` - a sequence of tasks in a stepfunction.  
+`ParallelTask` - a list of branches to execute in parallel.  
+
+Examples:
+```python
+from pystepfunction.tasks import LambdaTask, GlueTask, SucceedTask
+from pystepfunction.branch import Branch
+
+
+# create a simple chain of tasks
+lambda_task = (
+    LambdaTask(name="LambdaTaskName", function_arn="my-lambda-arn")
+    .and_then(GlueTask(name="GlueTaskName", job_name="my-glue-job-name"))
+    .and_then(SucceedTask(name="SucceedTaskName"))
+)
+# or
+lambda_task = (
+    LambdaTask(name="LambdaTaskName", function_arn="my-lambda-arn") 
+    >> GlueTask(name="GlueTaskName", job_name="my-glue-job-name")
+    >> SucceedTask(name="SucceedTaskName")
+)
+
+# create a branch
+easy_branch = Branch(comment="This is an easy branch", start_task=lambda_task)
+# view the asl as a dict
+asl = easy_branch.to_asl()
+asl
+
+# write the asl to a file
+asl.write_asl("my_asl_file.asl.json")
+# create a parallel task
+branch1 = Branch(Task("1") >> Task("2"))
+branch2 = Branch(Task("3") >> Task("4"))
+parallel = ParallelTask("par", [branch1, branch2])  
+branch_with_parallel = Branch(comment="This is a full branch", start_task=(
+   Task("start") >> parallel >> Task("end")
+))
+branch_with_parallel.to_asl()
+```
+"""
+
+import json
 from dataclasses import dataclass
-from typing import List, Optional
-from pystepfunction.errors import ErrorHandler
+from typing import Dict, List, Optional, Tuple
 from pystepfunction.tasks import ChoiceRule, ChoiceTask, Task
 
 
 @dataclass
-class TaskEdge:
-    """Edge between two tasks in a stepfunction machine"""
+class _TaskEdge:
+    """Used to visualize the edges between tasks in a stepfunction machine"""
 
     source: Task
     """Source task"""
@@ -14,17 +58,17 @@ class TaskEdge:
     """Target task"""
     choice_rule: Optional[ChoiceRule] = None
     """Choice rule for the edge"""
-    error_handler: Optional[ErrorHandler] = None
+    catcher: Optional[Tuple[List[str], Task]] = None
     """Error handler for the edge"""
 
     def has_choice_rule(self) -> bool:
         return self.choice_rule is not None
 
-    def has_error_handler(self) -> bool:
-        return self.error_handler is not None
+    def has_catcher(self) -> bool:
+        return self.catcher is not None
 
 
-def get_task_edges(task: Task) -> List[TaskEdge]:
+def _get_task_edges(task: Task) -> List[_TaskEdge]:
     """Get the task edge for a task
 
     Args:
@@ -38,7 +82,7 @@ def get_task_edges(task: Task) -> List[TaskEdge]:
         case ChoiceTask.__name__:
             for choice in task.choices:
                 edges.append(
-                    TaskEdge(
+                    _TaskEdge(
                         source=task,
                         target=choice.next,
                         choice_rule=choice,
@@ -48,38 +92,63 @@ def get_task_edges(task: Task) -> List[TaskEdge]:
             if task.has_next():
                 for next_task in task._next:
                     edges.append(
-                        TaskEdge(
+                        _TaskEdge(
                             source=task,
                             target=next_task,
                         )
                     )
-    if task.has_error_handler():
-        edges.append(
-            TaskEdge(
-                source=task,
-                target=task.error_handler.next,
-                error_handler=task.error_handler,
+    if task.has_catcher():
+        for k, v in task.catcher:
+            edges.append(
+                _TaskEdge(
+                    source=task,
+                    target=v,
+                    catcher=(k, v),
+                )
             )
-        )
 
     return edges
 
 
 class Branch:
-    """A sequence of tasks to execute in a stepfunction machine"""
+    """A sequence of tasks to execute in a stepfunction machine
+
+    Example:
+    ```python
+    from pystepfunction.tasks import LambdaTask, GlueTask, SucceedTask
+    from pystepfunction.branch import Branch
+
+    # create a simple chain of tasks
+    lambda_task = (
+        LambdaTask(name="LambdaTaskName", function_arn="my-lambda-arn")
+        >> GlueTask(name="GlueTaskName", job_name="my-glue-job-name")
+        >> SucceedTask(name="SucceedTaskName")
+    )
+
+    # create a branch
+    easy_branch = Branch(comment="This is an easy branch", start_task=lambda_task)
+    # view the asl as a dict
+    asl = easy_branch.to_asl()
+    asl
+
+    # write the asl to a file
+    asl.write_asl("my_asl_file.asl.json")
+    ```
+    """
 
     def __init__(self, start_task: Task, comment: str = "") -> None:
         self.start_task = start_task
-        """The first task to execute"""
+        """The first task to execute in a chain of tasks"""
         self.comment = comment
         """Comment for the stepfunction machine"""
         self.task_dict: dict = {}
-        """Dictionary of all tasks in the stepfunction machine"""
+        """Dictionary of all tasks in the branch"""
         self.task_list: List[Task] = []
-        """List of all tasks in the stepfunction machine"""
-        self.task_edges: List[TaskEdge] = []
+        """List of all tasks in the branch"""
+        self.task_edges: List[_TaskEdge] = []
+        self._build_task_list(self.start_task)
 
-    def build_task_list(self, task: Task):
+    def _build_task_list(self, task: Task):
         """Build the list of tasks in the stepfunction machine
 
         Recursively checks task.next()
@@ -91,19 +160,36 @@ class Branch:
             return
         self.task_dict[task.name] = task
         self.task_list.append(task)
-        edges = get_task_edges(task)
-        self.task_edges.append(edges)
+        edges = _get_task_edges(task)
+        self.task_edges.extend(edges)
         if task.has_next():
             for t in task._next:
-                self.build_task_list(t)
+                self._build_task_list(t)
+        if task.has_catcher():
+            for k, v in task.catcher:
+                self._build_task_list(v)
 
     def to_asl(self) -> dict:
         """Convert to ASL"""
-        self.build_task_list(self.start_task)
+        self._build_task_list(self.start_task)
         asl = {}
         for task in self.task_list:
             asl.update(task.to_asl())
         return {"Comment": self.comment, "StartAt": self.start_task.name, "States": asl}
+
+    def write_asl(self, output_to: str) -> None:
+        """Write the ASL to a file
+
+        Args:
+            output_to (str): The file to write to
+        """
+
+        with open(output_to, "w") as f:
+            json.dump(self.to_asl(), f, indent=4)
+
+    def __repr__(self) -> str:
+        asl = self.to_asl()
+        return json.dumps(asl, indent=2)
 
 
 class ParallelTask(Task):

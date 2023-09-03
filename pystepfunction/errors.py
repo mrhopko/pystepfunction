@@ -1,13 +1,15 @@
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import List
+"""Exceptions and aws stepfunction error constants"""
 
 
-class IncompleteTask(Exception):
+class IncompleteTaskException(Exception):
+    """Exception - raised when a task is missing a required field"""
+
     pass
 
 
-class JsonPathNoMatch(Exception):
+class JsonPathNoMatchException(Exception):
+    """Exception - raised when a json path does not match a value"""
+
     pass
 
 
@@ -29,52 +31,3 @@ ERROR_STATE_RESULT_WRITER_FAILED = "States.ResultWriterFailed"
 ERROR_STATE_RUNTIME = "States.Runtime"
 ERROR_STATE_TASK_FAILED = "States.TaskFailed"
 ERROR_STATE_TIMEOUT = "States.Timeout"
-
-
-@dataclass
-class Retry:
-    """Retry configuration for a task"""
-
-    error_equals: List[str]
-    """List of error states to retry on"""
-    interval_seconds: int
-    """Interval in seconds between retries"""
-    max_attempts: int
-    """Maximum number of retries"""
-    backoff_rate: float = 1.0
-    """Backoff rate for retries"""
-
-    def to_asl(self) -> dict:
-        """Convert to ASL"""
-        return {
-            "ErrorEquals": self.error_equals,
-            "IntervalSeconds": self.interval_seconds,
-            "MaxAttempts": self.max_attempts,
-            "BackoffRate": self.backoff_rate,
-        }
-
-
-@dataclass
-class Catcher:
-    """Catcher configuration for a task"""
-
-    error_equals: List[str]
-    """List of error states to catch"""
-    next: str
-    """Next task to execute"""
-
-    def to_asl(self) -> dict:
-        """Convert to ASL"""
-        return {
-            "ErrorEquals": self.error_equals,
-            "Next": self.next,
-        }
-
-
-@dataclass
-class ErrorHandler:
-    """Handle State Errors"""
-
-    retries: List[Retry] = field(default_factory=list)
-    """Retry configuration for the task"""
-    catcher: List[Catcher] = field(default_factory=list)

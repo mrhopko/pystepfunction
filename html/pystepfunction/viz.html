@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pystepfunction.viz API documentation</title>
+<meta name="description" content="Visualization of a branch using pyvis …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pystepfunction.viz</code></h1>
+</header>
+<section id="section-intro">
+<p>Visualization of a branch using pyvis</p>
+<p>Example:</p>
+<pre><code class="language-python">branch_c1 = Task(&quot;Task-c1&quot;)
+branch_c2 = Task(&quot;Task-c2&quot;) &gt;&gt; Task(&quot;Task-c3&quot;)
+choice_1 = ChoiceRule(&quot;var1&quot;, &quot;cond1&quot;, next=branch_c1)
+choice_2 = ChoiceRule(&quot;var2&quot;, &quot;cond2&quot;, next=branch_c2)
+fail = FailTask(&quot;Fail&quot;)
+
+branch_n1 = Branch(
+    Task(&quot;Task1&quot;)
+    .with_retry(error_equals=[&quot;States.ALL&quot;], interval_seconds=1, max_attempts=3)
+    .with_catcher([&quot;States.ALL&quot;], fail)
+    &gt;&gt; Task(&quot;Task2&quot;)
+    &gt;&gt; Task(&quot;Task3&quot;)
+    &gt;&gt; ChoiceTask(&quot;ChoiceTask1&quot;, [choice_1, choice_2], branch_c1)
+)
+
+branch_viz = BranchViz(branch_n1)
+assert isinstance(branch_viz, BranchViz)
+assert len(branch_viz.branch_nodes) == len(branch_n1.task_list)
+assert len(branch_viz.branch_edges) == len(branch_n1.task_edges)
+logger.info(branch_viz.net)
+branch_viz.show()
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Visualization of a branch using pyvis
+
+Example:
+```python
+branch_c1 = Task(&#34;Task-c1&#34;)
+branch_c2 = Task(&#34;Task-c2&#34;) &gt;&gt; Task(&#34;Task-c3&#34;)
+choice_1 = ChoiceRule(&#34;var1&#34;, &#34;cond1&#34;, next=branch_c1)
+choice_2 = ChoiceRule(&#34;var2&#34;, &#34;cond2&#34;, next=branch_c2)
+fail = FailTask(&#34;Fail&#34;)
+
+branch_n1 = Branch(
+    Task(&#34;Task1&#34;)
+    .with_retry(error_equals=[&#34;States.ALL&#34;], interval_seconds=1, max_attempts=3)
+    .with_catcher([&#34;States.ALL&#34;], fail)
+    &gt;&gt; Task(&#34;Task2&#34;)
+    &gt;&gt; Task(&#34;Task3&#34;)
+    &gt;&gt; ChoiceTask(&#34;ChoiceTask1&#34;, [choice_1, choice_2], branch_c1)
+)
+
+branch_viz = BranchViz(branch_n1)
+assert isinstance(branch_viz, BranchViz)
+assert len(branch_viz.branch_nodes) == len(branch_n1.task_list)
+assert len(branch_viz.branch_edges) == len(branch_n1.task_edges)
+logger.info(branch_viz.net)
+branch_viz.show()
+```
+&#34;&#34;&#34;
+from dataclasses import dataclass
+from typing import List
+from pyvis.network import Network
+from pystepfunction.branch import Branch, _TaskEdge
+from pystepfunction.tasks import Task
+
+
+@dataclass
+class BranchNode:
+    n_id: str
+    label: str
+    group: str = &#34;task&#34;
+    level: int = 0
+    shape: str = &#34;box&#34;
+    title: str = &#34;&#34;
+    physics: bool = False
+
+    @classmethod
+    def from_task(cls, task: Task) -&gt; &#34;BranchNode&#34;:
+        &#34;&#34;&#34;Convert to a node for visualization&#34;&#34;&#34;
+        return cls(
+            n_id=task.name,
+            label=task.name,
+            group=task.task_type,
+            title=str(task.to_asl()),
+        )
+
+
+@dataclass
+class BranchEdge:
+    from_node: str
+    to_node: str
+    name: str
+    title: str = &#34;&#34;
+    physics: bool = False
+
+    @classmethod
+    def from_task_edge(cls, task_edge: _TaskEdge) -&gt; &#34;BranchEdge&#34;:
+        &#34;&#34;&#34;Convert to a branch edge for visualization&#34;&#34;&#34;
+
+        source_node = BranchNode.from_task(task_edge.source)
+        target_node = BranchNode.from_task(task_edge.target)
+        if task_edge.has_choice_rule():
+            return cls(
+                from_node=source_node.n_id,
+                to_node=target_node.n_id,
+                name=str(task_edge.choice_rule),
+                title=str(task_edge.choice_rule.to_asl()),
+            )
+        elif task_edge.has_catcher():
+            e, t = task_edge.catcher
+            return cls(
+                from_node=source_node.n_id,
+                to_node=target_node.n_id,
+                name=str(e),
+                title=str(e),
+                physics=False,
+            )
+        else:
+            return cls(
+                from_node=source_node.n_id,
+                to_node=target_node.n_id,
+                name=&#34;&#34;,
+                title=f&#34;Next: {task_edge.target.name}&#34;,
+                physics=False,
+            )
+
+
+class BranchViz:
+    def __init__(self, branch: Branch):
+        self.branch = branch
+        self.task_list = branch.task_list
+        self.task_edges = branch.task_edges
+        self.branch_nodes: List[BranchNode] = self.get_nodes(self.task_list)
+        self.branch_edges: List[BranchEdge] = self.get_edges(self.task_edges)
+        self.net = Network(directed=True, notebook=False)
+        self.net.toggle_physics(False)
+        self.add_nodes()
+        self.add_edges()
+
+    def add_nodes(self):
+        for node in self.branch_nodes:
+            self.net.add_node(
+                node.n_id,
+                label=node.label,
+                group=node.group,
+                level=node.level,
+                shape=node.shape,
+                title=node.title,
+                physics=node.physics,
+            )
+
+    def add_edges(self):
+        for edge in self.branch_edges:
+            self.net.add_edge(
+                edge.from_node,
+                edge.to_node,
+                label=edge.name,
+                title=edge.title,
+                physics=edge.physics,
+            )
+
+    def get_nodes(self, task_list: List[Task]) -&gt; List[BranchNode]:
+        nodes = []
+        for task in task_list:
+            nodes.append(BranchNode.from_task(task))
+        return nodes
+
+    def get_edges(self, task_edges: List[_TaskEdge]) -&gt; List[BranchEdge]:
+        edges = []
+        for edge in task_edges:
+            edges.append(BranchEdge.from_task_edge(edge))
+        return edges
+
+    def show(self, filename: str = &#34;branch.html&#34;, in_notebook: bool = False):
+        self.net.show(filename, notebook=in_notebook)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pystepfunction.viz.BranchEdge"><code class="flex name class">
+<span>class <span class="ident">BranchEdge</span></span>
+<span>(</span><span>from_node: str, to_node: str, name: str, title: str = '', physics: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>BranchEdge(from_node: str, to_node: str, name: str, title: str = '', physics: bool = False)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class BranchEdge:
+    from_node: str
+    to_node: str
+    name: str
+    title: str = &#34;&#34;
+    physics: bool = False
+
+    @classmethod
+    def from_task_edge(cls, task_edge: _TaskEdge) -&gt; &#34;BranchEdge&#34;:
+        &#34;&#34;&#34;Convert to a branch edge for visualization&#34;&#34;&#34;
+
+        source_node = BranchNode.from_task(task_edge.source)
+        target_node = BranchNode.from_task(task_edge.target)
+        if task_edge.has_choice_rule():
+            return cls(
+                from_node=source_node.n_id,
+                to_node=target_node.n_id,
+                name=str(task_edge.choice_rule),
+                title=str(task_edge.choice_rule.to_asl()),
+            )
+        elif task_edge.has_catcher():
+            e, t = task_edge.catcher
+            return cls(
+                from_node=source_node.n_id,
+                to_node=target_node.n_id,
+                name=str(e),
+                title=str(e),
+                physics=False,
+            )
+        else:
+            return cls(
+                from_node=source_node.n_id,
+                to_node=target_node.n_id,
+                name=&#34;&#34;,
+                title=f&#34;Next: {task_edge.target.name}&#34;,
+                physics=False,
+            )</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pystepfunction.viz.BranchEdge.from_node"><code class="name">var <span class="ident">from_node</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchEdge.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchEdge.physics"><code class="name">var <span class="ident">physics</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchEdge.title"><code class="name">var <span class="ident">title</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchEdge.to_node"><code class="name">var <span class="ident">to_node</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="pystepfunction.viz.BranchEdge.from_task_edge"><code class="name flex">
+<span>def <span class="ident">from_task_edge</span></span>(<span>task_edge: pystepfunction.branch._TaskEdge) ‑> <a title="pystepfunction.viz.BranchEdge" href="#pystepfunction.viz.BranchEdge">BranchEdge</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to a branch edge for visualization</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_task_edge(cls, task_edge: _TaskEdge) -&gt; &#34;BranchEdge&#34;:
+    &#34;&#34;&#34;Convert to a branch edge for visualization&#34;&#34;&#34;
+
+    source_node = BranchNode.from_task(task_edge.source)
+    target_node = BranchNode.from_task(task_edge.target)
+    if task_edge.has_choice_rule():
+        return cls(
+            from_node=source_node.n_id,
+            to_node=target_node.n_id,
+            name=str(task_edge.choice_rule),
+            title=str(task_edge.choice_rule.to_asl()),
+        )
+    elif task_edge.has_catcher():
+        e, t = task_edge.catcher
+        return cls(
+            from_node=source_node.n_id,
+            to_node=target_node.n_id,
+            name=str(e),
+            title=str(e),
+            physics=False,
+        )
+    else:
+        return cls(
+            from_node=source_node.n_id,
+            to_node=target_node.n_id,
+            name=&#34;&#34;,
+            title=f&#34;Next: {task_edge.target.name}&#34;,
+            physics=False,
+        )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pystepfunction.viz.BranchNode"><code class="flex name class">
+<span>class <span class="ident">BranchNode</span></span>
+<span>(</span><span>n_id: str, label: str, group: str = 'task', level: int = 0, shape: str = 'box', title: str = '', physics: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>BranchNode(n_id: str, label: str, group: str = 'task', level: int = 0, shape: str = 'box', title: str = '', physics: bool = False)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class BranchNode:
+    n_id: str
+    label: str
+    group: str = &#34;task&#34;
+    level: int = 0
+    shape: str = &#34;box&#34;
+    title: str = &#34;&#34;
+    physics: bool = False
+
+    @classmethod
+    def from_task(cls, task: Task) -&gt; &#34;BranchNode&#34;:
+        &#34;&#34;&#34;Convert to a node for visualization&#34;&#34;&#34;
+        return cls(
+            n_id=task.name,
+            label=task.name,
+            group=task.task_type,
+            title=str(task.to_asl()),
+        )</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pystepfunction.viz.BranchNode.group"><code class="name">var <span class="ident">group</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchNode.label"><code class="name">var <span class="ident">label</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchNode.level"><code class="name">var <span class="ident">level</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchNode.n_id"><code class="name">var <span class="ident">n_id</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchNode.physics"><code class="name">var <span class="ident">physics</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchNode.shape"><code class="name">var <span class="ident">shape</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.viz.BranchNode.title"><code class="name">var <span class="ident">title</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="pystepfunction.viz.BranchNode.from_task"><code class="name flex">
+<span>def <span class="ident">from_task</span></span>(<span>task: <a title="pystepfunction.tasks.Task" href="tasks.html#pystepfunction.tasks.Task">Task</a>) ‑> <a title="pystepfunction.viz.BranchNode" href="#pystepfunction.viz.BranchNode">BranchNode</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to a node for visualization</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_task(cls, task: Task) -&gt; &#34;BranchNode&#34;:
+    &#34;&#34;&#34;Convert to a node for visualization&#34;&#34;&#34;
+    return cls(
+        n_id=task.name,
+        label=task.name,
+        group=task.task_type,
+        title=str(task.to_asl()),
+    )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pystepfunction.viz.BranchViz"><code class="flex name class">
+<span>class <span class="ident">BranchViz</span></span>
+<span>(</span><span>branch: <a title="pystepfunction.branch.Branch" href="branch.html#pystepfunction.branch.Branch">Branch</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BranchViz:
+    def __init__(self, branch: Branch):
+        self.branch = branch
+        self.task_list = branch.task_list
+        self.task_edges = branch.task_edges
+        self.branch_nodes: List[BranchNode] = self.get_nodes(self.task_list)
+        self.branch_edges: List[BranchEdge] = self.get_edges(self.task_edges)
+        self.net = Network(directed=True, notebook=False)
+        self.net.toggle_physics(False)
+        self.add_nodes()
+        self.add_edges()
+
+    def add_nodes(self):
+        for node in self.branch_nodes:
+            self.net.add_node(
+                node.n_id,
+                label=node.label,
+                group=node.group,
+                level=node.level,
+                shape=node.shape,
+                title=node.title,
+                physics=node.physics,
+            )
+
+    def add_edges(self):
+        for edge in self.branch_edges:
+            self.net.add_edge(
+                edge.from_node,
+                edge.to_node,
+                label=edge.name,
+                title=edge.title,
+                physics=edge.physics,
+            )
+
+    def get_nodes(self, task_list: List[Task]) -&gt; List[BranchNode]:
+        nodes = []
+        for task in task_list:
+            nodes.append(BranchNode.from_task(task))
+        return nodes
+
+    def get_edges(self, task_edges: List[_TaskEdge]) -&gt; List[BranchEdge]:
+        edges = []
+        for edge in task_edges:
+            edges.append(BranchEdge.from_task_edge(edge))
+        return edges
+
+    def show(self, filename: str = &#34;branch.html&#34;, in_notebook: bool = False):
+        self.net.show(filename, notebook=in_notebook)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.viz.BranchViz.add_edges"><code class="name flex">
+<span>def <span class="ident">add_edges</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_edges(self):
+    for edge in self.branch_edges:
+        self.net.add_edge(
+            edge.from_node,
+            edge.to_node,
+            label=edge.name,
+            title=edge.title,
+            physics=edge.physics,
+        )</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.viz.BranchViz.add_nodes"><code class="name flex">
+<span>def <span class="ident">add_nodes</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_nodes(self):
+    for node in self.branch_nodes:
+        self.net.add_node(
+            node.n_id,
+            label=node.label,
+            group=node.group,
+            level=node.level,
+            shape=node.shape,
+            title=node.title,
+            physics=node.physics,
+        )</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.viz.BranchViz.get_edges"><code class="name flex">
+<span>def <span class="ident">get_edges</span></span>(<span>self, task_edges: List[pystepfunction.branch._TaskEdge]) ‑> List[<a title="pystepfunction.viz.BranchEdge" href="#pystepfunction.viz.BranchEdge">BranchEdge</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_edges(self, task_edges: List[_TaskEdge]) -&gt; List[BranchEdge]:
+    edges = []
+    for edge in task_edges:
+        edges.append(BranchEdge.from_task_edge(edge))
+    return edges</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.viz.BranchViz.get_nodes"><code class="name flex">
+<span>def <span class="ident">get_nodes</span></span>(<span>self, task_list: List[<a title="pystepfunction.tasks.Task" href="tasks.html#pystepfunction.tasks.Task">Task</a>]) ‑> List[<a title="pystepfunction.viz.BranchNode" href="#pystepfunction.viz.BranchNode">BranchNode</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_nodes(self, task_list: List[Task]) -&gt; List[BranchNode]:
+    nodes = []
+    for task in task_list:
+        nodes.append(BranchNode.from_task(task))
+    return nodes</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.viz.BranchViz.show"><code class="name flex">
+<span>def <span class="ident">show</span></span>(<span>self, filename: str = 'branch.html', in_notebook: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show(self, filename: str = &#34;branch.html&#34;, in_notebook: bool = False):
+    self.net.show(filename, notebook=in_notebook)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pystepfunction" href="index.html">pystepfunction</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pystepfunction.viz.BranchEdge" href="#pystepfunction.viz.BranchEdge">BranchEdge</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pystepfunction.viz.BranchEdge.from_node" href="#pystepfunction.viz.BranchEdge.from_node">from_node</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchEdge.from_task_edge" href="#pystepfunction.viz.BranchEdge.from_task_edge">from_task_edge</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchEdge.name" href="#pystepfunction.viz.BranchEdge.name">name</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchEdge.physics" href="#pystepfunction.viz.BranchEdge.physics">physics</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchEdge.title" href="#pystepfunction.viz.BranchEdge.title">title</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchEdge.to_node" href="#pystepfunction.viz.BranchEdge.to_node">to_node</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.viz.BranchNode" href="#pystepfunction.viz.BranchNode">BranchNode</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pystepfunction.viz.BranchNode.from_task" href="#pystepfunction.viz.BranchNode.from_task">from_task</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchNode.group" href="#pystepfunction.viz.BranchNode.group">group</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchNode.label" href="#pystepfunction.viz.BranchNode.label">label</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchNode.level" href="#pystepfunction.viz.BranchNode.level">level</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchNode.n_id" href="#pystepfunction.viz.BranchNode.n_id">n_id</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchNode.physics" href="#pystepfunction.viz.BranchNode.physics">physics</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchNode.shape" href="#pystepfunction.viz.BranchNode.shape">shape</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchNode.title" href="#pystepfunction.viz.BranchNode.title">title</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.viz.BranchViz" href="#pystepfunction.viz.BranchViz">BranchViz</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.viz.BranchViz.add_edges" href="#pystepfunction.viz.BranchViz.add_edges">add_edges</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchViz.add_nodes" href="#pystepfunction.viz.BranchViz.add_nodes">add_nodes</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchViz.get_edges" href="#pystepfunction.viz.BranchViz.get_edges">get_edges</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchViz.get_nodes" href="#pystepfunction.viz.BranchViz.get_nodes">get_nodes</a></code></li>
+<li><code><a title="pystepfunction.viz.BranchViz.show" href="#pystepfunction.viz.BranchViz.show">show</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

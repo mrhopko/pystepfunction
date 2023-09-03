@@ -1,29 +1,84 @@
+"""StateMachine is used to test the flow of data manipulations between tasks
+
+In pystepfunction, state is represented by a `State` object. It can also be used to test the flow of data manipulations.  
+See https://docs.aws.amazon.com/step-functions/latest/dg/concepts-input-output-filtering.html
+
+jsonpath_ng is used to parse and evaluate jsonpath expressions.  
+
+glom is used to assign values to a dict using a path.  
+
+Example:  
+
+```python
+from logging import getLogger
+from pystepfunction.state import StateMachine
+from pystepfunction.tasks import Task
+
+# initialise a StateMachine with a logger and state
+logger = getLogger(__name__)
+init_state = {
+    "init_key1": "init_value1",
+    "init_key2": {"init_key22": "init_value22"},
+}
+sm = StateMachine(state=init_state).with_logger(logger)
+
+# create a task with input and output states and an expected resource result
+# select init_key2 and assign its value to new_key
+# assign a reource_result representing the data returned from the task resource
+# select resource2 from resource_result and assign its value to selected_result
+# insert selected_result into the state at path task1_result
+task = (
+    Task("task1")
+    .with_input(input_path="$.init_key2", parameters={"new_key.$": "$.init_key22"})
+    .with_resource_result({"resource1": "value1", "resource2": "value2"})
+    .with_output(
+        result_selector={"selected_result.$": "$.resource2"},
+        result_path="$.task1_result",
+    )
+)
+
+# apply the task data manipulation to the statemachine
+sm.apply_task(task)
+logger.info(sm.state)
+
+# check the state is as expected
+expected_state = {
+    "new_key": "init_value22",
+    "task1_result": {"selected_result": "value2"},
+}
+
+assert sm.state == expected_state
+```
+"""
 from dataclasses import dataclass, field
+import json
 from logging import Logger, getLogger
-from typing import Optional
+from typing import List, Optional
 import jsonpath_ng
 import glom
-from pystepfunction.errors import JsonPathNoMatch
+from pystepfunction.branch import Branch
+from pystepfunction.errors import JsonPathNoMatchException
+from pystepfunction.tasks import Task
 
 
 @dataclass
-class State:
-    """representation of the internal stepfunction state"""
+class StateMachine:
+    """Test the flow of data manipulations between tasks"""
 
-    value: dict = field(default_factory=dict)
-    """The value of the state"""
+    state: dict = field(default_factory=dict)
+    """Current state value"""
+
+    state_log: List[dict] = field(default_factory=list)
+    """A log of state values mutated over time with a __msg__ key"""
 
     context: dict = field(default_factory=dict)
     """The context of the state - provided by the stepfunction execution"""
-
-    resource_result: dict = field(default_factory=dict)
-    """The result of the resource - used for testing OutputState"""
 
     logger: Logger = getLogger(__name__)
 
     def has_value(self) -> bool:
         """Check if the state has a value"""
-        return len(self.value.items()) > 0
+        return len(self.state.items()) > 0
 
     def has_context(self) -> bool:
         """Check if the state has a context"""
@@ -38,26 +93,28 @@ class State:
 
     def insert_value_at_path(self, insert, path: str):
         if path == "$":
-            self.value = insert
+            self.state = insert
         key = path.replace("$.", "")
-        glom.assign(self.value, key, insert)
+        glom.assign(self.state, key, insert)
 
-    def get_path_value(self, path: str, from_value: Optional[dict] = None):
+    def get_path_value(self, path: str, from_state: Optional[dict] = None):
         """Select the value by path"""
         jsonpath_expr = jsonpath_ng.parse(path)
-        if from_value is None:
-            from_value = self.value
-        values = [match.value for match in jsonpath_expr.find(from_value)]
+        if from_state is None:
+            from_state = self.state
+        values = [match.value for match in jsonpath_expr.find(from_state)]
         if len(values) == 0:
-            raise JsonPathNoMatch("No Match for jsonpath %s", path)
+            self.logger.error(f"No Match for jsonpath {path}")
+            self.logger.error(self.__repr__())
+            raise JsonPathNoMatchException(f"No Match for jsonpath {path}")
         self.logger.info(values[0])
         return values[0]
 
-    def get_path_state(self, path: str) -> "State":
-        """Filter the value by path"""
-        new_value = self.get_path_value(path)
-        self.logger.info(new_value)
-        return State(value=new_value, context=self.context)
+    def get_path_state(self, path: str) -> dict:
+        """Filter state by path"""
+        new_state = self.get_path_value(path)
+        self.logger.info(new_state)
+        return new_state
 
     def get_paramaters(self, selector: dict, from_value: Optional[dict] = None) -> dict:
         """Select the values using a selector
@@ -74,194 +131,122 @@ class State:
         for k, v in selector.items():
             if self.is_path_key(k):
                 new_key = k.replace(".$", "")
-                result[new_key] = self.get_path_value(v, from_value=from_value)
+                result[new_key] = self.get_path_value(v, from_state=from_value)
             else:
                 result[k] = v
         self.logger.info(result)
         return result
 
-    def with_resource_result(self, result: dict) -> "State":
-        """Set the resource result returned from a task resource - usually for testing"""
-        self.resource_result = result
-        return self
-
-    def with_logger(self, logger: Logger) -> "State":
+    def with_logger(self, logger: Logger) -> "StateMachine":
         self.logger = logger
         return self
 
+    def update_state(self, state: dict, msg: str):
+        """Update the state value"""
+        self.logger.info(msg)
+        self.logger.info(state)
+        self.state = state
+        if isinstance(state, dict):
+            log_state = state.copy()
+            log_state["__msg__"] = msg
+        else:
+            log_state = {"__msg__": msg, "__state__": state}
+        self.state_log.append(log_state)
 
-@dataclass
-class OutputState:
-    result_selector: dict = field(default_factory=dict)
-    """define a custom object from the task resource output"""
-    result_path: str = "$"
-    """Select where the resulting data will be inserted into the stat - defaults to $"""
-    output_path: str = ""
-    """Select what output is passed to the next task"""
-    logger: Logger = getLogger(__name__)
+    def apply_input_parameters(self, task: Task):
+        """Apply input parameters to the state"""
+        if task.input_state.has_parameters():
+            msg = f"apply input parameters for task {task.name}"
+            self.logger.info("apply_parameters")
+            new_state = self.get_paramaters(task.input_state.parameters)
+            self.update_state(new_state, msg)
 
-    def has_result_selector(self) -> bool:
-        """Check if the result selector is set"""
-        return len(self.result_selector.items()) > 0
+    def apply_input_path(self, task: Task):
+        """Apply the input path to the state"""
+        if task.input_state.has_input_path():
+            msg = f"apply input path for task {task.name}"
+            self.logger.info(msg)
+            new_state = self.get_path_state(task.input_state.input_path)
+            self.update_state(new_state, msg)
 
-    def has_result_path(self) -> bool:
-        """Check if the result path is set"""
-        return len(self.result_path) > 0
+    def apply_task_input(self, task: Task):
+        """Apply the task input state to the state"""
+        if task.has_input_state():
+            self.logger.info(f"Apply input state for task {task.name}")
+            self.apply_input_path(task)
+            self.apply_input_parameters(task)
+        else:
+            self.logger.info(f"No input_state for task {task.name}")
 
-    def has_output_path(self) -> bool:
-        """Check if the output path is set"""
-        return len(self.output_path) > 0
-
-    def with_result_key(self, key: str, value: str):
-        """Add a parameter to the result_selector"""
-        self.result_selector[key] = value
-        return self
-
-    def with_result_selector(self, result_selector: dict):
-        """Update the parameters"""
-        self.result_selector.update(result_selector)
-        return self
-
-    def with_logger(self, logger: Logger) -> "OutputState":
-        self.logger = logger
-        return self
-
-    def merge_state(self, other: "OutputState") -> "OutputState":
-        """Merge two output states"""
-        if other.has_result_path():
-            self.result_path = other.result_path
-        if other.has_output_path():
-            self.output_path = other.output_path
-        if other.has_result_selector():
-            self.with_result_selector(other.result_selector)
-        return self
-
-    def __add__(self, other: "OutputState") -> "OutputState":
-        """Merge two input states"""
-        return self.merge_state(other)
-
-    def to_asl(self) -> dict:
-        """Convert to ASL"""
-        asl = {}
-        if self.has_result_path():
-            asl.update({"ResultPath": f"$.{'.'.join(self.result_path)}"})
-        if self.has_result_selector():
-            asl.update({"ResultSelector": self.result_selector})
-        if self.has_output_path():
-            asl.update({"OutputPath": f"$.{'.'.join(self.output_path)}"})
-        return asl
-
-    def apply_result_selector(self, state: State) -> State:
+    def get_result_selector(self, task: Task) -> dict:
         """Apply the result selector to the state
 
         state.resource_result is overriden with selected results"""
-        if self.has_result_selector():
-            self.logger.info("apply_result_selector")
-            result = state.get_paramaters(self.result_selector, state.resource_result)
-            return State(
-                value=state.value, context=state.context, resource_result=result
-            )
-        return state
+        if not task.has_resource_result():
+            return {}
+        resource_result = task.resource_result
+        if task.output_state.has_result_selector():
+            result_selector = task.output_state.result_selector
+            result = self.get_paramaters(result_selector, resource_result)
+            return result
+        return resource_result
 
-    def apply_result_path(self, state: State) -> State:
+    def apply_result_path(self, task: Task):
         """Move resource_result to state.value given a path"""
-        # how do i insert values given a jsonpath?
-        if self.has_result_path():
-            self.logger.info("apply_result_path")
-            state.insert_value_at_path(
-                insert=state.resource_result, path=self.result_path
-            )
-        return state
+        result = self.get_result_selector(task)
+        msg = f"apply_result_path for task {task.name}"
+        if task.output_state.has_result_path():
+            self.logger.info(msg)
+            result_path = task.output_state.result_path
+            self.insert_value_at_path(insert=result, path=result_path)
+            self.update_state(self.state, msg)
+        else:
+            self.update_state(result, msg)
 
-    def apply_output_path(self, state: State) -> State:
+    def apply_output_path(self, task: Task):
         """Apply the output path to the state"""
-        if self.has_output_path():
-            self.logger.info("apply_output_path")
-            result = state.get_path_value(self.output_path)
-            return State(value=result, context=state.context)
-        return state
+        if task.output_state.has_output_path():
+            msg = f"apply_output_path for task {task.name}"
+            self.logger.info(msg)
+            new_state = self.get_path_value(task.output_state.output_path)
+            self.update_state(new_state, msg)
 
-    def apply_to_state(self, state: State) -> State:
-        """Process the output state"""
-        self.logger.info("apply_to_state")
-        result_selector_result = self.apply_result_selector(state)
-        result_path_result = self.apply_result_path(result_selector_result)
-        output_path_result = self.apply_output_path(result_path_result)
-        return output_path_result
+    def apply_task_output(self, task: Task):
+        """Apply the task input state to the state"""
+        if task.has_output_state():
+            self.apply_result_path(task)
+            self.apply_output_path(task)
 
+    def apply_task(self, task: Task):
+        """Apply the task input state to the state"""
+        self.logger.info(f"apply task {task.name}")
+        self.apply_task_input(task)
+        self.apply_task_output(task)
 
-@dataclass
-class InputState:
-    input_path: str = ""
-    """Filter what input is passed to the task"""
-    parameters: dict = field(default_factory=dict)
-    """define a custom object to pass as input to the task resource"""
-    logger: Logger = getLogger(__name__)
+    def apply_branch(
+        self, branch: Branch, init_state: Optional[dict] = None, max_steps=100
+    ):
+        """Apply a branch to the state
 
-    def with_logger(self, logger: Logger) -> "InputState":
-        self.logger = logger
-        return self
+        Args:
+            branch (Branch): The branch to apply
+            init_state (Optional[dict], optional): The initial state. If None then existing state is used. Defaults to None.
+            max_steps (int, optional): The maximum number of steps to apply. Defaults to 100. (in case of loops)
+        """
+        self.logger.info(f"apply branch")
+        if init_state is not None:
+            self.state = init_state
+        current_task = branch.start_task
+        current_step = 1
+        self.apply_task(current_task)
+        while current_task.has_next() and current_step < max_steps:
+            current_task = current_task.next()
+            self.apply_task(current_task)
+            current_step += 1
 
-    def has_input_path(self) -> bool:
-        """Check if the input path is set"""
-        return len(self.input_path) > 0
+    def __repr__(self) -> str:
+        sep = "\n----------------\n"
+        return sep.join([json.dumps(log, indent=2) for log in self.state_log])
 
-    def has_parameters(self) -> bool:
-        """Check if the parameters are set"""
-        return len(self.parameters.items()) > 0
-
-    def with_parameter(self, key: str, value: str):
-        """Add a parameter to the input"""
-        self.parameters[key] = value
-        return self
-
-    def with_parameters(self, parameters: dict):
-        """Update the parameters"""
-        self.parameters.update(parameters)
-        return self
-
-    def merge_state(self, other: "InputState") -> "InputState":
-        """Merge two input states"""
-        if other.has_input_path():
-            self.input_path = other.input_path
-        if other.has_parameters():
-            self.with_parameters(other.parameters)
-        return self
-
-    def __add__(self, other: "InputState") -> "InputState":
-        """Merge two input states"""
-        return self.merge_state(other)
-
-    def to_asl(self) -> dict:
-        """Convert to ASL"""
-        asl = {}
-        if self.has_input_path():
-            asl.update({"InputPath": f"$.{'.'.join(self.input_path)}"})
-        if self.has_parameters():
-            asl.update({"Parameters": self.parameters})
-        return asl
-
-    def apply_input_path(self, state: State) -> State:
-        """Apply the input path to the state"""
-        if self.has_input_path():
-            self.logger.info("apply_input_path")
-            return State(
-                value=state.get_path_value(self.input_path), context=state.context
-            )
-        return state
-
-    def apply_parameters(self, state: State) -> State:
-        """Apply the parameters to the state"""
-        if self.has_parameters():
-            self.logger.info("apply_parameters")
-            return State(
-                value=state.get_paramaters(self.parameters), context=state.context
-            )
-        return state
-
-    def apply_to_state(self, state: State, logger: Optional[Logger] = None) -> State:
-        """Process the input state"""
-        self.logger.info("InputState.apply_to_state")
-        input_result = self.apply_input_path(state)
-        parameter_result = self.apply_parameters(input_result)
-        return parameter_result
+    def show_logs(self):
+        print(self.__repr__())

@@ -1,0 +1,3252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pystepfunction.tasks API documentation</title>
+<meta name="description" content="A Task is a step in a stepfunction machine …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pystepfunction.tasks</code></h1>
+</header>
+<section id="section-intro">
+<p>A Task is a step in a stepfunction machine.</p>
+<p>Build a stepfunction machine by creating tasks and connecting them with <code>and_then</code> or <code>&gt;&gt;</code> operator.<br>
+Use <code><a title="pystepfunction.branch.Branch" href="branch.html#pystepfunction.branch.Branch">Branch</a></code> to create a stepfunction machine from a connected task.</p>
+<p>Example:</p>
+<pre><code class="language-python">    &gt;&gt;&gt; pystepfunction.machine.tasks import *
+    retry = [Retry(error_equals=[&quot;States.ALL&quot;], interval_seconds=1, max_attempts=3)]
+    branch1 = Branch(Task(&quot;1&quot;) &gt;&gt; Task(&quot;2&quot;))
+    branch2 = Branch(Task(&quot;3&quot;).retry(retry) &gt;&gt; PassTask(&quot;pass&quot;) &gt;&gt; Task(&quot;4&quot;))
+    branch_parallel = Branch(
+        Task(&quot;start&quot;) &gt;&gt; ParallelTask(&quot;par&quot;, [branch1, branch2]) &gt;&gt; Task(&quot;end&quot;).is_end()
+    )
+    asl = branch_parallel.to_asl()  
+    logger.info(asl)
+</code></pre>
+<p>See <a href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-input-output-filtering.html">https://docs.aws.amazon.com/step-functions/latest/dg/concepts-input-output-filtering.html</a>
+</p>
+<p><code>InputState</code> is used to mutate state data before it is passed to a task resource (eg lambda function) by setting:
+- <code>InputState.input_path</code> - Behaves like a filter. a single jsonpath to select a subset of the state value
+- <code>InputState.parameters</code> - Used to create a dictionary of parameters to pass to the task resource.
+<code>InputState.input_path</code> is applied first, so all jsonpath parameters are relative to the <code>InputState.input_path</code> result.</p>
+<p><code>OutputState</code> is used to mutate state data after a task has completed, before being passed to the next task.
+- <code>OutputState.result_selector</code> - Used to create a dictionary of parameters from the raw resource returned results. jsonpath is relative to the raw result.
+- <code>OutputState.result_path</code> - Where results are to be inserted into the state value. jsonpath is relative to the state value. If not set, the root of the state value is used ($.) overwriting the entire state value.
+- <code>OutputState.output_path</code> - Behaves like a filter. a single jsonpath to select a subset of the state value to pass to the next task. It is applied after <code>OutputState.result_path</code> is applied.</p>
+<p>Example:</p>
+<pre><code class="language-python"># Add state manipulation to a task
+from pystepfunction.tasks import LambdaTask, InputState, OutputState
+
+input_state = InputState(
+    parameters={&quot;Input1.$&quot;: &quot;$.Input1&quot;, &quot;Input2.$&quot;: &quot;$.Input2&quot;}, 
+    input_path=&quot;$.Inputs&quot;
+)
+
+output_state = OutputState(
+    result_path=&quot;$.TaskResult&quot;,
+    output_path=&quot;$.Outputs&quot;,
+    result_selector={&quot;Output1.$&quot;: &quot;$.output1&quot;, &quot;Output2.$&quot;: &quot;$.output2&quot;},
+)
+
+lambda_task = (
+    LambdaTask(name=&quot;LambdaTaskName&quot;, function_arn=&quot;my-lambda-arn&quot;)
+    .with_input(input_state)
+    .with_output(output_state)
+)
+lambda_task.to_asl()
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+A Task is a step in a stepfunction machine.
+
+Build a stepfunction machine by creating tasks and connecting them with `and_then` or `&gt;&gt;` operator.  
+Use `pystepfunction.branch.Branch` to create a stepfunction machine from a connected task.
+
+Example:
+```python
+    &gt;&gt;&gt; pystepfunction.machine.tasks import *
+    retry = [Retry(error_equals=[&#34;States.ALL&#34;], interval_seconds=1, max_attempts=3)]
+    branch1 = Branch(Task(&#34;1&#34;) &gt;&gt; Task(&#34;2&#34;))
+    branch2 = Branch(Task(&#34;3&#34;).retry(retry) &gt;&gt; PassTask(&#34;pass&#34;) &gt;&gt; Task(&#34;4&#34;))
+    branch_parallel = Branch(
+        Task(&#34;start&#34;) &gt;&gt; ParallelTask(&#34;par&#34;, [branch1, branch2]) &gt;&gt; Task(&#34;end&#34;).is_end()
+    )
+    asl = branch_parallel.to_asl()  
+    logger.info(asl)
+```
+ 
+See https://docs.aws.amazon.com/step-functions/latest/dg/concepts-input-output-filtering.html  
+
+`InputState` is used to mutate state data before it is passed to a task resource (eg lambda function) by setting:
+- `InputState.input_path` - Behaves like a filter. a single jsonpath to select a subset of the state value
+- `InputState.parameters` - Used to create a dictionary of parameters to pass to the task resource. 
+`InputState.input_path` is applied first, so all jsonpath parameters are relative to the `InputState.input_path` result.
+
+`OutputState` is used to mutate state data after a task has completed, before being passed to the next task.
+- `OutputState.result_selector` - Used to create a dictionary of parameters from the raw resource returned results. jsonpath is relative to the raw result.
+- `OutputState.result_path` - Where results are to be inserted into the state value. jsonpath is relative to the state value. If not set, the root of the state value is used ($.) overwriting the entire state value.
+- `OutputState.output_path` - Behaves like a filter. a single jsonpath to select a subset of the state value to pass to the next task. It is applied after `OutputState.result_path` is applied.
+
+Example:
+```python
+# Add state manipulation to a task
+from pystepfunction.tasks import LambdaTask, InputState, OutputState
+
+input_state = InputState(
+    parameters={&#34;Input1.$&#34;: &#34;$.Input1&#34;, &#34;Input2.$&#34;: &#34;$.Input2&#34;}, 
+    input_path=&#34;$.Inputs&#34;
+)
+
+output_state = OutputState(
+    result_path=&#34;$.TaskResult&#34;,
+    output_path=&#34;$.Outputs&#34;,
+    result_selector={&#34;Output1.$&#34;: &#34;$.output1&#34;, &#34;Output2.$&#34;: &#34;$.output2&#34;},
+)
+
+lambda_task = (
+    LambdaTask(name=&#34;LambdaTaskName&#34;, function_arn=&#34;my-lambda-arn&#34;)
+    .with_input(input_state)
+    .with_output(output_state)
+)
+lambda_task.to_asl()
+``` 
+&#34;&#34;&#34;
+from dataclasses import dataclass, field
+from logging import Logger, getLogger
+from typing import Any, Optional, List, Dict, Tuple
+from abc import ABC
+
+
+@dataclass
+class Retry:
+    &#34;&#34;&#34;Retry configuration for a task&#34;&#34;&#34;
+
+    error_equals: List[str]
+    &#34;&#34;&#34;List of error states to retry on&#34;&#34;&#34;
+    interval_seconds: int
+    &#34;&#34;&#34;Interval in seconds between retries&#34;&#34;&#34;
+    max_attempts: int
+    &#34;&#34;&#34;Maximum number of retries&#34;&#34;&#34;
+    backoff_rate: float = 1.0
+    &#34;&#34;&#34;Backoff rate for retries&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            &#34;ErrorEquals&#34;: self.error_equals,
+            &#34;IntervalSeconds&#34;: self.interval_seconds,
+            &#34;MaxAttempts&#34;: self.max_attempts,
+            &#34;BackoffRate&#34;: self.backoff_rate,
+        }
+
+    def __str__(self) -&gt; str:
+        return &#34;,&#34;.join(self.error_equals)
+
+
+@dataclass
+class TaskOutputState:
+    result_selector: dict = field(default_factory=dict)
+    &#34;&#34;&#34;define a custom object from the task resource output&#34;&#34;&#34;
+    result_path: str = &#34;$&#34;
+    &#34;&#34;&#34;Select where the resulting data will be inserted into the stat - defaults to $&#34;&#34;&#34;
+    output_path: str = &#34;&#34;
+    &#34;&#34;&#34;Select what output is passed to the next task&#34;&#34;&#34;
+    logger: Logger = getLogger(__name__)
+
+    def has_result_selector(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the result selector is set&#34;&#34;&#34;
+        return len(self.result_selector.items()) &gt; 0
+
+    def has_result_path(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the result path is set&#34;&#34;&#34;
+        return len(self.result_path) &gt; 0
+
+    def has_output_path(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the output path is set&#34;&#34;&#34;
+        return len(self.output_path) &gt; 0
+
+    def with_result_key(self, key: str, value: str):
+        &#34;&#34;&#34;Add a parameter to the result_selector&#34;&#34;&#34;
+        self.result_selector[key] = value
+        return self
+
+    def with_result_selector(self, result_selector: dict):
+        &#34;&#34;&#34;Update the parameters&#34;&#34;&#34;
+        self.result_selector.update(result_selector)
+        return self
+
+    def with_logger(self, logger: Logger) -&gt; &#34;TaskOutputState&#34;:
+        self.logger = logger
+        return self
+
+    def merge_state(self, other: &#34;TaskOutputState&#34;) -&gt; &#34;TaskOutputState&#34;:
+        &#34;&#34;&#34;Merge two output states&#34;&#34;&#34;
+        if other.has_result_path():
+            self.result_path = other.result_path
+        if other.has_output_path():
+            self.output_path = other.output_path
+        if other.has_result_selector():
+            self.with_result_selector(other.result_selector)
+        return self
+
+    def __add__(self, other: &#34;TaskOutputState&#34;) -&gt; &#34;TaskOutputState&#34;:
+        &#34;&#34;&#34;Merge two input states&#34;&#34;&#34;
+        return self.merge_state(other)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {}
+        if self.has_result_path():
+            asl.update({&#34;ResultPath&#34;: self.result_path})
+        if self.has_result_selector():
+            asl.update({&#34;ResultSelector&#34;: self.result_selector})
+        if self.has_output_path():
+            asl.update({&#34;OutputPath&#34;: self.output_path})
+        return asl
+
+
+@dataclass
+class TaskInputState:
+    input_path: str = &#34;&#34;
+    &#34;&#34;&#34;Filter what input is passed to the task&#34;&#34;&#34;
+    parameters: dict = field(default_factory=dict)
+    &#34;&#34;&#34;define a custom object to pass as input to the task resource&#34;&#34;&#34;
+    logger: Logger = getLogger(__name__)
+
+    def with_logger(self, logger: Logger) -&gt; &#34;TaskInputState&#34;:
+        self.logger = logger
+        return self
+
+    def has_input_path(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the input path is set&#34;&#34;&#34;
+        return len(self.input_path) &gt; 0
+
+    def has_parameters(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the parameters are set&#34;&#34;&#34;
+        return len(self.parameters.items()) &gt; 0
+
+    def with_parameter(self, key: str, value: str):
+        &#34;&#34;&#34;Add a parameter to the input&#34;&#34;&#34;
+        self.parameters[key] = value
+        return self
+
+    def with_parameters(self, parameters: dict):
+        &#34;&#34;&#34;Update the parameters&#34;&#34;&#34;
+        self.parameters.update(parameters)
+        return self
+
+    def merge_state(self, other: &#34;TaskInputState&#34;) -&gt; &#34;TaskInputState&#34;:
+        &#34;&#34;&#34;Merge two input states&#34;&#34;&#34;
+        if other.has_input_path():
+            self.input_path = other.input_path
+        if other.has_parameters():
+            self.with_parameters(other.parameters)
+        return self
+
+    def __add__(self, other: &#34;TaskInputState&#34;) -&gt; &#34;TaskInputState&#34;:
+        &#34;&#34;&#34;Merge two input states&#34;&#34;&#34;
+        return self.merge_state(other)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {}
+        if self.has_input_path():
+            asl.update({&#34;InputPath&#34;: self.input_path})
+        if self.has_parameters():
+            asl.update({&#34;Parameters&#34;: self.parameters})
+        return asl
+
+
+class Task(ABC):
+    &#34;&#34;&#34;Base class for all tasks&#34;&#34;&#34;
+
+    task_type = &#34;Task&#34;
+    &#34;&#34;&#34;Task type for ASL&#34;&#34;&#34;
+    resource = &#34;&#34;
+    &#34;&#34;&#34;Task resource for ASL&#34;&#34;&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a task
+
+        Args:
+            name (str): Name of the task
+        &#34;&#34;&#34;
+        self._next: Optional[List[&#34;Task&#34;]] = None
+        &#34;&#34;&#34;Next task in the stepfunction machine&#34;&#34;&#34;
+        self._on_error: Optional[&#34;Task&#34;] = None
+        &#34;&#34;&#34;Task to execute on error&#34;&#34;&#34;
+        self.name = str(name)
+        &#34;&#34;&#34;Name of the task&#34;&#34;&#34;
+        self.end: bool = False
+        &#34;&#34;&#34;Is the task the end of the stepfunction branch&#34;&#34;&#34;
+        self.retries: Optional[List[Retry]] = None
+        &#34;&#34;&#34;Retry configuration for the task&#34;&#34;&#34;
+        self.catcher: Optional[List[Tuple[List[str], &#34;Task&#34;]]] = None
+        &#34;&#34;&#34;Catcher error handling&#34;&#34;&#34;
+        self.input_state: Optional[TaskInputState] = None
+        &#34;&#34;&#34;Manipulate the input state for the task&#34;&#34;&#34;
+        self.output_state: Optional[TaskOutputState] = None
+        &#34;&#34;&#34;Manipulate the output state for the task&#34;&#34;&#34;
+        self.resource_result: dict = {}
+        &#34;&#34;&#34;Shape of return data from the task resource&#34;&#34;&#34;
+
+    def next(self) -&gt; Optional[&#34;Task&#34;]:
+        &#34;&#34;&#34;Get the next task in the stepfunction machine&#34;&#34;&#34;
+        if self._next is None:
+            return None
+        if len(self._next) == 0:
+            return None
+        return self._next[0]
+
+    def set_next(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Overrides the immediate next task if it exists
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        self._next = [task]
+        return self
+
+    def and_then(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Appends the task to the end of the current task chain
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        return self.__rshift__(task)
+
+    def __rshift__(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Appends the task to the end of the current task chain
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        if self.next() is None:
+            self._next = [task]
+        else:
+            self.next().__rshift__(task)
+        return self
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {
+            &#34;Type&#34;: self.task_type,
+            &#34;Resource&#34;: self.resource,
+            &#34;End&#34;: self.end,
+        }
+        if self.next() is not None:
+            asl.update({&#34;Next&#34;: self.next().name})
+        if self.input_state is not None:
+            asl.update(self.input_state.to_asl())
+        if self.output_state is not None:
+            asl.update(self.output_state.to_asl())
+        if self.has_retries():
+            asl.update({&#34;Retry&#34;: [retry.to_asl() for retry in self.retries]})
+        if self.has_catcher():
+            catch = [{&#34;ErrorEquals&#34;: e, &#34;Next&#34;: t.name} for e, t in self.catcher]
+            asl.update({&#34;Catch&#34;: catch})
+        return {self.name: asl}
+
+    def is_end(self) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the task as the end of the stepfunction branch&#34;&#34;&#34;
+        self.end = True
+        return self
+
+    def with_input_state(self, input_state: TaskInputState) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the input state for the task
+
+        Args:
+            input_state (InputState): Input state for the task&#34;&#34;&#34;
+        if self.has_input_state():
+            self.input_state = self.input_state.merge_state(input_state)
+        else:
+            self.input_state = input_state
+        return self
+
+    def with_input(self, input_path: str = &#34;&#34;, parameters: dict = {}) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the input state for the task
+
+        Args:
+            input_path (str, optional): Select a single path from the input state using jsonpath. Defaults to &#34;$&#34;.
+            parameters (dict, optional): Create a set of key/values from the input state (after input_path) to pass to the resource.
+        &#34;&#34;&#34;
+        input_state = TaskInputState(input_path=input_path, parameters=parameters)
+        return self.with_input_state(input_state)
+
+    def with_output_state(self, output_state: TaskOutputState) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the output state for the task
+
+        Args:
+            output_state (OutputState): Output state for the task&#34;&#34;&#34;
+        self.output_state = output_state
+        return self
+
+    def with_output(
+        self, result_selector: dict = {}, result_path: str = &#34;$&#34;, output_path: str = &#34;&#34;
+    ) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the output state for the task
+
+        Args:
+            result_selector (dict, optional): generate a set of key value pairs from the resource_result.
+            result_path (str, optional): Insert the task result into current state at the result_path. Defaults to &#34;$&#34;.
+            output_path (str, optional): Select a single path from the output of this task. applied after result_path and result_selector.
+        &#34;&#34;&#34;
+        output_state = TaskOutputState(
+            result_selector=result_selector,
+            result_path=result_path,
+            output_path=output_path,
+        )
+        return self.with_output_state(output_state)
+
+    def with_retry(
+        self,
+        error_equals: List[str],
+        interval_seconds: int,
+        max_attempts: int,
+        backoff_rate: float = 1.0,
+    ) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;add a retry configuration for the task
+
+        Appends a retry configuration to existing retries
+
+        Args:
+            error_equals (List[str]): List of error states to retry on
+            interval_seconds (int): Interval in seconds between retries
+            max_attempts (int): Maximum number of retries
+            backoff_rate (float, optional): Backoff rate for retries. Defaults to 1.0.
+        &#34;&#34;&#34;
+        if self.retries is None:
+            self.retries = []
+        self.retries.append(
+            Retry(error_equals, interval_seconds, max_attempts, backoff_rate)
+        )
+        return self
+
+    def with_retries(self, retries: List[Retry]) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the retry configuration for the task
+
+        Replaces existing retries
+
+        Args:
+            retries (List[Retry]): Retry configuration for the task&#34;&#34;&#34;
+        self.retries = retries
+        return self
+
+    def with_catcher(self, error: List[str], task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;add a catcher mapping from errors to task
+
+        mapping is appended to existing catchers
+
+        Args:
+            error (List[str]): List of errors to catch
+            task (Task): Task to execute on error&#34;&#34;&#34;
+        if self.catcher is None:
+            self.catcher = []
+        self.catcher.append((error, task))
+        return self
+
+    def with_catchers(self, catchers: List[Tuple[List[str], &#34;Task&#34;]]) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;add a list of catcher mappings from errors to task
+
+        replaces existing catchers
+
+        Args:
+            catchers (List[Tuple[List[str], Task]]): List of catcher mappings from errors to task
+        &#34;&#34;&#34;
+        self.catcher = catchers
+        return self
+
+    def with_resource_result(self, resource_result: dict) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the resource return for the task
+
+        Args:
+            resource_return (dict): Resource return for the task&#34;&#34;&#34;
+        self.resource_result = resource_result
+        return self
+
+    def has_catcher(self) -&gt; bool:
+        if self.catcher is None:
+            return False
+        if len(self.catcher) == 0:
+            return False
+        return True
+
+    def has_retries(self) -&gt; bool:
+        if self.retries is None:
+            return False
+        if len(self.retries) == 0:
+            return False
+        return True
+
+    def has_input_state(self) -&gt; bool:
+        return self.input_state is not None
+
+    def has_output_state(self) -&gt; bool:
+        return self.output_state is not None
+
+    def has_next(self) -&gt; bool:
+        if self._next is None:
+            return False
+        return len(self._next) &gt; 0
+
+    def has_resource_result(self) -&gt; bool:
+        return len(self.resource_result.items()) &gt; 0
+
+    @classmethod
+    def _get_task_class_name(cls) -&gt; str:
+        return cls.__name__
+
+
+class PassTask(Task):
+    &#34;&#34;&#34;Pass task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Pass&#34;
+    &#34;&#34;&#34;Task type for AS = Pass&#34;&#34;&#34;
+
+    def __init__(self, name: str, result: dict = {}) -&gt; None:
+        &#34;&#34;&#34;Initialize a pass task
+
+        Args:
+            name (str): Name of the task
+            result (dict, optional): Result of the task. Defaults to {}. result is the payload of the next task.
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.result = result
+        &#34;&#34;&#34;Result of the task. result is the payload of the next task.&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {&#34;Type&#34;: self.task_type, &#34;End&#34;: self.end}
+        if len(self.result.items()) &gt; 0:
+            asl.update({&#34;Result&#34;: self.result})
+        return {self.name: asl}
+
+
+class LambdaTask(Task):
+    &#34;&#34;&#34;Lambda task for stepfunction machine
+
+    Properties:
+        function_arn (str): ARN of the lambda function
+    &#34;&#34;&#34;
+
+    resource: str = &#34;arn:aws:states:::lambda:invoke&#34;
+    &#34;&#34;&#34;Task resource for ASL = Lambda:invoke&#34;&#34;&#34;
+
+    def __init__(self, name: str, function_arn: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a lambda task
+
+        Args:
+            name (str): Name of the task
+            function_arn (str): ARN of the lambda function&#34;&#34;&#34;
+        super().__init__(name)
+        self.function_arn = function_arn
+        self.input_state = TaskInputState(
+            parameters={&#34;FunctionName&#34;: self.function_arn}
+        )
+
+    def with_payload(self, payload: dict) -&gt; &#34;LambdaTask&#34;:
+        &#34;&#34;&#34;Set the payload for the task
+
+        Args:
+            payload (dict): Payload for the task&#34;&#34;&#34;
+        self.input_state.with_parameter(&#34;Payload&#34;, payload)
+        return self
+
+
+class GlueTask(Task):
+    &#34;&#34;&#34;Glue task for stepfunction machine&#34;&#34;&#34;
+
+    resource: str = &#34;arn:aws:states:::glue:startJobRun.sync&#34;
+
+    def __init__(
+        self, name: str, job_name: str, job_args: Optional[dict] = None
+    ) -&gt; None:
+        &#34;&#34;&#34;Initialize a glue task
+
+        Args:
+            name (str): Name of the task
+            job_name (str): Name of the glue job - gets included as &#34;JobName&#34; in the task input parameters
+            job_args (Optional[dict], optional): set of arguments to pass to the glue job. Gets appended to the Task input paramters. Defaults to None.
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.job_args = job_args
+        self.job_name = job_name
+        self.input_state = TaskInputState(parameters={&#34;JobName&#34;: job_name})
+        if job_args is not None:
+            self._set_job_args(job_args)
+
+    def with_job_args(self, job_args: dict) -&gt; &#34;LambdaTask&#34;:
+        &#34;&#34;&#34;Set the payload for the task
+
+        Args:
+            job_args dict: set of arguments to pass to the glue job. Gets appended to the Task input paramters.
+        &#34;&#34;&#34;
+        self._set_job_args(job_args)
+        return self
+
+    def _set_job_args(self, job_args: dict):
+        args = {}
+        for k, v in job_args.items():
+            if str(k).startswith(&#34;--&#34;):
+                args[k] = v
+            else:
+                args[f&#34;--{k}&#34;] = v
+        self.input_state.with_parameter(f&#34;Arguments&#34;, args)
+
+
+class WaitTask(Task):
+    &#34;&#34;&#34;Wait task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Wait&#34;
+
+    def __init__(self, name) -&gt; None:
+        &#34;&#34;&#34;Initialize a wait task
+
+        Args:
+            name (str): Name of the task
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.seconds = 0
+        &#34;&#34;&#34;Number of seconds to wait&#34;&#34;&#34;
+        self.timestamp = &#34;&#34;
+        &#34;&#34;&#34;Timestamp to wait until&#34;&#34;&#34;
+        self.seconds_keys: List[str] = []
+        &#34;&#34;&#34;List of keys to extract the number of seconds to wait from the state&#34;&#34;&#34;
+        self.timestamp_keys: List[str] = []
+        &#34;&#34;&#34;List of keys to extract the timestamp to wait until from the state&#34;&#34;&#34;
+
+    def wait_seconds(self, seconds: int = 0, seconds_keys: List[str] = []) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the number of seconds to wait
+
+        Args:
+            seconds (int, optional): Number of seconds to wait. Defaults to 0.
+            seconds_keys (List[str], optional): List of keys to extract the number of seconds to wait from the state. Defaults to [].
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.seconds = seconds
+        self.seconds_keys = seconds_keys
+        return self
+
+    def wait_timestamp(
+        self, timestamp: str = &#34;&#34;, timestamp_keys: List[str] = []
+    ) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the timestamp to wait until
+
+        Args:
+            timestamp (str, optional): Timestamp to wait until. Defaults to &#34;&#34;.
+            timestamp_keys (List[str], optional): List of keys to extract the timestamp to wait until from the state. Defaults to [].
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.timestamp = timestamp
+        self.timestamp_keys = timestamp_keys
+        return self
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {&#34;Type&#34;: self.task_type}
+        if self.next() is not None:
+            asl[&#34;Next&#34;] = self.next()
+        if self.seconds &gt; 0:
+            asl[&#34;Seconds&#34;] = self.seconds
+        elif self.timestamp != &#34;&#34;:
+            asl[&#34;Timestamp&#34;] = self.timestamp
+        elif len(self.seconds_keys) &gt; 0:
+            asl[&#34;SecondsPath&#34;] = f&#34;$.{&#39;.&#39;.join(self.seconds_keys)}&#34;
+        elif len(self.timestamp_keys) &gt; 0:
+            asl[&#34;TimestampPath&#34;] = f&#34;$.{&#39;.&#39;.join(self.timestamp_keys)}&#34;
+        return asl
+
+
+class SucceedTask(Task):
+    &#34;&#34;&#34;Succeed task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Succeed&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        super().__init__(name)
+        self.end = True
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {self.name: {&#34;Type&#34;: self.task_type}}
+
+
+class FailTask(Task):
+    &#34;&#34;&#34;Fail task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Fail&#34;
+
+    def __init__(self, name: str, cause: str = &#34;&#34;, error: str = &#34;&#34;) -&gt; None:
+        super().__init__(name)
+        self.cause = cause
+        &#34;&#34;&#34;Cause of the failure&#34;&#34;&#34;
+        self.error = error
+        &#34;&#34;&#34;Error message of the failure&#34;&#34;&#34;
+        self.end = True
+
+    def with_cause(self, cause: str, error: str) -&gt; &#34;FailTask&#34;:
+        &#34;&#34;&#34;Set the cause for the failure
+
+        Args:
+            cause (str): Cause of the failure
+            error (str): Error message of the failure&#34;&#34;&#34;
+        self.cause = cause
+        self.error = error
+        return self
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            self.name: {
+                &#34;Type&#34;: self.task_type,
+                &#34;Cause&#34;: self.cause,
+                &#34;Error&#34;: self.error,
+            }
+        }
+
+
+class ChoiceRule:
+    &#34;&#34;&#34;Choice rule for stepfunction machine&#34;&#34;&#34;
+
+    def __init__(
+        self,
+        variable: str,
+        condition: str,
+        value: Optional[int | bool | str | float] = None,
+        next: Optional[Task] = None,
+    ) -&gt; None:
+        &#34;&#34;&#34;Initialize a choice rule
+
+        Args:
+            variable (str): Variable to check
+            condition (str): Condition to check
+            value (int | bool | str | float, optional): Value to check. Defaults to None.
+            next (Task, optional): Next task to execute. Defaults to None.
+        &#34;&#34;&#34;
+        self.variable: str = f&#34;$.{variable}&#34;
+        &#34;&#34;&#34;Variable to check&#34;&#34;&#34;
+        self.condition: str = condition
+        &#34;&#34;&#34;Condition to check&#34;&#34;&#34;
+        self.value = value
+        &#34;&#34;&#34;Value to compare to&#34;&#34;&#34;
+        self.next = next
+        &#34;&#34;&#34;Next task to execute&#34;&#34;&#34;
+        self._and_rules: List[&#34;ChoiceRule&#34;] = []
+        self._or_rules: List[&#34;ChoiceRule&#34;] = []
+        self._is_not: bool = False
+
+    def __not__(self) -&gt; &#34;ChoiceRule&#34;:
+        self._is_not = True
+        return self
+
+    def __and__(self, rule: &#34;ChoiceRule&#34;) -&gt; &#34;ChoiceRule&#34;:
+        self._and_rules.append(rule)
+        return self
+
+    def __or__(self, rule: &#34;ChoiceRule&#34;) -&gt; &#34;ChoiceRule&#34;:
+        self._or_rules.append(rule)
+        return self
+
+    def _short_asl(self) -&gt; dict:
+        short_asl = {&#34;Variable&#34;: self.variable, &#34;Condition&#34;: self.condition}
+        if self.value is not None:
+            short_asl[&#34;Value&#34;] = self.value
+        if self._is_not:
+            return {&#34;Not&#34;: short_asl}
+        return short_asl
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        if len(self._and_rules) &gt; 0:
+            rule_list = [self._short_asl()] + [
+                rule._short_asl() for rule in self._and_rules
+            ]
+            return {&#34;And&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+        if len(self._or_rules) &gt; 0:
+            rule_list = [self._short_asl()] + [
+                rule._short_asl() for rule in self._or_rules
+            ]
+            return {&#34;Or&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+        asl = self._short_asl()
+        asl[&#34;Next&#34;] = self.next.name
+        return asl
+
+    def __str__(self) -&gt; str:
+        return str({&#34;Variable&#34;: self.variable, &#34;Condition&#34;: self.condition})
+
+
+class ChoiceTask(Task):
+    &#34;&#34;&#34;Choice task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Choice&#34;
+
+    def __init__(self, name: str, choices: List[ChoiceRule], default: Task) -&gt; None:
+        &#34;&#34;&#34;Initialize a choice task
+
+        Args:
+            name (str): Name of the task
+            choices (List[ChoiceRule]): List of choice rules
+            default (Task): Default task to execute
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.choices = choices
+        &#34;&#34;&#34;List of choice rules&#34;&#34;&#34;
+        self.default = default
+        &#34;&#34;&#34;Default task to execute&#34;&#34;&#34;
+        self._next = []
+        for choice in choices:
+            self._get_next(choice.next)
+
+    def _get_next(self, task: Optional[Task]):
+        if task is None:
+            return
+        self._next.append(task)
+        if task.next() is None:
+            return
+        for t in task._next:
+            self._get_next(t)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            self.name: {
+                &#34;Type&#34;: self.task_type,
+                &#34;Choices&#34;: [choice.to_asl() for choice in self.choices],
+                &#34;Default&#34;: self.default.name,
+            }
+        }</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pystepfunction.tasks.ChoiceRule"><code class="flex name class">
+<span>class <span class="ident">ChoiceRule</span></span>
+<span>(</span><span>variable: str, condition: str, value: Union[int, bool, str, float, ForwardRef(None)] = None, next: Optional[<a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a>] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Choice rule for stepfunction machine</p>
+<p>Initialize a choice rule</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>variable</code></strong> :&ensp;<code>str</code></dt>
+<dd>Variable to check</dd>
+<dt><strong><code>condition</code></strong> :&ensp;<code>str</code></dt>
+<dd>Condition to check</dd>
+<dt>value (int | bool | str | float, optional): Value to check. Defaults to None.</dt>
+<dt><strong><code>next</code></strong> :&ensp;<code><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></code>, optional</dt>
+<dd>Next task to execute. Defaults to None.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ChoiceRule:
+    &#34;&#34;&#34;Choice rule for stepfunction machine&#34;&#34;&#34;
+
+    def __init__(
+        self,
+        variable: str,
+        condition: str,
+        value: Optional[int | bool | str | float] = None,
+        next: Optional[Task] = None,
+    ) -&gt; None:
+        &#34;&#34;&#34;Initialize a choice rule
+
+        Args:
+            variable (str): Variable to check
+            condition (str): Condition to check
+            value (int | bool | str | float, optional): Value to check. Defaults to None.
+            next (Task, optional): Next task to execute. Defaults to None.
+        &#34;&#34;&#34;
+        self.variable: str = f&#34;$.{variable}&#34;
+        &#34;&#34;&#34;Variable to check&#34;&#34;&#34;
+        self.condition: str = condition
+        &#34;&#34;&#34;Condition to check&#34;&#34;&#34;
+        self.value = value
+        &#34;&#34;&#34;Value to compare to&#34;&#34;&#34;
+        self.next = next
+        &#34;&#34;&#34;Next task to execute&#34;&#34;&#34;
+        self._and_rules: List[&#34;ChoiceRule&#34;] = []
+        self._or_rules: List[&#34;ChoiceRule&#34;] = []
+        self._is_not: bool = False
+
+    def __not__(self) -&gt; &#34;ChoiceRule&#34;:
+        self._is_not = True
+        return self
+
+    def __and__(self, rule: &#34;ChoiceRule&#34;) -&gt; &#34;ChoiceRule&#34;:
+        self._and_rules.append(rule)
+        return self
+
+    def __or__(self, rule: &#34;ChoiceRule&#34;) -&gt; &#34;ChoiceRule&#34;:
+        self._or_rules.append(rule)
+        return self
+
+    def _short_asl(self) -&gt; dict:
+        short_asl = {&#34;Variable&#34;: self.variable, &#34;Condition&#34;: self.condition}
+        if self.value is not None:
+            short_asl[&#34;Value&#34;] = self.value
+        if self._is_not:
+            return {&#34;Not&#34;: short_asl}
+        return short_asl
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        if len(self._and_rules) &gt; 0:
+            rule_list = [self._short_asl()] + [
+                rule._short_asl() for rule in self._and_rules
+            ]
+            return {&#34;And&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+        if len(self._or_rules) &gt; 0:
+            rule_list = [self._short_asl()] + [
+                rule._short_asl() for rule in self._or_rules
+            ]
+            return {&#34;Or&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+        asl = self._short_asl()
+        asl[&#34;Next&#34;] = self.next.name
+        return asl
+
+    def __str__(self) -&gt; str:
+        return str({&#34;Variable&#34;: self.variable, &#34;Condition&#34;: self.condition})</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.ChoiceRule.condition"><code class="name">var <span class="ident">condition</span></code></dt>
+<dd>
+<div class="desc"><p>Condition to check</p></div>
+</dd>
+<dt id="pystepfunction.tasks.ChoiceRule.next"><code class="name">var <span class="ident">next</span></code></dt>
+<dd>
+<div class="desc"><p>Next task to execute</p></div>
+</dd>
+<dt id="pystepfunction.tasks.ChoiceRule.value"><code class="name">var <span class="ident">value</span></code></dt>
+<dd>
+<div class="desc"><p>Value to compare to</p></div>
+</dd>
+<dt id="pystepfunction.tasks.ChoiceRule.variable"><code class="name">var <span class="ident">variable</span></code></dt>
+<dd>
+<div class="desc"><p>Variable to check</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.ChoiceRule.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    if len(self._and_rules) &gt; 0:
+        rule_list = [self._short_asl()] + [
+            rule._short_asl() for rule in self._and_rules
+        ]
+        return {&#34;And&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+    if len(self._or_rules) &gt; 0:
+        rule_list = [self._short_asl()] + [
+            rule._short_asl() for rule in self._or_rules
+        ]
+        return {&#34;Or&#34;: rule_list, &#34;Next&#34;: self.next.name}
+
+    asl = self._short_asl()
+    asl[&#34;Next&#34;] = self.next.name
+    return asl</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pystepfunction.tasks.ChoiceTask"><code class="flex name class">
+<span>class <span class="ident">ChoiceTask</span></span>
+<span>(</span><span>name: str, choices: List[<a title="pystepfunction.tasks.ChoiceRule" href="#pystepfunction.tasks.ChoiceRule">ChoiceRule</a>], default: <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Choice task for stepfunction machine</p>
+<p>Initialize a choice task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>choices</code></strong> :&ensp;<code>List[<a title="pystepfunction.tasks.ChoiceRule" href="#pystepfunction.tasks.ChoiceRule">ChoiceRule</a>]</code></dt>
+<dd>List of choice rules</dd>
+<dt><strong><code>default</code></strong> :&ensp;<code><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></code></dt>
+<dd>Default task to execute</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ChoiceTask(Task):
+    &#34;&#34;&#34;Choice task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Choice&#34;
+
+    def __init__(self, name: str, choices: List[ChoiceRule], default: Task) -&gt; None:
+        &#34;&#34;&#34;Initialize a choice task
+
+        Args:
+            name (str): Name of the task
+            choices (List[ChoiceRule]): List of choice rules
+            default (Task): Default task to execute
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.choices = choices
+        &#34;&#34;&#34;List of choice rules&#34;&#34;&#34;
+        self.default = default
+        &#34;&#34;&#34;Default task to execute&#34;&#34;&#34;
+        self._next = []
+        for choice in choices:
+            self._get_next(choice.next)
+
+    def _get_next(self, task: Optional[Task]):
+        if task is None:
+            return
+        self._next.append(task)
+        if task.next() is None:
+            return
+        for t in task._next:
+            self._get_next(t)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            self.name: {
+                &#34;Type&#34;: self.task_type,
+                &#34;Choices&#34;: [choice.to_asl() for choice in self.choices],
+                &#34;Default&#34;: self.default.name,
+            }
+        }</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.ChoiceTask.choices"><code class="name">var <span class="ident">choices</span></code></dt>
+<dd>
+<div class="desc"><p>List of choice rules</p></div>
+</dd>
+<dt id="pystepfunction.tasks.ChoiceTask.default"><code class="name">var <span class="ident">default</span></code></dt>
+<dd>
+<div class="desc"><p>Default task to execute</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pystepfunction.tasks.Task.and_then" href="#pystepfunction.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.catcher" href="#pystepfunction.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.end" href="#pystepfunction.tasks.Task.end">end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.input_state" href="#pystepfunction.tasks.Task.input_state">input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.is_end" href="#pystepfunction.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.name" href="#pystepfunction.tasks.Task.name">name</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.next" href="#pystepfunction.tasks.Task.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.output_state" href="#pystepfunction.tasks.Task.output_state">output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource" href="#pystepfunction.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource_result" href="#pystepfunction.tasks.Task.resource_result">resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.retries" href="#pystepfunction.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.set_next" href="#pystepfunction.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.task_type" href="#pystepfunction.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.to_asl" href="#pystepfunction.tasks.Task.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catcher" href="#pystepfunction.tasks.Task.with_catcher">with_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catchers" href="#pystepfunction.tasks.Task.with_catchers">with_catchers</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input" href="#pystepfunction.tasks.Task.with_input">with_input</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input_state" href="#pystepfunction.tasks.Task.with_input_state">with_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output" href="#pystepfunction.tasks.Task.with_output">with_output</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output_state" href="#pystepfunction.tasks.Task.with_output_state">with_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_resource_result" href="#pystepfunction.tasks.Task.with_resource_result">with_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retries" href="#pystepfunction.tasks.Task.with_retries">with_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retry" href="#pystepfunction.tasks.Task.with_retry">with_retry</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="pystepfunction.tasks.FailTask"><code class="flex name class">
+<span>class <span class="ident">FailTask</span></span>
+<span>(</span><span>name: str, cause: str = '', error: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fail task for stepfunction machine</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FailTask(Task):
+    &#34;&#34;&#34;Fail task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Fail&#34;
+
+    def __init__(self, name: str, cause: str = &#34;&#34;, error: str = &#34;&#34;) -&gt; None:
+        super().__init__(name)
+        self.cause = cause
+        &#34;&#34;&#34;Cause of the failure&#34;&#34;&#34;
+        self.error = error
+        &#34;&#34;&#34;Error message of the failure&#34;&#34;&#34;
+        self.end = True
+
+    def with_cause(self, cause: str, error: str) -&gt; &#34;FailTask&#34;:
+        &#34;&#34;&#34;Set the cause for the failure
+
+        Args:
+            cause (str): Cause of the failure
+            error (str): Error message of the failure&#34;&#34;&#34;
+        self.cause = cause
+        self.error = error
+        return self
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            self.name: {
+                &#34;Type&#34;: self.task_type,
+                &#34;Cause&#34;: self.cause,
+                &#34;Error&#34;: self.error,
+            }
+        }</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.FailTask.cause"><code class="name">var <span class="ident">cause</span></code></dt>
+<dd>
+<div class="desc"><p>Cause of the failure</p></div>
+</dd>
+<dt id="pystepfunction.tasks.FailTask.error"><code class="name">var <span class="ident">error</span></code></dt>
+<dd>
+<div class="desc"><p>Error message of the failure</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.FailTask.with_cause"><code class="name flex">
+<span>def <span class="ident">with_cause</span></span>(<span>self, cause: str, error: str) ‑> <a title="pystepfunction.tasks.FailTask" href="#pystepfunction.tasks.FailTask">FailTask</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the cause for the failure</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>cause</code></strong> :&ensp;<code>str</code></dt>
+<dd>Cause of the failure</dd>
+<dt><strong><code>error</code></strong> :&ensp;<code>str</code></dt>
+<dd>Error message of the failure</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_cause(self, cause: str, error: str) -&gt; &#34;FailTask&#34;:
+    &#34;&#34;&#34;Set the cause for the failure
+
+    Args:
+        cause (str): Cause of the failure
+        error (str): Error message of the failure&#34;&#34;&#34;
+    self.cause = cause
+    self.error = error
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pystepfunction.tasks.Task.and_then" href="#pystepfunction.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.catcher" href="#pystepfunction.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.end" href="#pystepfunction.tasks.Task.end">end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.input_state" href="#pystepfunction.tasks.Task.input_state">input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.is_end" href="#pystepfunction.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.name" href="#pystepfunction.tasks.Task.name">name</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.next" href="#pystepfunction.tasks.Task.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.output_state" href="#pystepfunction.tasks.Task.output_state">output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource" href="#pystepfunction.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource_result" href="#pystepfunction.tasks.Task.resource_result">resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.retries" href="#pystepfunction.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.set_next" href="#pystepfunction.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.task_type" href="#pystepfunction.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.to_asl" href="#pystepfunction.tasks.Task.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catcher" href="#pystepfunction.tasks.Task.with_catcher">with_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catchers" href="#pystepfunction.tasks.Task.with_catchers">with_catchers</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input" href="#pystepfunction.tasks.Task.with_input">with_input</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input_state" href="#pystepfunction.tasks.Task.with_input_state">with_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output" href="#pystepfunction.tasks.Task.with_output">with_output</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output_state" href="#pystepfunction.tasks.Task.with_output_state">with_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_resource_result" href="#pystepfunction.tasks.Task.with_resource_result">with_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retries" href="#pystepfunction.tasks.Task.with_retries">with_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retry" href="#pystepfunction.tasks.Task.with_retry">with_retry</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="pystepfunction.tasks.GlueTask"><code class="flex name class">
+<span>class <span class="ident">GlueTask</span></span>
+<span>(</span><span>name: str, job_name: str, job_args: Optional[dict] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Glue task for stepfunction machine</p>
+<p>Initialize a glue task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>job_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the glue job - gets included as "JobName" in the task input parameters</dd>
+<dt><strong><code>job_args</code></strong> :&ensp;<code>Optional[dict]</code>, optional</dt>
+<dd>set of arguments to pass to the glue job. Gets appended to the Task input paramters. Defaults to None.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GlueTask(Task):
+    &#34;&#34;&#34;Glue task for stepfunction machine&#34;&#34;&#34;
+
+    resource: str = &#34;arn:aws:states:::glue:startJobRun.sync&#34;
+
+    def __init__(
+        self, name: str, job_name: str, job_args: Optional[dict] = None
+    ) -&gt; None:
+        &#34;&#34;&#34;Initialize a glue task
+
+        Args:
+            name (str): Name of the task
+            job_name (str): Name of the glue job - gets included as &#34;JobName&#34; in the task input parameters
+            job_args (Optional[dict], optional): set of arguments to pass to the glue job. Gets appended to the Task input paramters. Defaults to None.
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.job_args = job_args
+        self.job_name = job_name
+        self.input_state = TaskInputState(parameters={&#34;JobName&#34;: job_name})
+        if job_args is not None:
+            self._set_job_args(job_args)
+
+    def with_job_args(self, job_args: dict) -&gt; &#34;LambdaTask&#34;:
+        &#34;&#34;&#34;Set the payload for the task
+
+        Args:
+            job_args dict: set of arguments to pass to the glue job. Gets appended to the Task input paramters.
+        &#34;&#34;&#34;
+        self._set_job_args(job_args)
+        return self
+
+    def _set_job_args(self, job_args: dict):
+        args = {}
+        for k, v in job_args.items():
+            if str(k).startswith(&#34;--&#34;):
+                args[k] = v
+            else:
+                args[f&#34;--{k}&#34;] = v
+        self.input_state.with_parameter(f&#34;Arguments&#34;, args)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.GlueTask.with_job_args"><code class="name flex">
+<span>def <span class="ident">with_job_args</span></span>(<span>self, job_args: dict) ‑> <a title="pystepfunction.tasks.LambdaTask" href="#pystepfunction.tasks.LambdaTask">LambdaTask</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the payload for the task</p>
+<h2 id="args">Args</h2>
+<p>job_args dict: set of arguments to pass to the glue job. Gets appended to the Task input paramters.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_job_args(self, job_args: dict) -&gt; &#34;LambdaTask&#34;:
+    &#34;&#34;&#34;Set the payload for the task
+
+    Args:
+        job_args dict: set of arguments to pass to the glue job. Gets appended to the Task input paramters.
+    &#34;&#34;&#34;
+    self._set_job_args(job_args)
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pystepfunction.tasks.Task.and_then" href="#pystepfunction.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.catcher" href="#pystepfunction.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.end" href="#pystepfunction.tasks.Task.end">end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.input_state" href="#pystepfunction.tasks.Task.input_state">input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.is_end" href="#pystepfunction.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.name" href="#pystepfunction.tasks.Task.name">name</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.next" href="#pystepfunction.tasks.Task.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.output_state" href="#pystepfunction.tasks.Task.output_state">output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource" href="#pystepfunction.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource_result" href="#pystepfunction.tasks.Task.resource_result">resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.retries" href="#pystepfunction.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.set_next" href="#pystepfunction.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.task_type" href="#pystepfunction.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.to_asl" href="#pystepfunction.tasks.Task.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catcher" href="#pystepfunction.tasks.Task.with_catcher">with_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catchers" href="#pystepfunction.tasks.Task.with_catchers">with_catchers</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input" href="#pystepfunction.tasks.Task.with_input">with_input</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input_state" href="#pystepfunction.tasks.Task.with_input_state">with_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output" href="#pystepfunction.tasks.Task.with_output">with_output</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output_state" href="#pystepfunction.tasks.Task.with_output_state">with_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_resource_result" href="#pystepfunction.tasks.Task.with_resource_result">with_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retries" href="#pystepfunction.tasks.Task.with_retries">with_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retry" href="#pystepfunction.tasks.Task.with_retry">with_retry</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="pystepfunction.tasks.LambdaTask"><code class="flex name class">
+<span>class <span class="ident">LambdaTask</span></span>
+<span>(</span><span>name: str, function_arn: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lambda task for stepfunction machine</p>
+<h2 id="properties">Properties</h2>
+<p>function_arn (str): ARN of the lambda function</p>
+<p>Initialize a lambda task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>function_arn</code></strong> :&ensp;<code>str</code></dt>
+<dd>ARN of the lambda function</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LambdaTask(Task):
+    &#34;&#34;&#34;Lambda task for stepfunction machine
+
+    Properties:
+        function_arn (str): ARN of the lambda function
+    &#34;&#34;&#34;
+
+    resource: str = &#34;arn:aws:states:::lambda:invoke&#34;
+    &#34;&#34;&#34;Task resource for ASL = Lambda:invoke&#34;&#34;&#34;
+
+    def __init__(self, name: str, function_arn: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a lambda task
+
+        Args:
+            name (str): Name of the task
+            function_arn (str): ARN of the lambda function&#34;&#34;&#34;
+        super().__init__(name)
+        self.function_arn = function_arn
+        self.input_state = TaskInputState(
+            parameters={&#34;FunctionName&#34;: self.function_arn}
+        )
+
+    def with_payload(self, payload: dict) -&gt; &#34;LambdaTask&#34;:
+        &#34;&#34;&#34;Set the payload for the task
+
+        Args:
+            payload (dict): Payload for the task&#34;&#34;&#34;
+        self.input_state.with_parameter(&#34;Payload&#34;, payload)
+        return self</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.LambdaTask.with_payload"><code class="name flex">
+<span>def <span class="ident">with_payload</span></span>(<span>self, payload: dict) ‑> <a title="pystepfunction.tasks.LambdaTask" href="#pystepfunction.tasks.LambdaTask">LambdaTask</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the payload for the task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Payload for the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_payload(self, payload: dict) -&gt; &#34;LambdaTask&#34;:
+    &#34;&#34;&#34;Set the payload for the task
+
+    Args:
+        payload (dict): Payload for the task&#34;&#34;&#34;
+    self.input_state.with_parameter(&#34;Payload&#34;, payload)
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pystepfunction.tasks.Task.and_then" href="#pystepfunction.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.catcher" href="#pystepfunction.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.end" href="#pystepfunction.tasks.Task.end">end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.input_state" href="#pystepfunction.tasks.Task.input_state">input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.is_end" href="#pystepfunction.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.name" href="#pystepfunction.tasks.Task.name">name</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.next" href="#pystepfunction.tasks.Task.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.output_state" href="#pystepfunction.tasks.Task.output_state">output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource" href="#pystepfunction.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource_result" href="#pystepfunction.tasks.Task.resource_result">resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.retries" href="#pystepfunction.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.set_next" href="#pystepfunction.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.task_type" href="#pystepfunction.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.to_asl" href="#pystepfunction.tasks.Task.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catcher" href="#pystepfunction.tasks.Task.with_catcher">with_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catchers" href="#pystepfunction.tasks.Task.with_catchers">with_catchers</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input" href="#pystepfunction.tasks.Task.with_input">with_input</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input_state" href="#pystepfunction.tasks.Task.with_input_state">with_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output" href="#pystepfunction.tasks.Task.with_output">with_output</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output_state" href="#pystepfunction.tasks.Task.with_output_state">with_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_resource_result" href="#pystepfunction.tasks.Task.with_resource_result">with_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retries" href="#pystepfunction.tasks.Task.with_retries">with_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retry" href="#pystepfunction.tasks.Task.with_retry">with_retry</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="pystepfunction.tasks.PassTask"><code class="flex name class">
+<span>class <span class="ident">PassTask</span></span>
+<span>(</span><span>name: str, result: dict = {})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Pass task for stepfunction machine</p>
+<p>Initialize a pass task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+<dt><strong><code>result</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>Result of the task. Defaults to {}. result is the payload of the next task.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PassTask(Task):
+    &#34;&#34;&#34;Pass task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Pass&#34;
+    &#34;&#34;&#34;Task type for AS = Pass&#34;&#34;&#34;
+
+    def __init__(self, name: str, result: dict = {}) -&gt; None:
+        &#34;&#34;&#34;Initialize a pass task
+
+        Args:
+            name (str): Name of the task
+            result (dict, optional): Result of the task. Defaults to {}. result is the payload of the next task.
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.result = result
+        &#34;&#34;&#34;Result of the task. result is the payload of the next task.&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {&#34;Type&#34;: self.task_type, &#34;End&#34;: self.end}
+        if len(self.result.items()) &gt; 0:
+            asl.update({&#34;Result&#34;: self.result})
+        return {self.name: asl}</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.PassTask.result"><code class="name">var <span class="ident">result</span></code></dt>
+<dd>
+<div class="desc"><p>Result of the task. result is the payload of the next task.</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pystepfunction.tasks.Task.and_then" href="#pystepfunction.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.catcher" href="#pystepfunction.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.end" href="#pystepfunction.tasks.Task.end">end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.input_state" href="#pystepfunction.tasks.Task.input_state">input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.is_end" href="#pystepfunction.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.name" href="#pystepfunction.tasks.Task.name">name</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.next" href="#pystepfunction.tasks.Task.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.output_state" href="#pystepfunction.tasks.Task.output_state">output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource" href="#pystepfunction.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource_result" href="#pystepfunction.tasks.Task.resource_result">resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.retries" href="#pystepfunction.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.set_next" href="#pystepfunction.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.task_type" href="#pystepfunction.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.to_asl" href="#pystepfunction.tasks.Task.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catcher" href="#pystepfunction.tasks.Task.with_catcher">with_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catchers" href="#pystepfunction.tasks.Task.with_catchers">with_catchers</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input" href="#pystepfunction.tasks.Task.with_input">with_input</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input_state" href="#pystepfunction.tasks.Task.with_input_state">with_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output" href="#pystepfunction.tasks.Task.with_output">with_output</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output_state" href="#pystepfunction.tasks.Task.with_output_state">with_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_resource_result" href="#pystepfunction.tasks.Task.with_resource_result">with_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retries" href="#pystepfunction.tasks.Task.with_retries">with_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retry" href="#pystepfunction.tasks.Task.with_retry">with_retry</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="pystepfunction.tasks.Retry"><code class="flex name class">
+<span>class <span class="ident">Retry</span></span>
+<span>(</span><span>error_equals: List[str], interval_seconds: int, max_attempts: int, backoff_rate: float = 1.0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retry configuration for a task</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Retry:
+    &#34;&#34;&#34;Retry configuration for a task&#34;&#34;&#34;
+
+    error_equals: List[str]
+    &#34;&#34;&#34;List of error states to retry on&#34;&#34;&#34;
+    interval_seconds: int
+    &#34;&#34;&#34;Interval in seconds between retries&#34;&#34;&#34;
+    max_attempts: int
+    &#34;&#34;&#34;Maximum number of retries&#34;&#34;&#34;
+    backoff_rate: float = 1.0
+    &#34;&#34;&#34;Backoff rate for retries&#34;&#34;&#34;
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {
+            &#34;ErrorEquals&#34;: self.error_equals,
+            &#34;IntervalSeconds&#34;: self.interval_seconds,
+            &#34;MaxAttempts&#34;: self.max_attempts,
+            &#34;BackoffRate&#34;: self.backoff_rate,
+        }
+
+    def __str__(self) -&gt; str:
+        return &#34;,&#34;.join(self.error_equals)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.Retry.backoff_rate"><code class="name">var <span class="ident">backoff_rate</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Backoff rate for retries</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Retry.error_equals"><code class="name">var <span class="ident">error_equals</span> : List[str]</code></dt>
+<dd>
+<div class="desc"><p>List of error states to retry on</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Retry.interval_seconds"><code class="name">var <span class="ident">interval_seconds</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Interval in seconds between retries</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Retry.max_attempts"><code class="name">var <span class="ident">max_attempts</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Maximum number of retries</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.Retry.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    return {
+        &#34;ErrorEquals&#34;: self.error_equals,
+        &#34;IntervalSeconds&#34;: self.interval_seconds,
+        &#34;MaxAttempts&#34;: self.max_attempts,
+        &#34;BackoffRate&#34;: self.backoff_rate,
+    }</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pystepfunction.tasks.SucceedTask"><code class="flex name class">
+<span>class <span class="ident">SucceedTask</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Succeed task for stepfunction machine</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SucceedTask(Task):
+    &#34;&#34;&#34;Succeed task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Succeed&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        super().__init__(name)
+        self.end = True
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        return {self.name: {&#34;Type&#34;: self.task_type}}</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pystepfunction.tasks.Task.and_then" href="#pystepfunction.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.catcher" href="#pystepfunction.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.end" href="#pystepfunction.tasks.Task.end">end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.input_state" href="#pystepfunction.tasks.Task.input_state">input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.is_end" href="#pystepfunction.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.name" href="#pystepfunction.tasks.Task.name">name</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.next" href="#pystepfunction.tasks.Task.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.output_state" href="#pystepfunction.tasks.Task.output_state">output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource" href="#pystepfunction.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource_result" href="#pystepfunction.tasks.Task.resource_result">resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.retries" href="#pystepfunction.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.set_next" href="#pystepfunction.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.task_type" href="#pystepfunction.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.to_asl" href="#pystepfunction.tasks.Task.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catcher" href="#pystepfunction.tasks.Task.with_catcher">with_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catchers" href="#pystepfunction.tasks.Task.with_catchers">with_catchers</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input" href="#pystepfunction.tasks.Task.with_input">with_input</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input_state" href="#pystepfunction.tasks.Task.with_input_state">with_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output" href="#pystepfunction.tasks.Task.with_output">with_output</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output_state" href="#pystepfunction.tasks.Task.with_output_state">with_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_resource_result" href="#pystepfunction.tasks.Task.with_resource_result">with_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retries" href="#pystepfunction.tasks.Task.with_retries">with_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retry" href="#pystepfunction.tasks.Task.with_retry">with_retry</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="pystepfunction.tasks.Task"><code class="flex name class">
+<span>class <span class="ident">Task</span></span>
+<span>(</span><span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all tasks</p>
+<p>Initialize a task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Task(ABC):
+    &#34;&#34;&#34;Base class for all tasks&#34;&#34;&#34;
+
+    task_type = &#34;Task&#34;
+    &#34;&#34;&#34;Task type for ASL&#34;&#34;&#34;
+    resource = &#34;&#34;
+    &#34;&#34;&#34;Task resource for ASL&#34;&#34;&#34;
+
+    def __init__(self, name: str) -&gt; None:
+        &#34;&#34;&#34;Initialize a task
+
+        Args:
+            name (str): Name of the task
+        &#34;&#34;&#34;
+        self._next: Optional[List[&#34;Task&#34;]] = None
+        &#34;&#34;&#34;Next task in the stepfunction machine&#34;&#34;&#34;
+        self._on_error: Optional[&#34;Task&#34;] = None
+        &#34;&#34;&#34;Task to execute on error&#34;&#34;&#34;
+        self.name = str(name)
+        &#34;&#34;&#34;Name of the task&#34;&#34;&#34;
+        self.end: bool = False
+        &#34;&#34;&#34;Is the task the end of the stepfunction branch&#34;&#34;&#34;
+        self.retries: Optional[List[Retry]] = None
+        &#34;&#34;&#34;Retry configuration for the task&#34;&#34;&#34;
+        self.catcher: Optional[List[Tuple[List[str], &#34;Task&#34;]]] = None
+        &#34;&#34;&#34;Catcher error handling&#34;&#34;&#34;
+        self.input_state: Optional[TaskInputState] = None
+        &#34;&#34;&#34;Manipulate the input state for the task&#34;&#34;&#34;
+        self.output_state: Optional[TaskOutputState] = None
+        &#34;&#34;&#34;Manipulate the output state for the task&#34;&#34;&#34;
+        self.resource_result: dict = {}
+        &#34;&#34;&#34;Shape of return data from the task resource&#34;&#34;&#34;
+
+    def next(self) -&gt; Optional[&#34;Task&#34;]:
+        &#34;&#34;&#34;Get the next task in the stepfunction machine&#34;&#34;&#34;
+        if self._next is None:
+            return None
+        if len(self._next) == 0:
+            return None
+        return self._next[0]
+
+    def set_next(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Overrides the immediate next task if it exists
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        self._next = [task]
+        return self
+
+    def and_then(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Appends the task to the end of the current task chain
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        return self.__rshift__(task)
+
+    def __rshift__(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+        Appends the task to the end of the current task chain
+
+        Args:
+            task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+        if self.next() is None:
+            self._next = [task]
+        else:
+            self.next().__rshift__(task)
+        return self
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {
+            &#34;Type&#34;: self.task_type,
+            &#34;Resource&#34;: self.resource,
+            &#34;End&#34;: self.end,
+        }
+        if self.next() is not None:
+            asl.update({&#34;Next&#34;: self.next().name})
+        if self.input_state is not None:
+            asl.update(self.input_state.to_asl())
+        if self.output_state is not None:
+            asl.update(self.output_state.to_asl())
+        if self.has_retries():
+            asl.update({&#34;Retry&#34;: [retry.to_asl() for retry in self.retries]})
+        if self.has_catcher():
+            catch = [{&#34;ErrorEquals&#34;: e, &#34;Next&#34;: t.name} for e, t in self.catcher]
+            asl.update({&#34;Catch&#34;: catch})
+        return {self.name: asl}
+
+    def is_end(self) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the task as the end of the stepfunction branch&#34;&#34;&#34;
+        self.end = True
+        return self
+
+    def with_input_state(self, input_state: TaskInputState) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the input state for the task
+
+        Args:
+            input_state (InputState): Input state for the task&#34;&#34;&#34;
+        if self.has_input_state():
+            self.input_state = self.input_state.merge_state(input_state)
+        else:
+            self.input_state = input_state
+        return self
+
+    def with_input(self, input_path: str = &#34;&#34;, parameters: dict = {}) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the input state for the task
+
+        Args:
+            input_path (str, optional): Select a single path from the input state using jsonpath. Defaults to &#34;$&#34;.
+            parameters (dict, optional): Create a set of key/values from the input state (after input_path) to pass to the resource.
+        &#34;&#34;&#34;
+        input_state = TaskInputState(input_path=input_path, parameters=parameters)
+        return self.with_input_state(input_state)
+
+    def with_output_state(self, output_state: TaskOutputState) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the output state for the task
+
+        Args:
+            output_state (OutputState): Output state for the task&#34;&#34;&#34;
+        self.output_state = output_state
+        return self
+
+    def with_output(
+        self, result_selector: dict = {}, result_path: str = &#34;$&#34;, output_path: str = &#34;&#34;
+    ) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the output state for the task
+
+        Args:
+            result_selector (dict, optional): generate a set of key value pairs from the resource_result.
+            result_path (str, optional): Insert the task result into current state at the result_path. Defaults to &#34;$&#34;.
+            output_path (str, optional): Select a single path from the output of this task. applied after result_path and result_selector.
+        &#34;&#34;&#34;
+        output_state = TaskOutputState(
+            result_selector=result_selector,
+            result_path=result_path,
+            output_path=output_path,
+        )
+        return self.with_output_state(output_state)
+
+    def with_retry(
+        self,
+        error_equals: List[str],
+        interval_seconds: int,
+        max_attempts: int,
+        backoff_rate: float = 1.0,
+    ) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;add a retry configuration for the task
+
+        Appends a retry configuration to existing retries
+
+        Args:
+            error_equals (List[str]): List of error states to retry on
+            interval_seconds (int): Interval in seconds between retries
+            max_attempts (int): Maximum number of retries
+            backoff_rate (float, optional): Backoff rate for retries. Defaults to 1.0.
+        &#34;&#34;&#34;
+        if self.retries is None:
+            self.retries = []
+        self.retries.append(
+            Retry(error_equals, interval_seconds, max_attempts, backoff_rate)
+        )
+        return self
+
+    def with_retries(self, retries: List[Retry]) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the retry configuration for the task
+
+        Replaces existing retries
+
+        Args:
+            retries (List[Retry]): Retry configuration for the task&#34;&#34;&#34;
+        self.retries = retries
+        return self
+
+    def with_catcher(self, error: List[str], task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;add a catcher mapping from errors to task
+
+        mapping is appended to existing catchers
+
+        Args:
+            error (List[str]): List of errors to catch
+            task (Task): Task to execute on error&#34;&#34;&#34;
+        if self.catcher is None:
+            self.catcher = []
+        self.catcher.append((error, task))
+        return self
+
+    def with_catchers(self, catchers: List[Tuple[List[str], &#34;Task&#34;]]) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;add a list of catcher mappings from errors to task
+
+        replaces existing catchers
+
+        Args:
+            catchers (List[Tuple[List[str], Task]]): List of catcher mappings from errors to task
+        &#34;&#34;&#34;
+        self.catcher = catchers
+        return self
+
+    def with_resource_result(self, resource_result: dict) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the resource return for the task
+
+        Args:
+            resource_return (dict): Resource return for the task&#34;&#34;&#34;
+        self.resource_result = resource_result
+        return self
+
+    def has_catcher(self) -&gt; bool:
+        if self.catcher is None:
+            return False
+        if len(self.catcher) == 0:
+            return False
+        return True
+
+    def has_retries(self) -&gt; bool:
+        if self.retries is None:
+            return False
+        if len(self.retries) == 0:
+            return False
+        return True
+
+    def has_input_state(self) -&gt; bool:
+        return self.input_state is not None
+
+    def has_output_state(self) -&gt; bool:
+        return self.output_state is not None
+
+    def has_next(self) -&gt; bool:
+        if self._next is None:
+            return False
+        return len(self._next) &gt; 0
+
+    def has_resource_result(self) -&gt; bool:
+        return len(self.resource_result.items()) &gt; 0
+
+    @classmethod
+    def _get_task_class_name(cls) -&gt; str:
+        return cls.__name__</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pystepfunction.branch.ParallelTask" href="branch.html#pystepfunction.branch.ParallelTask">ParallelTask</a></li>
+<li><a title="pystepfunction.tasks.ChoiceTask" href="#pystepfunction.tasks.ChoiceTask">ChoiceTask</a></li>
+<li><a title="pystepfunction.tasks.FailTask" href="#pystepfunction.tasks.FailTask">FailTask</a></li>
+<li><a title="pystepfunction.tasks.GlueTask" href="#pystepfunction.tasks.GlueTask">GlueTask</a></li>
+<li><a title="pystepfunction.tasks.LambdaTask" href="#pystepfunction.tasks.LambdaTask">LambdaTask</a></li>
+<li><a title="pystepfunction.tasks.PassTask" href="#pystepfunction.tasks.PassTask">PassTask</a></li>
+<li><a title="pystepfunction.tasks.SucceedTask" href="#pystepfunction.tasks.SucceedTask">SucceedTask</a></li>
+<li><a title="pystepfunction.tasks.WaitTask" href="#pystepfunction.tasks.WaitTask">WaitTask</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.Task.resource"><code class="name">var <span class="ident">resource</span></code></dt>
+<dd>
+<div class="desc"><p>Task resource for ASL</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Task.task_type"><code class="name">var <span class="ident">task_type</span></code></dt>
+<dd>
+<div class="desc"><p>Task type for ASL</p></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.Task.catcher"><code class="name">var <span class="ident">catcher</span></code></dt>
+<dd>
+<div class="desc"><p>Catcher error handling</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Task.end"><code class="name">var <span class="ident">end</span></code></dt>
+<dd>
+<div class="desc"><p>Is the task the end of the stepfunction branch</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Task.input_state"><code class="name">var <span class="ident">input_state</span></code></dt>
+<dd>
+<div class="desc"><p>Manipulate the input state for the task</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Task.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of the task</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Task.output_state"><code class="name">var <span class="ident">output_state</span></code></dt>
+<dd>
+<div class="desc"><p>Manipulate the output state for the task</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Task.resource_result"><code class="name">var <span class="ident">resource_result</span></code></dt>
+<dd>
+<div class="desc"><p>Shape of return data from the task resource</p></div>
+</dd>
+<dt id="pystepfunction.tasks.Task.retries"><code class="name">var <span class="ident">retries</span></code></dt>
+<dd>
+<div class="desc"><p>Retry configuration for the task</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.Task.and_then"><code class="name flex">
+<span>def <span class="ident">and_then</span></span>(<span>self, task: <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a>) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the next task in the stepfunction machine</p>
+<p>Appends the task to the end of the current task chain</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>task</code></strong> :&ensp;<code><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></code></dt>
+<dd>Next task in the stepfunction machine</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def and_then(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+    Appends the task to the end of the current task chain
+
+    Args:
+        task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+    return self.__rshift__(task)</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.has_catcher"><code class="name flex">
+<span>def <span class="ident">has_catcher</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_catcher(self) -&gt; bool:
+    if self.catcher is None:
+        return False
+    if len(self.catcher) == 0:
+        return False
+    return True</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.has_input_state"><code class="name flex">
+<span>def <span class="ident">has_input_state</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_input_state(self) -&gt; bool:
+    return self.input_state is not None</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.has_next"><code class="name flex">
+<span>def <span class="ident">has_next</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_next(self) -&gt; bool:
+    if self._next is None:
+        return False
+    return len(self._next) &gt; 0</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.has_output_state"><code class="name flex">
+<span>def <span class="ident">has_output_state</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_output_state(self) -&gt; bool:
+    return self.output_state is not None</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.has_resource_result"><code class="name flex">
+<span>def <span class="ident">has_resource_result</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_resource_result(self) -&gt; bool:
+    return len(self.resource_result.items()) &gt; 0</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.has_retries"><code class="name flex">
+<span>def <span class="ident">has_retries</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_retries(self) -&gt; bool:
+    if self.retries is None:
+        return False
+    if len(self.retries) == 0:
+        return False
+    return True</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.is_end"><code class="name flex">
+<span>def <span class="ident">is_end</span></span>(<span>self) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the task as the end of the stepfunction branch</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_end(self) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the task as the end of the stepfunction branch&#34;&#34;&#34;
+    self.end = True
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.next"><code class="name flex">
+<span>def <span class="ident">next</span></span>(<span>self) ‑> Optional[<a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the next task in the stepfunction machine</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def next(self) -&gt; Optional[&#34;Task&#34;]:
+    &#34;&#34;&#34;Get the next task in the stepfunction machine&#34;&#34;&#34;
+    if self._next is None:
+        return None
+    if len(self._next) == 0:
+        return None
+    return self._next[0]</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.set_next"><code class="name flex">
+<span>def <span class="ident">set_next</span></span>(<span>self, task: <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a>) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the next task in the stepfunction machine</p>
+<p>Overrides the immediate next task if it exists</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>task</code></strong> :&ensp;<code><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></code></dt>
+<dd>Next task in the stepfunction machine</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_next(self, task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the next task in the stepfunction machine
+
+    Overrides the immediate next task if it exists
+
+    Args:
+        task (Task): Next task in the stepfunction machine&#34;&#34;&#34;
+    self._next = [task]
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    asl = {
+        &#34;Type&#34;: self.task_type,
+        &#34;Resource&#34;: self.resource,
+        &#34;End&#34;: self.end,
+    }
+    if self.next() is not None:
+        asl.update({&#34;Next&#34;: self.next().name})
+    if self.input_state is not None:
+        asl.update(self.input_state.to_asl())
+    if self.output_state is not None:
+        asl.update(self.output_state.to_asl())
+    if self.has_retries():
+        asl.update({&#34;Retry&#34;: [retry.to_asl() for retry in self.retries]})
+    if self.has_catcher():
+        catch = [{&#34;ErrorEquals&#34;: e, &#34;Next&#34;: t.name} for e, t in self.catcher]
+        asl.update({&#34;Catch&#34;: catch})
+    return {self.name: asl}</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_catcher"><code class="name flex">
+<span>def <span class="ident">with_catcher</span></span>(<span>self, error: List[str], task: <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a>) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>add a catcher mapping from errors to task</p>
+<p>mapping is appended to existing catchers</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>error</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>List of errors to catch</dd>
+<dt><strong><code>task</code></strong> :&ensp;<code><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></code></dt>
+<dd>Task to execute on error</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_catcher(self, error: List[str], task: &#34;Task&#34;) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;add a catcher mapping from errors to task
+
+    mapping is appended to existing catchers
+
+    Args:
+        error (List[str]): List of errors to catch
+        task (Task): Task to execute on error&#34;&#34;&#34;
+    if self.catcher is None:
+        self.catcher = []
+    self.catcher.append((error, task))
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_catchers"><code class="name flex">
+<span>def <span class="ident">with_catchers</span></span>(<span>self, catchers: List[Tuple[List[str], ForwardRef('<a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a>')]]) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>add a list of catcher mappings from errors to task</p>
+<p>replaces existing catchers</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>catchers</code></strong> :&ensp;<code>List[Tuple[List[str], <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a>]]</code></dt>
+<dd>List of catcher mappings from errors to task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_catchers(self, catchers: List[Tuple[List[str], &#34;Task&#34;]]) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;add a list of catcher mappings from errors to task
+
+    replaces existing catchers
+
+    Args:
+        catchers (List[Tuple[List[str], Task]]): List of catcher mappings from errors to task
+    &#34;&#34;&#34;
+    self.catcher = catchers
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_input"><code class="name flex">
+<span>def <span class="ident">with_input</span></span>(<span>self, input_path: str = '', parameters: dict = {}) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the input state for the task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>input_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Select a single path from the input state using jsonpath. Defaults to "$".</dd>
+<dt><strong><code>parameters</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>Create a set of key/values from the input state (after input_path) to pass to the resource.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_input(self, input_path: str = &#34;&#34;, parameters: dict = {}) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the input state for the task
+
+    Args:
+        input_path (str, optional): Select a single path from the input state using jsonpath. Defaults to &#34;$&#34;.
+        parameters (dict, optional): Create a set of key/values from the input state (after input_path) to pass to the resource.
+    &#34;&#34;&#34;
+    input_state = TaskInputState(input_path=input_path, parameters=parameters)
+    return self.with_input_state(input_state)</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_input_state"><code class="name flex">
+<span>def <span class="ident">with_input_state</span></span>(<span>self, input_state: <a title="pystepfunction.tasks.TaskInputState" href="#pystepfunction.tasks.TaskInputState">TaskInputState</a>) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the input state for the task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>input_state</code></strong> :&ensp;<code>InputState</code></dt>
+<dd>Input state for the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_input_state(self, input_state: TaskInputState) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the input state for the task
+
+    Args:
+        input_state (InputState): Input state for the task&#34;&#34;&#34;
+    if self.has_input_state():
+        self.input_state = self.input_state.merge_state(input_state)
+    else:
+        self.input_state = input_state
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_output"><code class="name flex">
+<span>def <span class="ident">with_output</span></span>(<span>self, result_selector: dict = {}, result_path: str = '$', output_path: str = '') ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the output state for the task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>result_selector</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>generate a set of key value pairs from the resource_result.</dd>
+<dt><strong><code>result_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Insert the task result into current state at the result_path. Defaults to "$".</dd>
+<dt><strong><code>output_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Select a single path from the output of this task. applied after result_path and result_selector.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_output(
+    self, result_selector: dict = {}, result_path: str = &#34;$&#34;, output_path: str = &#34;&#34;
+) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the output state for the task
+
+    Args:
+        result_selector (dict, optional): generate a set of key value pairs from the resource_result.
+        result_path (str, optional): Insert the task result into current state at the result_path. Defaults to &#34;$&#34;.
+        output_path (str, optional): Select a single path from the output of this task. applied after result_path and result_selector.
+    &#34;&#34;&#34;
+    output_state = TaskOutputState(
+        result_selector=result_selector,
+        result_path=result_path,
+        output_path=output_path,
+    )
+    return self.with_output_state(output_state)</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_output_state"><code class="name flex">
+<span>def <span class="ident">with_output_state</span></span>(<span>self, output_state: <a title="pystepfunction.tasks.TaskOutputState" href="#pystepfunction.tasks.TaskOutputState">TaskOutputState</a>) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the output state for the task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>output_state</code></strong> :&ensp;<code>OutputState</code></dt>
+<dd>Output state for the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_output_state(self, output_state: TaskOutputState) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the output state for the task
+
+    Args:
+        output_state (OutputState): Output state for the task&#34;&#34;&#34;
+    self.output_state = output_state
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_resource_result"><code class="name flex">
+<span>def <span class="ident">with_resource_result</span></span>(<span>self, resource_result: dict) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the resource return for the task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>resource_return</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Resource return for the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_resource_result(self, resource_result: dict) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the resource return for the task
+
+    Args:
+        resource_return (dict): Resource return for the task&#34;&#34;&#34;
+    self.resource_result = resource_result
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_retries"><code class="name flex">
+<span>def <span class="ident">with_retries</span></span>(<span>self, retries: List[<a title="pystepfunction.tasks.Retry" href="#pystepfunction.tasks.Retry">Retry</a>]) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the retry configuration for the task</p>
+<p>Replaces existing retries</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>retries</code></strong> :&ensp;<code>List[<a title="pystepfunction.tasks.Retry" href="#pystepfunction.tasks.Retry">Retry</a>]</code></dt>
+<dd>Retry configuration for the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_retries(self, retries: List[Retry]) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the retry configuration for the task
+
+    Replaces existing retries
+
+    Args:
+        retries (List[Retry]): Retry configuration for the task&#34;&#34;&#34;
+    self.retries = retries
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.Task.with_retry"><code class="name flex">
+<span>def <span class="ident">with_retry</span></span>(<span>self, error_equals: List[str], interval_seconds: int, max_attempts: int, backoff_rate: float = 1.0) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>add a retry configuration for the task</p>
+<p>Appends a retry configuration to existing retries</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>error_equals</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>List of error states to retry on</dd>
+<dt><strong><code>interval_seconds</code></strong> :&ensp;<code>int</code></dt>
+<dd>Interval in seconds between retries</dd>
+<dt><strong><code>max_attempts</code></strong> :&ensp;<code>int</code></dt>
+<dd>Maximum number of retries</dd>
+<dt><strong><code>backoff_rate</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Backoff rate for retries. Defaults to 1.0.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_retry(
+    self,
+    error_equals: List[str],
+    interval_seconds: int,
+    max_attempts: int,
+    backoff_rate: float = 1.0,
+) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;add a retry configuration for the task
+
+    Appends a retry configuration to existing retries
+
+    Args:
+        error_equals (List[str]): List of error states to retry on
+        interval_seconds (int): Interval in seconds between retries
+        max_attempts (int): Maximum number of retries
+        backoff_rate (float, optional): Backoff rate for retries. Defaults to 1.0.
+    &#34;&#34;&#34;
+    if self.retries is None:
+        self.retries = []
+    self.retries.append(
+        Retry(error_equals, interval_seconds, max_attempts, backoff_rate)
+    )
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState"><code class="flex name class">
+<span>class <span class="ident">TaskInputState</span></span>
+<span>(</span><span>input_path: str = '', parameters: dict = &lt;factory&gt;, logger: logging.Logger = &lt;Logger pystepfunction.tasks (WARNING)&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TaskInputState(input_path: str = '', parameters: dict = <factory>, logger: logging.Logger = <Logger pystepfunction.tasks (WARNING)>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class TaskInputState:
+    input_path: str = &#34;&#34;
+    &#34;&#34;&#34;Filter what input is passed to the task&#34;&#34;&#34;
+    parameters: dict = field(default_factory=dict)
+    &#34;&#34;&#34;define a custom object to pass as input to the task resource&#34;&#34;&#34;
+    logger: Logger = getLogger(__name__)
+
+    def with_logger(self, logger: Logger) -&gt; &#34;TaskInputState&#34;:
+        self.logger = logger
+        return self
+
+    def has_input_path(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the input path is set&#34;&#34;&#34;
+        return len(self.input_path) &gt; 0
+
+    def has_parameters(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the parameters are set&#34;&#34;&#34;
+        return len(self.parameters.items()) &gt; 0
+
+    def with_parameter(self, key: str, value: str):
+        &#34;&#34;&#34;Add a parameter to the input&#34;&#34;&#34;
+        self.parameters[key] = value
+        return self
+
+    def with_parameters(self, parameters: dict):
+        &#34;&#34;&#34;Update the parameters&#34;&#34;&#34;
+        self.parameters.update(parameters)
+        return self
+
+    def merge_state(self, other: &#34;TaskInputState&#34;) -&gt; &#34;TaskInputState&#34;:
+        &#34;&#34;&#34;Merge two input states&#34;&#34;&#34;
+        if other.has_input_path():
+            self.input_path = other.input_path
+        if other.has_parameters():
+            self.with_parameters(other.parameters)
+        return self
+
+    def __add__(self, other: &#34;TaskInputState&#34;) -&gt; &#34;TaskInputState&#34;:
+        &#34;&#34;&#34;Merge two input states&#34;&#34;&#34;
+        return self.merge_state(other)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {}
+        if self.has_input_path():
+            asl.update({&#34;InputPath&#34;: self.input_path})
+        if self.has_parameters():
+            asl.update({&#34;Parameters&#34;: self.parameters})
+        return asl</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.TaskInputState.input_path"><code class="name">var <span class="ident">input_path</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Filter what input is passed to the task</p></div>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState.logger"><code class="name">var <span class="ident">logger</span> : logging.Logger</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState.parameters"><code class="name">var <span class="ident">parameters</span> : dict</code></dt>
+<dd>
+<div class="desc"><p>define a custom object to pass as input to the task resource</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.TaskInputState.has_input_path"><code class="name flex">
+<span>def <span class="ident">has_input_path</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if the input path is set</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_input_path(self) -&gt; bool:
+    &#34;&#34;&#34;Check if the input path is set&#34;&#34;&#34;
+    return len(self.input_path) &gt; 0</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState.has_parameters"><code class="name flex">
+<span>def <span class="ident">has_parameters</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if the parameters are set</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_parameters(self) -&gt; bool:
+    &#34;&#34;&#34;Check if the parameters are set&#34;&#34;&#34;
+    return len(self.parameters.items()) &gt; 0</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState.merge_state"><code class="name flex">
+<span>def <span class="ident">merge_state</span></span>(<span>self, other: <a title="pystepfunction.tasks.TaskInputState" href="#pystepfunction.tasks.TaskInputState">TaskInputState</a>) ‑> <a title="pystepfunction.tasks.TaskInputState" href="#pystepfunction.tasks.TaskInputState">TaskInputState</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge two input states</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_state(self, other: &#34;TaskInputState&#34;) -&gt; &#34;TaskInputState&#34;:
+    &#34;&#34;&#34;Merge two input states&#34;&#34;&#34;
+    if other.has_input_path():
+        self.input_path = other.input_path
+    if other.has_parameters():
+        self.with_parameters(other.parameters)
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    asl = {}
+    if self.has_input_path():
+        asl.update({&#34;InputPath&#34;: self.input_path})
+    if self.has_parameters():
+        asl.update({&#34;Parameters&#34;: self.parameters})
+    return asl</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState.with_logger"><code class="name flex">
+<span>def <span class="ident">with_logger</span></span>(<span>self, logger: logging.Logger) ‑> <a title="pystepfunction.tasks.TaskInputState" href="#pystepfunction.tasks.TaskInputState">TaskInputState</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_logger(self, logger: Logger) -&gt; &#34;TaskInputState&#34;:
+    self.logger = logger
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState.with_parameter"><code class="name flex">
+<span>def <span class="ident">with_parameter</span></span>(<span>self, key: str, value: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add a parameter to the input</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_parameter(self, key: str, value: str):
+    &#34;&#34;&#34;Add a parameter to the input&#34;&#34;&#34;
+    self.parameters[key] = value
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskInputState.with_parameters"><code class="name flex">
+<span>def <span class="ident">with_parameters</span></span>(<span>self, parameters: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the parameters</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_parameters(self, parameters: dict):
+    &#34;&#34;&#34;Update the parameters&#34;&#34;&#34;
+    self.parameters.update(parameters)
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState"><code class="flex name class">
+<span>class <span class="ident">TaskOutputState</span></span>
+<span>(</span><span>result_selector: dict = &lt;factory&gt;, result_path: str = '$', output_path: str = '', logger: logging.Logger = &lt;Logger pystepfunction.tasks (WARNING)&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TaskOutputState(result_selector: dict = <factory>, result_path: str = '$', output_path: str = '', logger: logging.Logger = <Logger pystepfunction.tasks (WARNING)>)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class TaskOutputState:
+    result_selector: dict = field(default_factory=dict)
+    &#34;&#34;&#34;define a custom object from the task resource output&#34;&#34;&#34;
+    result_path: str = &#34;$&#34;
+    &#34;&#34;&#34;Select where the resulting data will be inserted into the stat - defaults to $&#34;&#34;&#34;
+    output_path: str = &#34;&#34;
+    &#34;&#34;&#34;Select what output is passed to the next task&#34;&#34;&#34;
+    logger: Logger = getLogger(__name__)
+
+    def has_result_selector(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the result selector is set&#34;&#34;&#34;
+        return len(self.result_selector.items()) &gt; 0
+
+    def has_result_path(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the result path is set&#34;&#34;&#34;
+        return len(self.result_path) &gt; 0
+
+    def has_output_path(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the output path is set&#34;&#34;&#34;
+        return len(self.output_path) &gt; 0
+
+    def with_result_key(self, key: str, value: str):
+        &#34;&#34;&#34;Add a parameter to the result_selector&#34;&#34;&#34;
+        self.result_selector[key] = value
+        return self
+
+    def with_result_selector(self, result_selector: dict):
+        &#34;&#34;&#34;Update the parameters&#34;&#34;&#34;
+        self.result_selector.update(result_selector)
+        return self
+
+    def with_logger(self, logger: Logger) -&gt; &#34;TaskOutputState&#34;:
+        self.logger = logger
+        return self
+
+    def merge_state(self, other: &#34;TaskOutputState&#34;) -&gt; &#34;TaskOutputState&#34;:
+        &#34;&#34;&#34;Merge two output states&#34;&#34;&#34;
+        if other.has_result_path():
+            self.result_path = other.result_path
+        if other.has_output_path():
+            self.output_path = other.output_path
+        if other.has_result_selector():
+            self.with_result_selector(other.result_selector)
+        return self
+
+    def __add__(self, other: &#34;TaskOutputState&#34;) -&gt; &#34;TaskOutputState&#34;:
+        &#34;&#34;&#34;Merge two input states&#34;&#34;&#34;
+        return self.merge_state(other)
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {}
+        if self.has_result_path():
+            asl.update({&#34;ResultPath&#34;: self.result_path})
+        if self.has_result_selector():
+            asl.update({&#34;ResultSelector&#34;: self.result_selector})
+        if self.has_output_path():
+            asl.update({&#34;OutputPath&#34;: self.output_path})
+        return asl</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.TaskOutputState.logger"><code class="name">var <span class="ident">logger</span> : logging.Logger</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.output_path"><code class="name">var <span class="ident">output_path</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Select what output is passed to the next task</p></div>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.result_path"><code class="name">var <span class="ident">result_path</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Select where the resulting data will be inserted into the stat - defaults to $</p></div>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.result_selector"><code class="name">var <span class="ident">result_selector</span> : dict</code></dt>
+<dd>
+<div class="desc"><p>define a custom object from the task resource output</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.TaskOutputState.has_output_path"><code class="name flex">
+<span>def <span class="ident">has_output_path</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if the output path is set</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_output_path(self) -&gt; bool:
+    &#34;&#34;&#34;Check if the output path is set&#34;&#34;&#34;
+    return len(self.output_path) &gt; 0</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.has_result_path"><code class="name flex">
+<span>def <span class="ident">has_result_path</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if the result path is set</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_result_path(self) -&gt; bool:
+    &#34;&#34;&#34;Check if the result path is set&#34;&#34;&#34;
+    return len(self.result_path) &gt; 0</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.has_result_selector"><code class="name flex">
+<span>def <span class="ident">has_result_selector</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if the result selector is set</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_result_selector(self) -&gt; bool:
+    &#34;&#34;&#34;Check if the result selector is set&#34;&#34;&#34;
+    return len(self.result_selector.items()) &gt; 0</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.merge_state"><code class="name flex">
+<span>def <span class="ident">merge_state</span></span>(<span>self, other: <a title="pystepfunction.tasks.TaskOutputState" href="#pystepfunction.tasks.TaskOutputState">TaskOutputState</a>) ‑> <a title="pystepfunction.tasks.TaskOutputState" href="#pystepfunction.tasks.TaskOutputState">TaskOutputState</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge two output states</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_state(self, other: &#34;TaskOutputState&#34;) -&gt; &#34;TaskOutputState&#34;:
+    &#34;&#34;&#34;Merge two output states&#34;&#34;&#34;
+    if other.has_result_path():
+        self.result_path = other.result_path
+    if other.has_output_path():
+        self.output_path = other.output_path
+    if other.has_result_selector():
+        self.with_result_selector(other.result_selector)
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.to_asl"><code class="name flex">
+<span>def <span class="ident">to_asl</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to ASL</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_asl(self) -&gt; dict:
+    &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+    asl = {}
+    if self.has_result_path():
+        asl.update({&#34;ResultPath&#34;: self.result_path})
+    if self.has_result_selector():
+        asl.update({&#34;ResultSelector&#34;: self.result_selector})
+    if self.has_output_path():
+        asl.update({&#34;OutputPath&#34;: self.output_path})
+    return asl</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.with_logger"><code class="name flex">
+<span>def <span class="ident">with_logger</span></span>(<span>self, logger: logging.Logger) ‑> <a title="pystepfunction.tasks.TaskOutputState" href="#pystepfunction.tasks.TaskOutputState">TaskOutputState</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_logger(self, logger: Logger) -&gt; &#34;TaskOutputState&#34;:
+    self.logger = logger
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.with_result_key"><code class="name flex">
+<span>def <span class="ident">with_result_key</span></span>(<span>self, key: str, value: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add a parameter to the result_selector</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_result_key(self, key: str, value: str):
+    &#34;&#34;&#34;Add a parameter to the result_selector&#34;&#34;&#34;
+    self.result_selector[key] = value
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.TaskOutputState.with_result_selector"><code class="name flex">
+<span>def <span class="ident">with_result_selector</span></span>(<span>self, result_selector: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the parameters</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def with_result_selector(self, result_selector: dict):
+    &#34;&#34;&#34;Update the parameters&#34;&#34;&#34;
+    self.result_selector.update(result_selector)
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pystepfunction.tasks.WaitTask"><code class="flex name class">
+<span>class <span class="ident">WaitTask</span></span>
+<span>(</span><span>name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Wait task for stepfunction machine</p>
+<p>Initialize a wait task</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class WaitTask(Task):
+    &#34;&#34;&#34;Wait task for stepfunction machine&#34;&#34;&#34;
+
+    task_type = &#34;Wait&#34;
+
+    def __init__(self, name) -&gt; None:
+        &#34;&#34;&#34;Initialize a wait task
+
+        Args:
+            name (str): Name of the task
+        &#34;&#34;&#34;
+        super().__init__(name)
+        self.seconds = 0
+        &#34;&#34;&#34;Number of seconds to wait&#34;&#34;&#34;
+        self.timestamp = &#34;&#34;
+        &#34;&#34;&#34;Timestamp to wait until&#34;&#34;&#34;
+        self.seconds_keys: List[str] = []
+        &#34;&#34;&#34;List of keys to extract the number of seconds to wait from the state&#34;&#34;&#34;
+        self.timestamp_keys: List[str] = []
+        &#34;&#34;&#34;List of keys to extract the timestamp to wait until from the state&#34;&#34;&#34;
+
+    def wait_seconds(self, seconds: int = 0, seconds_keys: List[str] = []) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the number of seconds to wait
+
+        Args:
+            seconds (int, optional): Number of seconds to wait. Defaults to 0.
+            seconds_keys (List[str], optional): List of keys to extract the number of seconds to wait from the state. Defaults to [].
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.seconds = seconds
+        self.seconds_keys = seconds_keys
+        return self
+
+    def wait_timestamp(
+        self, timestamp: str = &#34;&#34;, timestamp_keys: List[str] = []
+    ) -&gt; &#34;Task&#34;:
+        &#34;&#34;&#34;Set the timestamp to wait until
+
+        Args:
+            timestamp (str, optional): Timestamp to wait until. Defaults to &#34;&#34;.
+            timestamp_keys (List[str], optional): List of keys to extract the timestamp to wait until from the state. Defaults to [].
+
+        Returns:
+            Task: The task&#34;&#34;&#34;
+        self.timestamp = timestamp
+        self.timestamp_keys = timestamp_keys
+        return self
+
+    def to_asl(self) -&gt; dict:
+        &#34;&#34;&#34;Convert to ASL&#34;&#34;&#34;
+        asl = {&#34;Type&#34;: self.task_type}
+        if self.next() is not None:
+            asl[&#34;Next&#34;] = self.next()
+        if self.seconds &gt; 0:
+            asl[&#34;Seconds&#34;] = self.seconds
+        elif self.timestamp != &#34;&#34;:
+            asl[&#34;Timestamp&#34;] = self.timestamp
+        elif len(self.seconds_keys) &gt; 0:
+            asl[&#34;SecondsPath&#34;] = f&#34;$.{&#39;.&#39;.join(self.seconds_keys)}&#34;
+        elif len(self.timestamp_keys) &gt; 0:
+            asl[&#34;TimestampPath&#34;] = f&#34;$.{&#39;.&#39;.join(self.timestamp_keys)}&#34;
+        return asl</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pystepfunction.tasks.WaitTask.seconds"><code class="name">var <span class="ident">seconds</span></code></dt>
+<dd>
+<div class="desc"><p>Number of seconds to wait</p></div>
+</dd>
+<dt id="pystepfunction.tasks.WaitTask.seconds_keys"><code class="name">var <span class="ident">seconds_keys</span></code></dt>
+<dd>
+<div class="desc"><p>List of keys to extract the number of seconds to wait from the state</p></div>
+</dd>
+<dt id="pystepfunction.tasks.WaitTask.timestamp"><code class="name">var <span class="ident">timestamp</span></code></dt>
+<dd>
+<div class="desc"><p>Timestamp to wait until</p></div>
+</dd>
+<dt id="pystepfunction.tasks.WaitTask.timestamp_keys"><code class="name">var <span class="ident">timestamp_keys</span></code></dt>
+<dd>
+<div class="desc"><p>List of keys to extract the timestamp to wait until from the state</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pystepfunction.tasks.WaitTask.wait_seconds"><code class="name flex">
+<span>def <span class="ident">wait_seconds</span></span>(<span>self, seconds: int = 0, seconds_keys: List[str] = []) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the number of seconds to wait</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>seconds</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Number of seconds to wait. Defaults to 0.</dd>
+<dt><strong><code>seconds_keys</code></strong> :&ensp;<code>List[str]</code>, optional</dt>
+<dd>List of keys to extract the number of seconds to wait from the state. Defaults to [].</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></code></dt>
+<dd>The task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def wait_seconds(self, seconds: int = 0, seconds_keys: List[str] = []) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the number of seconds to wait
+
+    Args:
+        seconds (int, optional): Number of seconds to wait. Defaults to 0.
+        seconds_keys (List[str], optional): List of keys to extract the number of seconds to wait from the state. Defaults to [].
+
+    Returns:
+        Task: The task&#34;&#34;&#34;
+    self.seconds = seconds
+    self.seconds_keys = seconds_keys
+    return self</code></pre>
+</details>
+</dd>
+<dt id="pystepfunction.tasks.WaitTask.wait_timestamp"><code class="name flex">
+<span>def <span class="ident">wait_timestamp</span></span>(<span>self, timestamp: str = '', timestamp_keys: List[str] = []) ‑> <a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the timestamp to wait until</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timestamp</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Timestamp to wait until. Defaults to "".</dd>
+<dt><strong><code>timestamp_keys</code></strong> :&ensp;<code>List[str]</code>, optional</dt>
+<dd>List of keys to extract the timestamp to wait until from the state. Defaults to [].</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></code></dt>
+<dd>The task</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def wait_timestamp(
+    self, timestamp: str = &#34;&#34;, timestamp_keys: List[str] = []
+) -&gt; &#34;Task&#34;:
+    &#34;&#34;&#34;Set the timestamp to wait until
+
+    Args:
+        timestamp (str, optional): Timestamp to wait until. Defaults to &#34;&#34;.
+        timestamp_keys (List[str], optional): List of keys to extract the timestamp to wait until from the state. Defaults to [].
+
+    Returns:
+        Task: The task&#34;&#34;&#34;
+    self.timestamp = timestamp
+    self.timestamp_keys = timestamp_keys
+    return self</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pystepfunction.tasks.Task.and_then" href="#pystepfunction.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.catcher" href="#pystepfunction.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.end" href="#pystepfunction.tasks.Task.end">end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.input_state" href="#pystepfunction.tasks.Task.input_state">input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.is_end" href="#pystepfunction.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.name" href="#pystepfunction.tasks.Task.name">name</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.next" href="#pystepfunction.tasks.Task.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.output_state" href="#pystepfunction.tasks.Task.output_state">output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource" href="#pystepfunction.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource_result" href="#pystepfunction.tasks.Task.resource_result">resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.retries" href="#pystepfunction.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.set_next" href="#pystepfunction.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.task_type" href="#pystepfunction.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.to_asl" href="#pystepfunction.tasks.Task.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catcher" href="#pystepfunction.tasks.Task.with_catcher">with_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catchers" href="#pystepfunction.tasks.Task.with_catchers">with_catchers</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input" href="#pystepfunction.tasks.Task.with_input">with_input</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input_state" href="#pystepfunction.tasks.Task.with_input_state">with_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output" href="#pystepfunction.tasks.Task.with_output">with_output</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output_state" href="#pystepfunction.tasks.Task.with_output_state">with_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_resource_result" href="#pystepfunction.tasks.Task.with_resource_result">with_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retries" href="#pystepfunction.tasks.Task.with_retries">with_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retry" href="#pystepfunction.tasks.Task.with_retry">with_retry</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pystepfunction" href="index.html">pystepfunction</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pystepfunction.tasks.ChoiceRule" href="#pystepfunction.tasks.ChoiceRule">ChoiceRule</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.ChoiceRule.condition" href="#pystepfunction.tasks.ChoiceRule.condition">condition</a></code></li>
+<li><code><a title="pystepfunction.tasks.ChoiceRule.next" href="#pystepfunction.tasks.ChoiceRule.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.ChoiceRule.to_asl" href="#pystepfunction.tasks.ChoiceRule.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.ChoiceRule.value" href="#pystepfunction.tasks.ChoiceRule.value">value</a></code></li>
+<li><code><a title="pystepfunction.tasks.ChoiceRule.variable" href="#pystepfunction.tasks.ChoiceRule.variable">variable</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.ChoiceTask" href="#pystepfunction.tasks.ChoiceTask">ChoiceTask</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.ChoiceTask.choices" href="#pystepfunction.tasks.ChoiceTask.choices">choices</a></code></li>
+<li><code><a title="pystepfunction.tasks.ChoiceTask.default" href="#pystepfunction.tasks.ChoiceTask.default">default</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.FailTask" href="#pystepfunction.tasks.FailTask">FailTask</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.FailTask.cause" href="#pystepfunction.tasks.FailTask.cause">cause</a></code></li>
+<li><code><a title="pystepfunction.tasks.FailTask.error" href="#pystepfunction.tasks.FailTask.error">error</a></code></li>
+<li><code><a title="pystepfunction.tasks.FailTask.with_cause" href="#pystepfunction.tasks.FailTask.with_cause">with_cause</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.GlueTask" href="#pystepfunction.tasks.GlueTask">GlueTask</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.GlueTask.with_job_args" href="#pystepfunction.tasks.GlueTask.with_job_args">with_job_args</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.LambdaTask" href="#pystepfunction.tasks.LambdaTask">LambdaTask</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.LambdaTask.with_payload" href="#pystepfunction.tasks.LambdaTask.with_payload">with_payload</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.PassTask" href="#pystepfunction.tasks.PassTask">PassTask</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.PassTask.result" href="#pystepfunction.tasks.PassTask.result">result</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.Retry" href="#pystepfunction.tasks.Retry">Retry</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.Retry.backoff_rate" href="#pystepfunction.tasks.Retry.backoff_rate">backoff_rate</a></code></li>
+<li><code><a title="pystepfunction.tasks.Retry.error_equals" href="#pystepfunction.tasks.Retry.error_equals">error_equals</a></code></li>
+<li><code><a title="pystepfunction.tasks.Retry.interval_seconds" href="#pystepfunction.tasks.Retry.interval_seconds">interval_seconds</a></code></li>
+<li><code><a title="pystepfunction.tasks.Retry.max_attempts" href="#pystepfunction.tasks.Retry.max_attempts">max_attempts</a></code></li>
+<li><code><a title="pystepfunction.tasks.Retry.to_asl" href="#pystepfunction.tasks.Retry.to_asl">to_asl</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.SucceedTask" href="#pystepfunction.tasks.SucceedTask">SucceedTask</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.Task" href="#pystepfunction.tasks.Task">Task</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.Task.and_then" href="#pystepfunction.tasks.Task.and_then">and_then</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.catcher" href="#pystepfunction.tasks.Task.catcher">catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.end" href="#pystepfunction.tasks.Task.end">end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.has_catcher" href="#pystepfunction.tasks.Task.has_catcher">has_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.has_input_state" href="#pystepfunction.tasks.Task.has_input_state">has_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.has_next" href="#pystepfunction.tasks.Task.has_next">has_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.has_output_state" href="#pystepfunction.tasks.Task.has_output_state">has_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.has_resource_result" href="#pystepfunction.tasks.Task.has_resource_result">has_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.has_retries" href="#pystepfunction.tasks.Task.has_retries">has_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.input_state" href="#pystepfunction.tasks.Task.input_state">input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.is_end" href="#pystepfunction.tasks.Task.is_end">is_end</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.name" href="#pystepfunction.tasks.Task.name">name</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.next" href="#pystepfunction.tasks.Task.next">next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.output_state" href="#pystepfunction.tasks.Task.output_state">output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource" href="#pystepfunction.tasks.Task.resource">resource</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.resource_result" href="#pystepfunction.tasks.Task.resource_result">resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.retries" href="#pystepfunction.tasks.Task.retries">retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.set_next" href="#pystepfunction.tasks.Task.set_next">set_next</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.task_type" href="#pystepfunction.tasks.Task.task_type">task_type</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.to_asl" href="#pystepfunction.tasks.Task.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catcher" href="#pystepfunction.tasks.Task.with_catcher">with_catcher</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_catchers" href="#pystepfunction.tasks.Task.with_catchers">with_catchers</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input" href="#pystepfunction.tasks.Task.with_input">with_input</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_input_state" href="#pystepfunction.tasks.Task.with_input_state">with_input_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output" href="#pystepfunction.tasks.Task.with_output">with_output</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_output_state" href="#pystepfunction.tasks.Task.with_output_state">with_output_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_resource_result" href="#pystepfunction.tasks.Task.with_resource_result">with_resource_result</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retries" href="#pystepfunction.tasks.Task.with_retries">with_retries</a></code></li>
+<li><code><a title="pystepfunction.tasks.Task.with_retry" href="#pystepfunction.tasks.Task.with_retry">with_retry</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.TaskInputState" href="#pystepfunction.tasks.TaskInputState">TaskInputState</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pystepfunction.tasks.TaskInputState.has_input_path" href="#pystepfunction.tasks.TaskInputState.has_input_path">has_input_path</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.has_parameters" href="#pystepfunction.tasks.TaskInputState.has_parameters">has_parameters</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.input_path" href="#pystepfunction.tasks.TaskInputState.input_path">input_path</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.logger" href="#pystepfunction.tasks.TaskInputState.logger">logger</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.merge_state" href="#pystepfunction.tasks.TaskInputState.merge_state">merge_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.parameters" href="#pystepfunction.tasks.TaskInputState.parameters">parameters</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.to_asl" href="#pystepfunction.tasks.TaskInputState.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.with_logger" href="#pystepfunction.tasks.TaskInputState.with_logger">with_logger</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.with_parameter" href="#pystepfunction.tasks.TaskInputState.with_parameter">with_parameter</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskInputState.with_parameters" href="#pystepfunction.tasks.TaskInputState.with_parameters">with_parameters</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.TaskOutputState" href="#pystepfunction.tasks.TaskOutputState">TaskOutputState</a></code></h4>
+<ul class="">
+<li><code><a title="pystepfunction.tasks.TaskOutputState.has_output_path" href="#pystepfunction.tasks.TaskOutputState.has_output_path">has_output_path</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.has_result_path" href="#pystepfunction.tasks.TaskOutputState.has_result_path">has_result_path</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.has_result_selector" href="#pystepfunction.tasks.TaskOutputState.has_result_selector">has_result_selector</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.logger" href="#pystepfunction.tasks.TaskOutputState.logger">logger</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.merge_state" href="#pystepfunction.tasks.TaskOutputState.merge_state">merge_state</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.output_path" href="#pystepfunction.tasks.TaskOutputState.output_path">output_path</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.result_path" href="#pystepfunction.tasks.TaskOutputState.result_path">result_path</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.result_selector" href="#pystepfunction.tasks.TaskOutputState.result_selector">result_selector</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.to_asl" href="#pystepfunction.tasks.TaskOutputState.to_asl">to_asl</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.with_logger" href="#pystepfunction.tasks.TaskOutputState.with_logger">with_logger</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.with_result_key" href="#pystepfunction.tasks.TaskOutputState.with_result_key">with_result_key</a></code></li>
+<li><code><a title="pystepfunction.tasks.TaskOutputState.with_result_selector" href="#pystepfunction.tasks.TaskOutputState.with_result_selector">with_result_selector</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pystepfunction.tasks.WaitTask" href="#pystepfunction.tasks.WaitTask">WaitTask</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pystepfunction.tasks.WaitTask.seconds" href="#pystepfunction.tasks.WaitTask.seconds">seconds</a></code></li>
+<li><code><a title="pystepfunction.tasks.WaitTask.seconds_keys" href="#pystepfunction.tasks.WaitTask.seconds_keys">seconds_keys</a></code></li>
+<li><code><a title="pystepfunction.tasks.WaitTask.timestamp" href="#pystepfunction.tasks.WaitTask.timestamp">timestamp</a></code></li>
+<li><code><a title="pystepfunction.tasks.WaitTask.timestamp_keys" href="#pystepfunction.tasks.WaitTask.timestamp_keys">timestamp_keys</a></code></li>
+<li><code><a title="pystepfunction.tasks.WaitTask.wait_seconds" href="#pystepfunction.tasks.WaitTask.wait_seconds">wait_seconds</a></code></li>
+<li><code><a title="pystepfunction.tasks.WaitTask.wait_timestamp" href="#pystepfunction.tasks.WaitTask.wait_timestamp">wait_timestamp</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

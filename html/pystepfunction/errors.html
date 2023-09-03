@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>machine API documentation</title>
-<meta name="description" content="" />
+<title>pystepfunction.errors API documentation</title>
+<meta name="description" content="Exceptions and aws stepfunction error constants" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,24 +19,101 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>machine</code></h1>
+<h1 class="title">Module <code>pystepfunction.errors</code></h1>
 </header>
 <section id="section-intro">
+<p>Exceptions and aws stepfunction error constants</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Exceptions and aws stepfunction error constants&#34;&#34;&#34;
+
+
+class IncompleteTaskException(Exception):
+    &#34;&#34;&#34;Exception - raised when a task is missing a required field&#34;&#34;&#34;
+
+    pass
+
+
+class JsonPathNoMatchException(Exception):
+    &#34;&#34;&#34;Exception - raised when a json path does not match a value&#34;&#34;&#34;
+
+    pass
+
+
+# Error Constants
+ERROR_STATE_ALL = &#34;States.ALL&#34;
+ERROR_STATE_BRANCH_FAILED = &#34;States.BranchFailed&#34;
+ERROR_STATE_DATA_LIMIT_EXCEEDED = &#34;States.DataLimitExceeded&#34;
+ERROR_STATE_EXCEED_TOLERATED_FAILIURE_THRESHOLD = (
+    &#34;States.ExceedToleratedFailiureThreshold&#34;
+)
+ERROR_STATE_HEARTBEAT_TIMEOUT = &#34;States.HeartbeatTimeout&#34;
+ERROR_STATE_INTRINSIC_FAILURE = &#34;States.IntrinsicFailure&#34;
+ERROR_STATE_ITEM_READER_FAILED = &#34;States.ItemReaderFailed&#34;
+ERROR_STATE_NO_CHOICE_MATCHED = &#34;States.NoChoiceMatched&#34;
+ERROR_STATE_PARAMETER_PATH_FAILURE = &#34;States.ParameterPathFailure&#34;
+ERROR_STATE_PERMISSIONS = &#34;States.Permissions&#34;
+ERROR_STATE_RESULT_PATH_MATCH_FAILURE = &#34;States.ResultPathMatchFailure&#34;
+ERROR_STATE_RESULT_WRITER_FAILED = &#34;States.ResultWriterFailed&#34;
+ERROR_STATE_RUNTIME = &#34;States.Runtime&#34;
+ERROR_STATE_TASK_FAILED = &#34;States.TaskFailed&#34;
+ERROR_STATE_TIMEOUT = &#34;States.Timeout&#34;</code></pre>
+</details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="machine.tasks" href="tasks.html">machine.tasks</a></code></dt>
+<dt id="pystepfunction.errors.IncompleteTaskException"><code class="flex name class">
+<span>class <span class="ident">IncompleteTaskException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>Tasks for stepfunction machine …</p></div>
+<div class="desc"><p>Exception - raised when a task is missing a required field</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IncompleteTaskException(Exception):
+    &#34;&#34;&#34;Exception - raised when a task is missing a required field&#34;&#34;&#34;
+
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="pystepfunction.errors.JsonPathNoMatchException"><code class="flex name class">
+<span>class <span class="ident">JsonPathNoMatchException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception - raised when a json path does not match a value</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class JsonPathNoMatchException(Exception):
+    &#34;&#34;&#34;Exception - raised when a json path does not match a value&#34;&#34;&#34;
+
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
 </section>
 </article>
 <nav id="sidebar">
@@ -45,9 +122,19 @@
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="machine.tasks" href="tasks.html">machine.tasks</a></code></li>
+<li><code><a title="pystepfunction" href="index.html">pystepfunction</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pystepfunction.errors.IncompleteTaskException" href="#pystepfunction.errors.IncompleteTaskException">IncompleteTaskException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pystepfunction.errors.JsonPathNoMatchException" href="#pystepfunction.errors.JsonPathNoMatchException">JsonPathNoMatchException</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

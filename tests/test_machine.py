@@ -1,12 +1,11 @@
-from pystepfunction.errors import ErrorHandler
 from pystepfunction.tasks import (
     ChoiceRule,
     ChoiceTask,
     GlueTask,
     PassTask,
-    Retry,
     Task,
     LambdaTask,
+    Retry,
 )
 from pystepfunction.branch import Branch, ParallelTask
 from logging import getLogger
@@ -79,7 +78,7 @@ def test_branch_with_choice():
         "choice",
         [
             ChoiceRule("var1", "better", next=Task("end")),
-            ChoiceRule("var2", "stronger", 10, task2),
+            ChoiceRule("var2", "stronger", 10, next=task2),
         ],
         default=task2,
     )
@@ -87,6 +86,7 @@ def test_branch_with_choice():
     asl = machine.to_asl()
     logger.info(asl)
     assert asl["States"]["task3"]["Type"] == "Task"
+    assert len(machine.task_edges) == 4
 
 
 def test_paralell():
@@ -100,12 +100,17 @@ def test_paralell():
 
 
 def test_parallel_branch():
-    error_handler = ErrorHandler(
-        [Retry(error_equals=["States.ALL"], interval_seconds=1, max_attempts=3)]
-    )
     branch1 = Branch(Task("1") >> Task("2"))
     branch2 = Branch(
-        Task("3").with_error_handler(error_handler) >> PassTask("pass") >> Task("4")
+        Task("3")
+        .with_retries(
+            retries=[
+                Retry(error_equals=["States.ALL"], interval_seconds=1, max_attempts=3)
+            ]
+        )
+        .with_catcher(["States.ALL"], Task("4"))
+        >> PassTask("pass")
+        >> Task("4")
     )
     branch_parallel = Branch(
         Task("start") >> ParallelTask("par", [branch1, branch2]) >> Task("end").is_end()
