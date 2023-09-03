@@ -5,6 +5,10 @@ Pre-made tasks that are easy to use.
 Test dataflow through the stepfunction using the same python code.  
 Visualise the stepfunction using pyvis for easier dubugging without the use of the AWS console.  
 
+## Docs
+
+https://mrhopko.github.io/pystepfunction/pystepfunction/
+
 ## Installation
 ```
 pip3 install pystepfunctions
