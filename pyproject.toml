@@ -27,3 +27,4 @@ dev = ["black", "pytest"]
 
 [project.urls]
 Homepage = "https://github.com/mrhopko/pystepfunction"
+Docs = "https://mrhopko.github.io/pystepfunction/pystepfunction"
