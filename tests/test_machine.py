@@ -31,15 +31,15 @@ def test_lambda_task():
 
 
 def test_glue_task():
-    l = GlueTask("test_glue", "glue_job").with_payload(
+    l = GlueTask("test_glue", "glue_job").with_job_args(
         {"statekey1.$": "$.key1.key2", "fixed1": "fixed"}
     )
     asl = l.to_asl()
     logger.info(asl)
     assert asl["test_glue"]["Type"] == "Task"
     assert asl["test_glue"]["Resource"] == "arn:aws:states:::glue:startJobRun.sync"
-    assert asl["test_glue"]["Parameters"]["Payload"]["statekey1.$"] == "$.key1.key2"
-    assert asl["test_glue"]["Parameters"]["Payload"]["fixed1"] == "fixed"
+    assert asl["test_glue"]["Parameters"]["Arguments"]["--statekey1.$"] == "$.key1.key2"
+    assert asl["test_glue"]["Parameters"]["Arguments"]["--fixed1"] == "fixed"
     assert asl["test_glue"]["Parameters"]["JobName"] == "glue_job"
 
 
