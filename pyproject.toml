@@ -19,7 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 keywords = ["aws", "stepfunctions", "step functions"]
-dependencies = ["glom", "pyvis", "jsonpath-ng", "mypy_boto3_dms"]
+dependencies = ["glom", "pyvis", "jsonpath-ng", "mypy_boto3_dms", "botocore"]
 requires-python = ">=3.10"
 
 [project.optional-dependencies]
