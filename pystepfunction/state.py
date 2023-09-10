@@ -53,9 +53,9 @@ assert sm.state == expected_state
 from dataclasses import dataclass, field
 import json
 from logging import Logger, getLogger
-from typing import List, Optional
-import jsonpath_ng
-import glom
+from typing import Any, List, Optional
+import jsonpath_ng  # type: ignore
+import glom  # type: ignore
 from pystepfunction.branch import Branch
 from pystepfunction.errors import JsonPathNoMatchException
 from pystepfunction.tasks import Task
@@ -110,7 +110,7 @@ class StateMachine:
         self.logger.info(values[0])
         return values[0]
 
-    def get_path_state(self, path: str) -> dict:
+    def get_path_state(self, path: str) -> Any:
         """Filter state by path"""
         new_state = self.get_path_value(path)
         self.logger.info(new_state)
@@ -155,6 +155,7 @@ class StateMachine:
 
     def apply_input_parameters(self, task: Task):
         """Apply input parameters to the state"""
+        assert task.input_state is not None
         if task.input_state.has_parameters():
             msg = f"apply input parameters for task {task.name}"
             self.logger.info("apply_parameters")
@@ -163,6 +164,7 @@ class StateMachine:
 
     def apply_input_path(self, task: Task):
         """Apply the input path to the state"""
+        assert task.input_state is not None
         if task.input_state.has_input_path():
             msg = f"apply input path for task {task.name}"
             self.logger.info(msg)
@@ -185,16 +187,18 @@ class StateMachine:
         if not task.has_resource_result():
             return {}
         resource_result = task.resource_result
+        assert task.output_state is not None
         if task.output_state.has_result_selector():
             result_selector = task.output_state.result_selector
-            result = self.get_paramaters(result_selector, resource_result)
+            result = self.get_paramaters(result_selector, dict(resource_result))
             return result
-        return resource_result
+        return dict(resource_result)
 
     def apply_result_path(self, task: Task):
         """Move resource_result to state.value given a path"""
         result = self.get_result_selector(task)
         msg = f"apply_result_path for task {task.name}"
+        assert task.output_state is not None
         if task.output_state.has_result_path():
             self.logger.info(msg)
             result_path = task.output_state.result_path
@@ -205,6 +209,7 @@ class StateMachine:
 
     def apply_output_path(self, task: Task):
         """Apply the output path to the state"""
+        assert task.output_state is not None
         if task.output_state.has_output_path():
             msg = f"apply_output_path for task {task.name}"
             self.logger.info(msg)
@@ -240,7 +245,9 @@ class StateMachine:
         current_step = 1
         self.apply_task(current_task)
         while current_task.has_next() and current_step < max_steps:
-            current_task = current_task.next()
+            next_task = current_task.next()
+            assert next_task is not None
+            current_task = next_task
             self.apply_task(current_task)
             current_step += 1
 

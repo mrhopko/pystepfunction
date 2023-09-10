@@ -80,6 +80,7 @@ def _get_task_edges(task: Task) -> List[_TaskEdge]:
     edges = []
     match task._get_task_class_name():
         case ChoiceTask.__name__:
+            assert isinstance(task, ChoiceTask)
             for choice in task.choices:
                 edges.append(
                     _TaskEdge(
@@ -90,6 +91,7 @@ def _get_task_edges(task: Task) -> List[_TaskEdge]:
                 )
         case _:
             if task.has_next():
+                assert task._next is not None
                 for next_task in task._next:
                     edges.append(
                         _TaskEdge(
@@ -98,6 +100,7 @@ def _get_task_edges(task: Task) -> List[_TaskEdge]:
                         )
                     )
     if task.has_catcher():
+        assert task.catcher is not None
         for k, v in task.catcher:
             edges.append(
                 _TaskEdge(
@@ -163,9 +166,11 @@ class Branch:
         edges = _get_task_edges(task)
         self.task_edges.extend(edges)
         if task.has_next():
+            assert task._next is not None
             for t in task._next:
                 self._build_task_list(t)
         if task.has_catcher():
+            assert task.catcher is not None
             for k, v in task.catcher:
                 self._build_task_list(v)
 
@@ -220,6 +225,7 @@ class ParallelTask(Task):
             "End": self.end,
             "Branches": [branch.to_asl() for branch in self.branches],
         }
-        if self.next() is not None:
-            asl["Next"] = self.next().name
+        next = self.next()
+        if next is not None:
+            asl["Next"] = next.name
         return {self.name: asl}

@@ -55,7 +55,7 @@ lambda_task.to_asl()
 """
 from dataclasses import dataclass, field
 from logging import Logger, getLogger
-from typing import Any, Optional, List, Dict, Tuple
+from typing import Any, Mapping, Optional, List, Dict, Tuple
 from abc import ABC
 
 
@@ -137,11 +137,11 @@ class TaskOutputState:
 
     def to_asl(self) -> dict:
         """Convert to ASL"""
-        asl = {}
+        asl: Dict[str, Any] = {}
+        if self.has_result_selector():
+            asl["ResultSelector"] = self.result_selector
         if self.has_result_path():
             asl.update({"ResultPath": self.result_path})
-        if self.has_result_selector():
-            asl.update({"ResultSelector": self.result_selector})
         if self.has_output_path():
             asl.update({"OutputPath": self.output_path})
         return asl
@@ -165,9 +165,12 @@ class TaskInputState:
 
     def has_parameters(self) -> bool:
         """Check if the parameters are set"""
-        return len(self.parameters.items()) > 0
+        result = len(self.parameters.items()) > 0
+        if result:
+            assert self.parameters is not None
+        return result
 
-    def with_parameter(self, key: str, value: str):
+    def with_parameter(self, key: str, value: Any):
         """Add a parameter to the input"""
         self.parameters[key] = value
         return self
@@ -191,7 +194,7 @@ class TaskInputState:
 
     def to_asl(self) -> dict:
         """Convert to ASL"""
-        asl = {}
+        asl: Dict[str, Any] = {}
         if self.has_input_path():
             asl.update({"InputPath": self.input_path})
         if self.has_parameters():
@@ -229,7 +232,7 @@ class Task(ABC):
         """Manipulate the input state for the task"""
         self.output_state: Optional[TaskOutputState] = None
         """Manipulate the output state for the task"""
-        self.resource_result: dict = {}
+        self.resource_result: Mapping = {}
         """Shape of return data from the task resource"""
 
     def next(self) -> Optional["Task"]:
@@ -266,10 +269,11 @@ class Task(ABC):
 
         Args:
             task (Task): Next task in the stepfunction machine"""
-        if self.next() is None:
+        next = self.next()
+        if next is None:
             self._next = [task]
         else:
-            self.next().__rshift__(task)
+            next.__rshift__(task)
         return self
 
     def to_asl(self) -> dict:
@@ -279,15 +283,18 @@ class Task(ABC):
             "Resource": self.resource,
             "End": self.end,
         }
-        if self.next() is not None:
-            asl.update({"Next": self.next().name})
+        next = self.next()
+        if next is not None:
+            asl.update({"Next": next.name})
         if self.input_state is not None:
             asl.update(self.input_state.to_asl())
         if self.output_state is not None:
             asl.update(self.output_state.to_asl())
         if self.has_retries():
+            assert self.retries is not None
             asl.update({"Retry": [retry.to_asl() for retry in self.retries]})
         if self.has_catcher():
+            assert self.catcher is not None
             catch = [{"ErrorEquals": e, "Next": t.name} for e, t in self.catcher]
             asl.update({"Catch": catch})
         return {self.name: asl}
@@ -303,6 +310,7 @@ class Task(ABC):
         Args:
             input_state (InputState): Input state for the task"""
         if self.has_input_state():
+            assert self.input_state is not None
             self.input_state = self.input_state.merge_state(input_state)
         else:
             self.input_state = input_state
@@ -401,7 +409,7 @@ class Task(ABC):
         self.catcher = catchers
         return self
 
-    def with_resource_result(self, resource_result: dict) -> "Task":
+    def with_resource_result(self, resource_result: Mapping) -> "Task":
         """Set the resource return for the task
 
         Args:
@@ -424,7 +432,10 @@ class Task(ABC):
         return True
 
     def has_input_state(self) -> bool:
-        return self.input_state is not None
+        result = self.input_state is not None
+        if result:
+            assert self.input_state is not None
+        return result
 
     def has_output_state(self) -> bool:
         return self.output_state is not None
@@ -432,7 +443,10 @@ class Task(ABC):
     def has_next(self) -> bool:
         if self._next is None:
             return False
-        return len(self._next) > 0
+        if len(self._next) == 0:
+            return False
+        assert self._next is not None
+        return True
 
     def has_resource_result(self) -> bool:
         return len(self.resource_result.items()) > 0
@@ -494,7 +508,9 @@ class LambdaTask(Task):
 
         Args:
             payload (dict): Payload for the task"""
-        self.input_state.with_parameter("Payload", payload)
+        if self.has_input_state():
+            assert self.input_state is not None
+            self.input_state.with_parameter("Payload", payload)
         return self
 
 
@@ -520,7 +536,7 @@ class GlueTask(Task):
         if job_args is not None:
             self._set_job_args(job_args)
 
-    def with_job_args(self, job_args: dict) -> "LambdaTask":
+    def with_job_args(self, job_args: dict) -> "GlueTask":
         """Set the payload for the task
 
         Args:
@@ -536,6 +552,7 @@ class GlueTask(Task):
                 args[k] = v
             else:
                 args[f"--{k}"] = v
+        assert self.input_state is not None
         self.input_state.with_parameter(f"Arguments", args)
 
 
@@ -590,9 +607,10 @@ class WaitTask(Task):
 
     def to_asl(self) -> dict:
         """Convert to ASL"""
-        asl = {"Type": self.task_type}
-        if self.next() is not None:
-            asl["Next"] = self.next()
+        asl: Dict[str, Any] = {"Type": self.task_type}
+        next = self.next()
+        if next is not None:
+            asl["Next"] = next
         if self.seconds > 0:
             asl["Seconds"] = self.seconds
         elif self.timestamp != "":
@@ -659,8 +677,8 @@ class ChoiceRule:
         self,
         variable: str,
         condition: str,
+        next: Task,
         value: Optional[int | bool | str | float] = None,
-        next: Optional[Task] = None,
     ) -> None:
         """Initialize a choice rule
 
@@ -695,7 +713,10 @@ class ChoiceRule:
         return self
 
     def _short_asl(self) -> dict:
-        short_asl = {"Variable": self.variable, "Condition": self.condition}
+        short_asl: Dict[str, Any] = {
+            "Variable": self.variable,
+            "Condition": self.condition,
+        }
         if self.value is not None:
             short_asl["Value"] = self.value
         if self._is_not:
@@ -708,15 +729,18 @@ class ChoiceRule:
             rule_list = [self._short_asl()] + [
                 rule._short_asl() for rule in self._and_rules
             ]
+            assert self.next is not None
             return {"And": rule_list, "Next": self.next.name}
 
         if len(self._or_rules) > 0:
             rule_list = [self._short_asl()] + [
                 rule._short_asl() for rule in self._or_rules
             ]
+            assert self.next is not None
             return {"Or": rule_list, "Next": self.next.name}
 
         asl = self._short_asl()
+        assert self.next is not None
         asl["Next"] = self.next.name
         return asl
 
@@ -749,9 +773,12 @@ class ChoiceTask(Task):
     def _get_next(self, task: Optional[Task]):
         if task is None:
             return
+        assert task is not None
+        assert self._next is not None
         self._next.append(task)
         if task.next() is None:
             return
+        assert task._next is not None
         for t in task._next:
             self._get_next(t)
 
