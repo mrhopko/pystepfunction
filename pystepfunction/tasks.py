@@ -316,13 +316,14 @@ class Task(ABC):
             self.input_state = input_state
         return self
 
-    def with_input(self, input_path: str = "", parameters: dict = {}) -> "Task":
+    def with_input(self, input_path: str = "", parameters: dict = None) -> "Task":
         """Set the input state for the task
 
         Args:
             input_path (str, optional): Select a single path from the input state using jsonpath. Defaults to "$".
             parameters (dict, optional): Create a set of key/values from the input state (after input_path) to pass to the resource.
         """
+        parameters = parameters or {}
         input_state = TaskInputState(input_path=input_path, parameters=parameters)
         return self.with_input_state(input_state)
 
@@ -335,7 +336,7 @@ class Task(ABC):
         return self
 
     def with_output(
-        self, result_selector: dict = {}, result_path: str = "$", output_path: str = ""
+        self, result_selector: dict = None, result_path: str = "$", output_path: str = ""
     ) -> "Task":
         """Set the output state for the task
 
@@ -344,6 +345,7 @@ class Task(ABC):
             result_path (str, optional): Insert the task result into current state at the result_path. Defaults to "$".
             output_path (str, optional): Select a single path from the output of this task. applied after result_path and result_selector.
         """
+        result_selector = result_selector or {}
         output_state = TaskOutputState(
             result_selector=result_selector,
             result_path=result_path,
@@ -368,8 +370,7 @@ class Task(ABC):
             max_attempts (int): Maximum number of retries
             backoff_rate (float, optional): Backoff rate for retries. Defaults to 1.0.
         """
-        if self.retries is None:
-            self.retries = []
+        self.retries = self.retries or []
         self.retries.append(
             Retry(error_equals, interval_seconds, max_attempts, backoff_rate)
         )
@@ -393,8 +394,7 @@ class Task(ABC):
         Args:
             error (List[str]): List of errors to catch
             task (Task): Task to execute on error"""
-        if self.catcher is None:
-            self.catcher = []
+        self.catcher = self.catcher or []
         self.catcher.append((error, task))
         return self
 
@@ -418,16 +418,12 @@ class Task(ABC):
         return self
 
     def has_catcher(self) -> bool:
-        if self.catcher is None:
-            return False
-        if len(self.catcher) == 0:
+        if self.catcher is None or len(self.catcher) == 0:
             return False
         return True
 
     def has_retries(self) -> bool:
-        if self.retries is None:
-            return False
-        if len(self.retries) == 0:
+        if self.retries is None or len(self.retries) == 0:
             return False
         return True
 
@@ -462,13 +458,14 @@ class PassTask(Task):
     task_type = "Pass"
     """Task type for AS = Pass"""
 
-    def __init__(self, name: str, result: dict = {}) -> None:
+    def __init__(self, name: str, result: dict = None) -> None:
         """Initialize a pass task
 
         Args:
             name (str): Name of the task
             result (dict, optional): Result of the task. Defaults to {}. result is the payload of the next task.
         """
+        result = result or {}
         super().__init__(name)
         self.result = result
         """Result of the task. result is the payload of the next task."""
@@ -512,6 +509,46 @@ class LambdaTask(Task):
             assert self.input_state is not None
             self.input_state.with_parameter("Payload", payload)
         return self
+
+
+class MapTask(Task):
+    """ Map task, takes a branch and runs in parallel """
+    task_type = "Map"
+
+    def __init__(self, name: str, input_path: str, branch: "Branch") -> None:
+        """Initialize a map task
+
+        Args:
+            name (str): Name of the task
+       """
+        super().__init__(name)
+
+        self.input_state = TaskInputState()
+        self.input_path = input_path
+        self.items_path = "$"
+        self.branch = branch
+        self.max_concurrency = 1
+
+    def with_max_concurrency(self, max_concurrency):
+        self.max_concurrency = max_concurrency
+        return self
+
+    def with_items_path(self, items_in_input):
+        self.items_path = items_in_input
+        return self
+
+    def to_asl(self) -> dict:
+        """Convert to ASL"""
+        asl = {"InputPath": self.input_path,
+               "Type": self.task_type,
+               "MaxConcurrency": self.max_concurrency,
+               "ItemProcessor": self.branch.to_asl()}
+        if self.next() is not None:
+            asl["Next"] = self.next()
+        if self.items_path:
+            asl.update({"ItemsPath": self.items_path})
+
+        return asl
 
 
 class GlueTask(Task):
