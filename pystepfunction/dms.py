@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List, Optional
 from pystepfunction.tasks import Task, TaskInputState
-import boto3
 from mypy_boto3_dms import type_defs
 
 RULE_ACTION_INCLUDE = "include"
