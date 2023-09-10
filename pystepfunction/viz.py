@@ -27,7 +27,7 @@ branch_viz.show()
 """
 from dataclasses import dataclass
 from typing import List
-from pyvis.network import Network
+from pyvis.network import Network  # type: ignore
 from pystepfunction.branch import Branch, _TaskEdge
 from pystepfunction.tasks import Task
 
@@ -68,6 +68,7 @@ class BranchEdge:
         source_node = BranchNode.from_task(task_edge.source)
         target_node = BranchNode.from_task(task_edge.target)
         if task_edge.has_choice_rule():
+            assert task_edge.choice_rule is not None
             return cls(
                 from_node=source_node.n_id,
                 to_node=target_node.n_id,
@@ -75,6 +76,7 @@ class BranchEdge:
                 title=str(task_edge.choice_rule.to_asl()),
             )
         elif task_edge.has_catcher():
+            assert task_edge.catcher is not None
             e, t = task_edge.catcher
             return cls(
                 from_node=source_node.n_id,

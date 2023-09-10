@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pystepfunction"
-version = "0.1.102"
+version = "0.1.103"
 description = "Create AWS Step Functions asl.json with Python"
 readme = "README.md"
 authors = [
@@ -19,11 +19,11 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 keywords = ["aws", "stepfunctions", "step functions"]
-dependencies = ["glom", "pyvis", "jsonpath-ng"]
+dependencies = ["glom", "pyvis", "jsonpath-ng", "mypy_boto3_dms", "botocore"]
 requires-python = ">=3.10"
 
 [project.optional-dependencies]
-dev = ["black", "pytest"]
+dev = ["black", "pytest", "mypy"]
 
 [project.urls]
 Homepage = "https://github.com/mrhopko/pystepfunction"
