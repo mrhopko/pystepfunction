@@ -1,3 +1,0 @@
-jsonpath_ng
-glom
-pyvis
