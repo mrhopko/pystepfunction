@@ -78,7 +78,7 @@ def test_branch_with_choice():
         "choice",
         [
             ChoiceRule("var1", "better", next=Task("end")),
-            ChoiceRule("var2", "stronger", 10, next=task2),
+            ChoiceRule("var2", "stronger", value=10, next=task2),
         ],
         default=task2,
     )

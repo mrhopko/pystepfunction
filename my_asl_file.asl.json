@@ -1,0 +1,71 @@
+{
+    "Comment": "Lambda and Glue",
+    "StartAt": "lambda_task",
+    "States": {
+        "lambda_task": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "End": false,
+            "Next": "glue_task",
+            "Parameters": {
+                "FunctionName": "aws::my-lambda-arn"
+            },
+            "ResultSelector": {
+                "SelectThis.$": "$.Payload.Result"
+            },
+            "ResultPath": "$.LambdaTaskResult",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1.0
+                }
+            ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "Next": "lambda_task_fail"
+                }
+            ]
+        },
+        "glue_task": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::glue:startJobRun.sync",
+            "End": false,
+            "Next": "succeeded",
+            "Parameters": {
+                "JobName": "my-glue-job-name",
+                "Arguments": {
+                    "--job_input_arg.$": "$.LambdaTaskResult.SelectThis"
+                }
+            },
+            "ResultPath": "$.GlueTaskResult",
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.ALL"
+                    ],
+                    "Next": "glue_task_fail"
+                }
+            ]
+        },
+        "succeeded": {
+            "Type": "Succeed"
+        },
+        "glue_task_fail": {
+            "Type": "Fail",
+            "Cause": "glue task failed",
+            "Error": "MyGlueError"
+        },
+        "lambda_task_fail": {
+            "Type": "Fail",
+            "Cause": "lambda task failed",
+            "Error": "MyLambdaError"
+        }
+    }
+}

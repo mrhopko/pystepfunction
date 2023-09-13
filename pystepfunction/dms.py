@@ -1,10 +1,8 @@
 """DMS Tasks for AWS Step Functions"""
-import json
 from dataclasses import dataclass
-from enum import Enum
-from typing import List, Optional
-from pystepfunction.tasks import Task, TaskInputState
+from typing import List
 from mypy_boto3_dms import type_defs
+from pystepfunction.tasks import Task, TaskInputState
 
 RULE_ACTION_INCLUDE = "include"
 RULE_ACTION_EXCLUDE = "exclude"
@@ -13,10 +11,6 @@ RULE_ACTION_EXPLICIT = "explicit"
 MIGRATION_TYPE_FULL_LOAD = "full-load"
 MIGRATION_TYPE_CDC = "cdc"
 MIGRATION_TYPE_FULL_LOAD_AND_CDC = "full-load-and-cdc"
-
-
-def to_dict(obj):
-    return obj.__dict__()
 
 
 @dataclass
@@ -44,21 +38,21 @@ class SelectionRule:
 
 @dataclass
 class ReplicationTaskSettings:
-    CdcStartPosition: str
-    CdcStartTime: int
-    CdcStopPosition: str
-    MigrationType: str
-    ReplicationInstanceArn: str
-    ReplicationTaskIdentifier: str
-    ReplicationTaskSettings: str
-    ResourceIdentifier: str
-    SourceEndpointArn: str
-    TableMappings: str
-    TargetEndpointArn: str
-    TaskData: str
+    CdcStartPosition: str = ""
+    CdcStartTime: int = 0
+    CdcStopPosition: str = ""
+    MigrationType: str = MIGRATION_TYPE_FULL_LOAD_AND_CDC
+    ReplicationInstanceArn: str = ""
+    ReplicationTaskIdentifier: str = ""
+    ReplicationTaskSettings: str = ""
+    ResourceIdentifier: str = ""
+    SourceEndpointArn: str = ""
+    TableMappings: str = ""
+    TargetEndpointArn: str = ""
+    TaskData: str = ""
 
-    def to_asl(self):
-        return self.__dict__()
+    def to_asl(self) -> dict:
+        return self.__dict__
 
 
 def select_tables(
@@ -91,7 +85,7 @@ def select_tables(
 class DmsTask(Task):
     """Base DMS Task for building specific DMS tasks"""
 
-    resource_stub: str = "arn:aws:states:::aws-sdk:databasemigration:"
+    resource_stub: str = "arn:aws:states:::aws-sdk:databasemigration"
 
     def __init__(self, name: str, task_id: str, dms_cmd: str) -> None:
         """Base Task for buiding DMS tasks
@@ -105,6 +99,9 @@ class DmsTask(Task):
         self.task_id = task_id
         self.dms_cmd = dms_cmd
         self.resource = f"{self.resource_stub}:{self.dms_cmd}"
+        self.input_state = TaskInputState(
+            parameters={"ReplicationTaskIdentifier": task_id}
+        )
 
 
 class DmsTaskCreateReplicationTask(DmsTask):
@@ -119,6 +116,7 @@ class DmsTaskCreateReplicationTask(DmsTask):
         """
         self.task_settings = task_settings
         super().__init__(name, task_settings.ReplicationTaskIdentifier, self.dms_cmd)
+        self.input_state = TaskInputState(parameters=task_settings.to_asl())
 
     def with_resource_result_type(
         self, resource_result: type_defs.CreateReplicationTaskResponseTypeDef

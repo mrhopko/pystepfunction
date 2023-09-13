@@ -69,4 +69,4 @@ def test_example_asl():
     sm.apply_branch(branch)
     sm.show_logs()
 
-    assert False
+    assert True
