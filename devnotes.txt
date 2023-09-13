@@ -4,3 +4,4 @@ release process:
 update version number
 set github tags
 commit with tags
+make sure changes made
