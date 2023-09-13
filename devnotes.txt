@@ -1,7 +1,5 @@
 build command:
 
 release process:
-update version number
-set github tags
-commit with tags
-make sure changes made
+use github release 
+create draft.

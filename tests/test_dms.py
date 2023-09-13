@@ -1,5 +1,9 @@
 import logging
-from pystepfunction.dms import ReplicationTaskSettings, DmsTaskCreateReplicationTask
+from pystepfunction.dms import (
+    DmsTaskDescribeReplicationTask,
+    ReplicationTaskSettings,
+    DmsTaskCreateReplicationTask,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -26,3 +30,14 @@ def test_create_replication_task():
         == "arn:aws:states:::aws-sdk:databasemigration:createReplicationTask"
     )
     assert asl["test"]["Parameters"]["ReplicationTaskIdentifier"] == "test"
+
+
+def test_describe_replication_task():
+    task = DmsTaskDescribeReplicationTask("test", "task_id")
+    asl = task.to_asl()
+    logger.info(str(asl))
+    assert (
+        asl["test"]["Resource"]
+        == "arn:aws:states:::aws-sdk:databasemigration:describeReplicationTasks"
+    )
+    assert asl["test"]["Parameters"]["ReplicationTaskIdentifier"] == "task_id"

@@ -19,15 +19,21 @@ Example:
  
 See https://docs.aws.amazon.com/step-functions/latest/dg/concepts-input-output-filtering.html  
 
-`InputState` is used to mutate state data before it is passed to a task resource (eg lambda function) by setting:
+`InputState` is used to mutate state data before it is passed to a task resource 
+(eg lambda function) by setting:
 - `InputState.input_path` - Behaves like a filter. a single jsonpath to select a subset of the state value
-- `InputState.parameters` - Used to create a dictionary of parameters to pass to the task resource. 
-`InputState.input_path` is applied first, so all jsonpath parameters are relative to the `InputState.input_path` result.
+- `InputState.parameters` - Used to create a dictionary of parameters to 
+pass to the task resource. 
+`InputState.input_path` is applied first, so all jsonpath parameters are 
+relative to the `InputState.input_path` result.
 
 `OutputState` is used to mutate state data after a task has completed, before being passed to the next task.
-- `OutputState.result_selector` - Used to create a dictionary of parameters from the raw resource returned results. jsonpath is relative to the raw result.
-- `OutputState.result_path` - Where results are to be inserted into the state value. jsonpath is relative to the state value. If not set, the root of the state value is used ($.) overwriting the entire state value.
-- `OutputState.output_path` - Behaves like a filter. a single jsonpath to select a subset of the state value to pass to the next task. It is applied after `OutputState.result_path` is applied.
+- `OutputState.result_selector` - Used to create a dictionary of parameters from the raw resource returned 
+results. jsonpath is relative to the raw result.
+- `OutputState.result_path` - Where results are to be inserted into the state value. jsonpath is relative to 
+the state value. If not set, the root of the state value is used ($.) overwriting the entire state value.
+- `OutputState.output_path` - Behaves like a filter. a single jsonpath to select a subset of the state value 
+to pass to the next task. It is applied after `OutputState.result_path` is applied.
 
 Example:
 ```python
@@ -269,23 +275,23 @@ class Task(ABC):
 
         Args:
             task (Task): Next task in the stepfunction machine"""
-        next = self.next()
-        if next is None:
+        this_next = self.next()
+        if this_next is None:
             self._next = [task]
         else:
-            next.__rshift__(task)
+            this_next.__rshift__(task)
         return self
 
-    def to_asl(self) -> dict:
+    def _to_asl(self) -> dict:
         """Convert to ASL"""
-        asl = {
-            "Type": self.task_type,
-            "Resource": self.resource,
-            "End": self.end,
-        }
-        next = self.next()
-        if next is not None:
-            asl.update({"Next": next.name})
+        asl: dict[str, Any] = {"Type": self.task_type}
+        if self.end is True:
+            asl.update({"End": self.end})
+        if self.resource != "":
+            asl.update({"Resource": self.resource})
+        _next = self.next()
+        if _next is not None:
+            asl.update({"Next": _next.name})
         if self.input_state is not None:
             asl.update(self.input_state.to_asl())
         if self.output_state is not None:
@@ -297,7 +303,10 @@ class Task(ABC):
             assert self.catcher is not None
             catch = [{"ErrorEquals": e, "Next": t.name} for e, t in self.catcher]
             asl.update({"Catch": catch})
-        return {self.name: asl}
+        return asl
+
+    def to_asl(self) -> dict:
+        return {self.name: self._to_asl()}
 
     def is_end(self) -> "Task":
         """Set the task as the end of the stepfunction branch"""
@@ -316,12 +325,16 @@ class Task(ABC):
             self.input_state = input_state
         return self
 
-    def with_input(self, input_path: str = "", parameters: dict = None) -> "Task":
+    def with_input(
+        self, input_path: str = "", parameters: Optional[dict] = None
+    ) -> "Task":
         """Set the input state for the task
 
         Args:
-            input_path (str, optional): Select a single path from the input state using jsonpath. Defaults to "$".
-            parameters (dict, optional): Create a set of key/values from the input state (after input_path) to pass to the resource.
+            input_path (str, optional): Select a single path from the input state using jsonpath.
+            Defaults to "$".
+            parameters (dict, optional): Create a set of key/values from the input state (after input_path)
+            to pass to the resource.
         """
         parameters = parameters or {}
         input_state = TaskInputState(input_path=input_path, parameters=parameters)
@@ -336,14 +349,19 @@ class Task(ABC):
         return self
 
     def with_output(
-        self, result_selector: dict = None, result_path: str = "$", output_path: str = ""
+        self,
+        result_selector: Optional[dict] = None,
+        result_path: str = "$",
+        output_path: str = "",
     ) -> "Task":
         """Set the output state for the task
 
         Args:
             result_selector (dict, optional): generate a set of key value pairs from the resource_result.
-            result_path (str, optional): Insert the task result into current state at the result_path. Defaults to "$".
-            output_path (str, optional): Select a single path from the output of this task. applied after result_path and result_selector.
+            result_path (str, optional): Insert the task result into current state at the result_path.
+            Defaults to "$".
+            output_path (str, optional): Select a single path from the output of this task. applied after
+            result_path and result_selector.
         """
         result_selector = result_selector or {}
         output_state = TaskOutputState(
@@ -458,12 +476,13 @@ class PassTask(Task):
     task_type = "Pass"
     """Task type for AS = Pass"""
 
-    def __init__(self, name: str, result: dict = None) -> None:
+    def __init__(self, name: str, result: Optional[dict] = None) -> None:
         """Initialize a pass task
 
         Args:
             name (str): Name of the task
-            result (dict, optional): Result of the task. Defaults to {}. result is the payload of the next task.
+            result (dict, optional): Result of the task. Defaults to {}.
+            result is the payload of the next task.
         """
         result = result or {}
         super().__init__(name)
@@ -512,7 +531,8 @@ class LambdaTask(Task):
 
 
 class MapTask(Task):
-    """ Map task, takes a branch and runs in parallel """
+    """Map task, takes a branch and runs in parallel"""
+
     task_type = "Map"
 
     def __init__(self, name: str, input_path: str, branch: "Branch") -> None:
@@ -520,7 +540,7 @@ class MapTask(Task):
 
         Args:
             name (str): Name of the task
-       """
+        """
         super().__init__(name)
 
         self.input_state = TaskInputState()
@@ -537,14 +557,17 @@ class MapTask(Task):
         self.items_path = items_in_input
         return self
 
-    def to_asl(self) -> dict:
+    def _to_asl(self) -> dict:
         """Convert to ASL"""
-        asl = {"InputPath": self.input_path,
-               "Type": self.task_type,
-               "MaxConcurrency": self.max_concurrency,
-               "ItemProcessor": self.branch.to_asl()}
-        if self.next() is not None:
-            asl["Next"] = self.next()
+        asl = super()._to_asl()
+        asl.update(
+            {
+                "InputPath": self.input_path,
+                "Type": self.task_type,
+                "MaxConcurrency": self.max_concurrency,
+                "ItemProcessor": self.branch.to_asl(),
+            }
+        )
         if self.items_path:
             asl.update({"ItemsPath": self.items_path})
 
@@ -564,7 +587,8 @@ class GlueTask(Task):
         Args:
             name (str): Name of the task
             job_name (str): Name of the glue job - gets included as "JobName" in the task input parameters
-            job_args (Optional[dict], optional): set of arguments to pass to the glue job. Gets appended to the Task input paramters. Defaults to None.
+            job_args (Optional[dict], optional): set of arguments to pass to the glue job. Gets appended to
+            the Task input paramters. Defaults to None.
         """
         super().__init__(name)
         self.job_args = job_args
@@ -577,7 +601,8 @@ class GlueTask(Task):
         """Set the payload for the task
 
         Args:
-            job_args dict: set of arguments to pass to the glue job. Gets appended to the Task input paramters.
+            job_args dict: set of arguments to pass to the glue job.
+            Gets appended to the Task input paramters.
         """
         self._set_job_args(job_args)
         return self
@@ -590,7 +615,7 @@ class GlueTask(Task):
             else:
                 args[f"--{k}"] = v
         assert self.input_state is not None
-        self.input_state.with_parameter(f"Arguments", args)
+        self.input_state.with_parameter("Arguments", args)
 
 
 class WaitTask(Task):
@@ -619,7 +644,8 @@ class WaitTask(Task):
 
         Args:
             seconds (int, optional): Number of seconds to wait. Defaults to 0.
-            seconds_keys (List[str], optional): List of keys to extract the number of seconds to wait from the state. Defaults to [].
+            seconds_keys (List[str], optional): List of keys to extract
+            the number of seconds to wait from the state. Defaults to [].
 
         Returns:
             Task: The task"""
@@ -634,7 +660,8 @@ class WaitTask(Task):
 
         Args:
             timestamp (str, optional): Timestamp to wait until. Defaults to "".
-            timestamp_keys (List[str], optional): List of keys to extract the timestamp to wait until from the state. Defaults to [].
+            timestamp_keys (List[str], optional): List of keys to extract the timestamp to wait
+            until from the state. Defaults to [].
 
         Returns:
             Task: The task"""
@@ -642,12 +669,9 @@ class WaitTask(Task):
         self.timestamp_keys = timestamp_keys
         return self
 
-    def to_asl(self) -> dict:
+    def _to_asl(self) -> dict:
         """Convert to ASL"""
-        asl: Dict[str, Any] = {"Type": self.task_type}
-        next = self.next()
-        if next is not None:
-            asl["Next"] = next
+        asl = super()._to_asl()
         if self.seconds > 0:
             asl["Seconds"] = self.seconds
         elif self.timestamp != "":

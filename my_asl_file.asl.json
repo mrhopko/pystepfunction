@@ -5,7 +5,6 @@
         "lambda_task": {
             "Type": "Task",
             "Resource": "arn:aws:states:::lambda:invoke",
-            "End": false,
             "Next": "glue_task",
             "Parameters": {
                 "FunctionName": "aws::my-lambda-arn"
@@ -36,7 +35,6 @@
         "glue_task": {
             "Type": "Task",
             "Resource": "arn:aws:states:::glue:startJobRun.sync",
-            "End": false,
             "Next": "succeeded",
             "Parameters": {
                 "JobName": "my-glue-job-name",
