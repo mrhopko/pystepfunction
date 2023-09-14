@@ -12,9 +12,12 @@ def test_replication_settings():
     settings = ReplicationTaskSettings(
         ReplicationTaskIdentifier="test",
         SourceEndpointArn="arn:aws:dms:us-east-1:123456789012:endpoint:123456789012:source",
+        TargetEndpointArn="$.target_endpoint_arn",
     )
     asl = settings.to_asl()
+    logger.info(str(asl))
     assert asl["ReplicationTaskIdentifier"] == "test"
+    assert asl["TargetEndpointArn.$"] == "$.target_endpoint_arn"
 
 
 def test_create_replication_task():

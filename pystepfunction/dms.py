@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import List
 from mypy_boto3_dms import type_defs
 from pystepfunction.tasks import Task, TaskInputState
+from pystepfunction import tasks
 
 RULE_ACTION_INCLUDE = "include"
 RULE_ACTION_EXCLUDE = "exclude"
@@ -52,7 +53,8 @@ class ReplicationTaskSettings:
     TaskData: str = ""
 
     def to_asl(self) -> dict:
-        return self.__dict__
+        result = {tasks.asl_key_path(k, v): v for k, v in self.__dict__.items()}
+        return result
 
 
 def select_tables(

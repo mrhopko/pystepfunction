@@ -65,6 +65,14 @@ from typing import Any, Mapping, Optional, List, Dict, Tuple
 from abc import ABC
 
 
+def asl_key_path(key: str, value) -> str:
+    """add json path identifier to key if required by value"""
+    if isinstance(value, str):
+        if value.startswith("$.") and not key.endswith("$"):
+            return f"{key}.$"
+    return key
+
+
 @dataclass
 class Retry:
     """Retry configuration for a task"""
@@ -749,7 +757,10 @@ class ChoiceRule:
             value (int | bool | str | float, optional): Value to check. Defaults to None.
             next (Task, optional): Next task to execute. Defaults to None.
         """
-        self.variable: str = f"$.{variable}"
+        if variable.startswith("$"):
+            self.variable = variable
+        else:
+            self.variable: str = f"$.{variable}"
         """Variable to check"""
         self.condition: str = condition
         """Condition to check"""
@@ -776,10 +787,8 @@ class ChoiceRule:
     def _short_asl(self) -> dict:
         short_asl: Dict[str, Any] = {
             "Variable": self.variable,
-            "Condition": self.condition,
+            self.condition: self.value,
         }
-        if self.value is not None:
-            short_asl["Value"] = self.value
         if self._is_not:
             return {"Not": short_asl}
         return short_asl
