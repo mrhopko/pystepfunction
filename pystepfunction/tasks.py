@@ -73,6 +73,22 @@ def asl_key_path(key: str, value) -> str:
     return key
 
 
+def json_path_append(path: str, append: str) -> str:
+    """append a path to another path"""
+    _path = path.removeprefix("$.")
+    _path = _path.removeprefix(".")
+    _path = _path.removesuffix(".")
+    _append = append.removeprefix("$.")
+    _append = _append.removeprefix(".")
+    if _append == "" and _path == "":
+        return "$"
+    if _append == "":
+        return f"$.{_path}"
+    if _path == "":
+        return f"$.{_append}"
+    return f"$.{_path}.{_append}"
+
+
 @dataclass
 class Retry:
     """Retry configuration for a task"""
@@ -160,6 +176,15 @@ class TaskOutputState:
             asl.update({"OutputPath": self.output_path})
         return asl
 
+    def return_path(self):
+        if self.has_output_path():
+            assert self.output_path is not None
+            return self.output_path
+        if self.has_result_path():
+            assert self.result_path is not None
+            return self.result_path
+        return "$."
+
 
 @dataclass
 class TaskInputState:
@@ -223,6 +248,8 @@ class Task(ABC):
     """Task type for ASL"""
     resource = ""
     """Task resource for ASL"""
+    return_path_append = ""
+    """Path that a task may use to return a value"""
 
     def __init__(self, name: str) -> None:
         """Initialize a task
@@ -473,9 +500,30 @@ class Task(ABC):
     def has_resource_result(self) -> bool:
         return len(self.resource_result.items()) > 0
 
+    def has_return_path_append(self) -> bool:
+        return self.return_path_append != ""
+
     @classmethod
     def _get_task_class_name(cls) -> str:
         return cls.__name__
+
+    def get_return_path(self) -> str:
+        """Return the json path to the return value of the task
+
+        Returns:
+            str: json path to the return value of the task
+            output_state.return_path is used if set.
+            append with return_path_append
+            unless output_state.result_selector (which overrides return_path_append)
+        """
+        path = "$."
+        return_path_append = self.return_path_append
+        if self.has_output_state():
+            assert self.output_state is not None
+            path = self.output_state.return_path()
+            if self.output_state.has_result_selector():
+                return_path_append = ""
+        return json_path_append(path, return_path_append)
 
 
 class PassTask(Task):
