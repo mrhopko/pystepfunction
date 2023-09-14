@@ -1,7 +1,8 @@
 import logging
 from pystepfunction.branch import Branch
 from pystepfunction.errors import ERROR_STATE_ALL
-from pystepfunction.tasks import SucceedTask, FailTask, MapTask, LambdaTask
+from pystepfunction.lambda_function import LambdaTaskInvoke
+from pystepfunction.tasks import SucceedTask, FailTask, MapTask
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +46,7 @@ expected = {
 def test_map():
     # a task for the map
     lambda_task = (
-        LambdaTask("lambda_task", function_arn="aws::my-lambda-arn")
+        LambdaTaskInvoke("lambda_task", function_arn="aws::my-lambda-arn")
         .with_retry(error_equals=[ERROR_STATE_ALL], interval_seconds=1, max_attempts=3)
         .with_catcher(
             error=[ERROR_STATE_ALL],

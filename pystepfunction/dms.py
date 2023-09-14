@@ -39,6 +39,8 @@ class SelectionRule:
 
 @dataclass
 class ReplicationTaskSettings:
+    """DMS Replication Task Settings for creating a DMS task"""
+
     CdcStartPosition: str = ""
     CdcStartTime: int = 0
     CdcStopPosition: str = ""

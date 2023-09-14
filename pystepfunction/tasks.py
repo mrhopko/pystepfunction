@@ -6,15 +6,15 @@ Use `pystepfunction.branch.Branch` to create a stepfunction machine from a conne
 
 Example:
 ```python
-    >>> pystepfunction.machine.tasks import *
-    retry = [Retry(error_equals=["States.ALL"], interval_seconds=1, max_attempts=3)]
-    branch1 = Branch(Task("1") >> Task("2"))
-    branch2 = Branch(Task("3").retry(retry) >> PassTask("pass") >> Task("4"))
-    branch_parallel = Branch(
-        Task("start") >> ParallelTask("par", [branch1, branch2]) >> Task("end").is_end()
-    )
-    asl = branch_parallel.to_asl()  
-    logger.info(asl)
+pystepfunction.tasks import *
+retry = [Retry(error_equals=["States.ALL"], interval_seconds=1, max_attempts=3)]
+branch1 = Branch(Task("1") >> Task("2"))
+branch2 = Branch(Task("3").retry(retry) >> PassTask("pass") >> Task("4"))
+branch_parallel = Branch(
+    Task("start") >> ParallelTask("par", [branch1, branch2]) >> Task("end").is_end()
+)
+asl = branch_parallel.to_asl()  
+logger.info(asl)
 ```
  
 See https://docs.aws.amazon.com/step-functions/latest/dg/concepts-input-output-filtering.html  
@@ -38,7 +38,8 @@ to pass to the next task. It is applied after `OutputState.result_path` is appli
 Example:
 ```python
 # Add state manipulation to a task
-from pystepfunction.tasks import LambdaTask, InputState, OutputState
+from pystepfunction.tasks import InputState, OutputState
+from pystepfunction.lambda_function import LambdaTaskInvoke
 
 input_state = InputState(
     parameters={"Input1.$": "$.Input1", "Input2.$": "$.Input2"}, 
@@ -52,7 +53,7 @@ output_state = OutputState(
 )
 
 lambda_task = (
-    LambdaTask(name="LambdaTaskName", function_arn="my-lambda-arn")
+    LambdaTaskInvoke(name="LambdaTaskName", function_arn="my-lambda-arn")
     .with_input(input_state)
     .with_output(output_state)
 )
@@ -507,8 +508,11 @@ class Task(ABC):
     def _get_task_class_name(cls) -> str:
         return cls.__name__
 
-    def get_return_path(self) -> str:
+    def get_return_path(self, append: str = "") -> str:
         """Return the json path to the return value of the task
+
+        Args:
+            append (str): append to the return path
 
         Returns:
             str: json path to the return value of the task
@@ -523,6 +527,7 @@ class Task(ABC):
             path = self.output_state.return_path()
             if self.output_state.has_result_selector():
                 return_path_append = ""
+        return_path_append = json_path_append(return_path_append, append)
         return json_path_append(path, return_path_append)
 
 
@@ -551,39 +556,6 @@ class PassTask(Task):
         if len(self.result.items()) > 0:
             asl.update({"Result": self.result})
         return {self.name: asl}
-
-
-class LambdaTask(Task):
-    """Lambda task for stepfunction machine
-
-    Properties:
-        function_arn (str): ARN of the lambda function
-    """
-
-    resource: str = "arn:aws:states:::lambda:invoke"
-    """Task resource for ASL = Lambda:invoke"""
-
-    def __init__(self, name: str, function_arn: str) -> None:
-        """Initialize a lambda task
-
-        Args:
-            name (str): Name of the task
-            function_arn (str): ARN of the lambda function"""
-        super().__init__(name)
-        self.function_arn = function_arn
-        self.input_state = TaskInputState(
-            parameters={"FunctionName": self.function_arn}
-        )
-
-    def with_payload(self, payload: dict) -> "LambdaTask":
-        """Set the payload for the task
-
-        Args:
-            payload (dict): Payload for the task"""
-        if self.has_input_state():
-            assert self.input_state is not None
-            self.input_state.with_parameter("Payload", payload)
-        return self
 
 
 class MapTask(Task):
@@ -628,50 +600,6 @@ class MapTask(Task):
             asl.update({"ItemsPath": self.items_path})
 
         return asl
-
-
-class GlueTask(Task):
-    """Glue task for stepfunction machine"""
-
-    resource: str = "arn:aws:states:::glue:startJobRun.sync"
-
-    def __init__(
-        self, name: str, job_name: str, job_args: Optional[dict] = None
-    ) -> None:
-        """Initialize a glue task
-
-        Args:
-            name (str): Name of the task
-            job_name (str): Name of the glue job - gets included as "JobName" in the task input parameters
-            job_args (Optional[dict], optional): set of arguments to pass to the glue job. Gets appended to
-            the Task input paramters. Defaults to None.
-        """
-        super().__init__(name)
-        self.job_args = job_args
-        self.job_name = job_name
-        self.input_state = TaskInputState(parameters={"JobName": job_name})
-        if job_args is not None:
-            self._set_job_args(job_args)
-
-    def with_job_args(self, job_args: dict) -> "GlueTask":
-        """Set the payload for the task
-
-        Args:
-            job_args dict: set of arguments to pass to the glue job.
-            Gets appended to the Task input paramters.
-        """
-        self._set_job_args(job_args)
-        return self
-
-    def _set_job_args(self, job_args: dict):
-        args = {}
-        for k, v in job_args.items():
-            if str(k).startswith("--"):
-                args[k] = v
-            else:
-                args[f"--{k}"] = v
-        assert self.input_state is not None
-        self.input_state.with_parameter("Arguments", args)
 
 
 class WaitTask(Task):

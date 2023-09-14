@@ -1,10 +1,10 @@
+from pystepfunction.glue import GlueTaskStartJobRun
+from pystepfunction.lambda_function import LambdaTaskInvoke
 from pystepfunction.tasks import (
     ChoiceRule,
     ChoiceTask,
-    GlueTask,
     PassTask,
     Task,
-    LambdaTask,
     Retry,
 )
 from pystepfunction.branch import Branch, ParallelTask
@@ -22,7 +22,7 @@ def test_task():
 
 
 def test_lambda_task():
-    l = LambdaTask("test_lambda", "test_arn").with_payload({"key1.$": "$.value1"})
+    l = LambdaTaskInvoke("test_lambda", "test_arn").with_payload({"key1.$": "$.value1"})
     asl = l.to_asl()
     logger.info(asl)
     assert asl["test_lambda"]["Type"] == "Task"
@@ -31,7 +31,7 @@ def test_lambda_task():
 
 
 def test_glue_task():
-    l = GlueTask("test_glue", "glue_job").with_job_args(
+    l = GlueTaskStartJobRun("test_glue", "glue_job").with_job_args(
         {"statekey1.$": "$.key1.key2", "fixed1": "fixed"}
     )
     asl = l.to_asl()
@@ -45,9 +45,9 @@ def test_glue_task():
 
 def test_branch():
     branch = (
-        LambdaTask("lambda1", "fun1")
-        >> LambdaTask("lambda2", "fun2")
-        >> GlueTask("glue1", "job1")
+        LambdaTaskInvoke("lambda1", "fun1")
+        >> LambdaTaskInvoke("lambda2", "fun2")
+        >> GlueTaskStartJobRun("glue1", "job1")
     )
     machine = Branch(comment="mmm", start_task=branch)
     asl = machine.to_asl()

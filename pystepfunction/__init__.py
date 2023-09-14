@@ -15,8 +15,6 @@ Usage:
 ```python
 from logging import getLogger
 from pystepfunction.tasks import (
-    LambdaTask,
-    GlueTask,
     PassTask,
     SucceedTask,
     FailTask,
@@ -25,12 +23,14 @@ from pystepfunction.branch import Branch
 from pystepfunction.viz import BranchViz
 from pystepfunction.state import StateMachine
 from pystepfunction.errors import ERROR_STATE_ALL
+from pystepfunction.glue import GlueTaskStartJobRun
+from pystepfunction.lambda_function import LambdaTaskInvoke
 
 logger = getLogger(__name__)
 
 # create a lambda task
 lambda_task = (
-    LambdaTask("lambda_task", function_arn="aws::my-lambda-arn")
+    LambdaTaskInvoke("lambda_task", function_arn="aws::my-lambda-arn")
     .with_retry(error_equals=[ERROR_STATE_ALL], interval_seconds=1, max_attempts=3)
     .with_catcher(
         error=[ERROR_STATE_ALL],
@@ -47,7 +47,7 @@ lambda_task = (
 
 # create a glue task
 glue_task = (
-    GlueTask(
+    GlueTaskStartJobRun(
         "glue_task",
         job_name="my-glue-job-name",
         job_args={"job_input_arg.$": "$.LambdaTaskResult.SelectThis"},
