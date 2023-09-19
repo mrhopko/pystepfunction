@@ -812,7 +812,9 @@ class ChoiceTask(Task):
         """List of choice rules"""
         self.default = default
         """Default task to execute"""
-        self._next = [choice.next for choice in choices if choice.next is not None]
+        self._next = [choice.next for choice in choices if choice.next is not None] + [
+            self.default
+        ]
         # for choice in choices:
         #     self._get_next(choice.next)
 
