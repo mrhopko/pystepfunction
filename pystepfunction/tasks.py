@@ -812,21 +812,20 @@ class ChoiceTask(Task):
         """List of choice rules"""
         self.default = default
         """Default task to execute"""
-        self._next = []
-        for choice in choices:
-            self._get_next(choice.next)
+        self._next = [choice.next for choice in choices if choice.next is not None]
+        # for choice in choices:
+        #     self._get_next(choice.next)
 
-    def _get_next(self, task: Optional[Task]):
-        if task is None:
-            return
-        assert task is not None
-        assert self._next is not None
-        self._next.append(task)
-        if task.next() is None:
-            return
-        assert task._next is not None
-        for t in task._next:
-            self._get_next(t)
+    # def _get_next(self, task: Optional[Task]):
+    #     if task is None:
+    #         return
+    #     assert task is not None
+    #     self._next.append(task)
+    #     if task.next() is None:
+    #         return
+    #     assert task._next is not None
+    #     for t in task._next:
+    #         self._get_next(t)
 
     def to_asl(self) -> dict:
         """Convert to ASL"""

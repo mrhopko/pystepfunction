@@ -71,6 +71,22 @@ def test_choice():
     assert len(asl["choices"]["Choices"]) == 2
 
 
+def test_choice_with_loop():
+    start_task = Task("start")
+    choice = ChoiceTask(
+        "choices",
+        choices=[
+            ChoiceRule("var1", "Bigger", next=Task("choice1")),
+            ChoiceRule("var2", "Bigger", value=10, next=Task("choice2")),
+            ChoiceRule("var3", "Bigger", value=100, next=start_task),
+        ],
+        default=Task("default"),
+    )
+    asl = choice.to_asl()
+    logger.info(asl)
+    assert len(asl["choices"]["Choices"]) == 3
+
+
 def test_branch_with_choice():
     task1 = Task("task1")
     task2 = Task("task2") >> Task("task3")
