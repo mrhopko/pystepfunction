@@ -173,7 +173,7 @@ class DmsTaskDescribeReplicationTask(DmsTask):
                 "Filters": [
                     {
                         "Name": "replication-task-id",
-                        f"States.Array({values})": [task_id],
+                        values: f"States.Array({task_id})",
                     }
                 ]
             }
