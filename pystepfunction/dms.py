@@ -1,6 +1,7 @@
 """DMS Tasks for AWS Step Functions"""
 from dataclasses import dataclass
-from typing import List
+import datetime
+from typing import List, Optional
 from mypy_boto3_dms import type_defs
 from pystepfunction.tasks import Task, TaskInputState
 from pystepfunction import tasks
@@ -41,21 +42,25 @@ class SelectionRule:
 class ReplicationTaskSettings:
     """DMS Replication Task Settings for creating a DMS task"""
 
-    CdcStartPosition: str = ""
-    CdcStartTime: int = 0
-    CdcStopPosition: str = ""
+    ReplicationInstanceArn: str
+    ReplicationTaskIdentifier: str
+    ResourceIdentifier: str
+    SourceEndpointArn: str
+    TargetEndpointArn: str
     MigrationType: str = MIGRATION_TYPE_FULL_LOAD_AND_CDC
-    ReplicationInstanceArn: str = ""
-    ReplicationTaskIdentifier: str = ""
-    ReplicationTaskSettings: str = ""
-    ResourceIdentifier: str = ""
-    SourceEndpointArn: str = ""
-    TableMappings: str = ""
-    TargetEndpointArn: str = ""
-    TaskData: str = ""
+    CdcStartPosition: Optional[str] = None
+    CdcStartTime: Optional[datetime.datetime] = None
+    CdcStopPosition: Optional[str] = None
+    ReplicationTaskSettings: Optional[str] = None
+    TableMappings: Optional[str] = None
+    TaskData: Optional[str] = None
 
     def to_asl(self) -> dict:
-        result = {tasks.asl_key_path(k, v): v for k, v in self.__dict__.items()}
+        result = {
+            tasks.asl_key_path(k, v): v
+            for k, v in self.__dict__.items()
+            if v is not None
+        }
         return result
 
 
@@ -159,6 +164,11 @@ class DmsTaskDescribeReplicationTask(DmsTask):
             task_id (str): DMS task id (i.e name of DMS task)
         """
         super().__init__(name, task_id, self.dms_cmd)
+        self.input_state = TaskInputState(
+            parameters={
+                "Filters": [{"Name": "replication-task-id", "Values": [task_id]}]
+            }
+        )
 
     def with_resource_result_type(
         self, resource_result: type_defs.DescribeReplicationTasksResponseTypeDef
