@@ -24,6 +24,7 @@ def test_create_replication_task():
     settings = ReplicationTaskSettings(
         ReplicationTaskIdentifier="test",
         SourceEndpointArn="endpoint1234",
+        ResourceIdentifier="$.Resource",
     )
     task = DmsTaskCreateReplicationTask("test", settings)
     asl = task.to_asl()
@@ -33,6 +34,7 @@ def test_create_replication_task():
         == "arn:aws:states:::aws-sdk:databasemigration:createReplicationTask"
     )
     assert asl["test"]["Parameters"]["ReplicationTaskIdentifier"] == "test"
+    assert asl["test"]["Parameters"]["ResourceIdentifier.$"] == "$.Resource"
 
 
 def test_describe_replication_task():

@@ -9,6 +9,12 @@ def test_json_path_append():
     path = "."
     append = "Parameter"
     assert tasks.json_path_append(path, append) == "$.Parameter"
+    path = "$.Parameter"
+    append = "$.Value"
+    assert tasks.json_path_append(path, append) == "$.Parameter.Value"
+    path = "$.Parameter"
+    append = "Value"
+    assert tasks.json_path_append(path, append) == "$.Parameter.Value"
 
 
 def test_ssm():

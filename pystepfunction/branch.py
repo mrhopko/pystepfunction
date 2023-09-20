@@ -222,9 +222,10 @@ class ParallelTask(Task):
         """Convert to ASL"""
         asl = {
             "Type": self.task_type,
-            "End": self.end,
             "Branches": [branch.to_asl() for branch in self.branches],
         }
+        if self.end:
+            asl["End"] = True
         next = self.next()
         if next is not None:
             asl["Next"] = next.name

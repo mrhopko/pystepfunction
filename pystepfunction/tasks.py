@@ -520,13 +520,20 @@ class Task(ABC):
             append with return_path_append
             unless output_state.result_selector (which overrides return_path_append)
         """
-        path = "$."
-        return_path_append = self.return_path_append
+
+        root_path = "$."
         if self.has_output_state():
             assert self.output_state is not None
             path = self.output_state.return_path()
+        else:
+            path = root_path
+
+        return_path_append = self.return_path_append
+        if self.has_output_state():
+            assert self.output_state is not None
             if self.output_state.has_result_selector():
                 return_path_append = ""
+
         return_path_append = json_path_append(return_path_append, append)
         return json_path_append(path, return_path_append)
 
