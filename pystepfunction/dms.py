@@ -169,7 +169,14 @@ class DmsTaskDescribeReplicationTask(DmsTask):
         else:
             values = "Values"
         self.input_state = TaskInputState(
-            parameters={"Filters": [{"Name": "replication-task-id", values: [task_id]}]}
+            parameters={
+                "Filters": [
+                    {
+                        "Name": "replication-task-id",
+                        f"States.Array({values})": [task_id],
+                    }
+                ]
+            }
         )
 
     def with_resource_result_type(
