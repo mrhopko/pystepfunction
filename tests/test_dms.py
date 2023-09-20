@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 def test_replication_settings():
     settings = ReplicationTaskSettings(
         ReplicationTaskIdentifier="test",
+        ReplicationInstanceArn="testarn",
         SourceEndpointArn="arn:aws:dms:us-east-1:123456789012:endpoint:123456789012:source",
         TargetEndpointArn="$.target_endpoint_arn",
     )
@@ -23,8 +24,7 @@ def test_replication_settings():
 def test_create_replication_task():
     settings = ReplicationTaskSettings(
         ReplicationTaskIdentifier="test",
-        SourceEndpointArn="endpoint1234",
-        ResourceIdentifier="$.Resource",
+        ReplicationInstanceArn="$.testarn",
     )
     task = DmsTaskCreateReplicationTask("test", settings)
     asl = task.to_asl()
@@ -34,7 +34,7 @@ def test_create_replication_task():
         == "arn:aws:states:::aws-sdk:databasemigration:createReplicationTask"
     )
     assert asl["test"]["Parameters"]["ReplicationTaskIdentifier"] == "test"
-    assert asl["test"]["Parameters"]["ResourceIdentifier.$"] == "$.Resource"
+    assert asl["test"]["Parameters"]["ReplicationInstanceArn.$"] == "$.testarn"
 
 
 def test_describe_replication_task():
@@ -45,4 +45,9 @@ def test_describe_replication_task():
         asl["test"]["Resource"]
         == "arn:aws:states:::aws-sdk:databasemigration:describeReplicationTasks"
     )
-    assert asl["test"]["Parameters"]["ReplicationTaskIdentifier"] == "task_id"
+    assert asl["test"]["Parameters"]["Filters"] == [
+        {
+            "Name": "replication-task-id",
+            "Values": "States.Array(task_id)",
+        }
+    ]

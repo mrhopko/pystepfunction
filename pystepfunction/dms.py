@@ -44,14 +44,14 @@ class ReplicationTaskSettings:
 
     ReplicationInstanceArn: str
     ReplicationTaskIdentifier: str
-    ResourceIdentifier: str
-    SourceEndpointArn: str
-    TargetEndpointArn: str
+    SourceEndpointArn: Optional[str] = None
+    TargetEndpointArn: Optional[str] = None
     MigrationType: str = MIGRATION_TYPE_FULL_LOAD_AND_CDC
     CdcStartPosition: Optional[str] = None
     CdcStartTime: Optional[datetime.datetime] = None
     CdcStopPosition: Optional[str] = None
     ReplicationTaskSettings: Optional[str] = None
+    ResourceIdentifier: Optional[str] = None
     TableMappings: Optional[str] = None
     TaskData: Optional[str] = None
 

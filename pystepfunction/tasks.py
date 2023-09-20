@@ -74,13 +74,31 @@ def asl_key_path(key: str, value) -> str:
     return key
 
 
-def json_path_append(path: str, append: str) -> str:
-    """append a path to another path"""
+def json_path_strip(path: str, remove_suffix: bool = False) -> str:
+    """strip a path of leading and trailing json path identifiers"""
+    if path == "$":
+        return ""
+    if path == ".":
+        return ""
     _path = path.removeprefix("$.")
     _path = _path.removeprefix(".")
-    _path = _path.removesuffix(".")
-    _append = append.removeprefix("$.")
-    _append = _append.removeprefix(".")
+    if remove_suffix:
+        _path = _path.removesuffix(".")
+    return _path
+
+
+def string_as_path(non_path: str) -> str:
+    """convert a string to a json path"""
+    _non_path = json_path_strip(non_path, remove_suffix=False)
+    if _non_path == "":
+        return "$"
+    return f"$.{_non_path}"
+
+
+def json_path_append(path: str, append: str) -> str:
+    """append a path to another path"""
+    _path = json_path_strip(path, remove_suffix=True)
+    _append = json_path_strip(append, remove_suffix=False)
     if _append == "" and _path == "":
         return "$"
     if _append == "":
@@ -534,7 +552,9 @@ class Task(ABC):
             if self.output_state.has_result_selector():
                 return_path_append = ""
 
-        return_path_append = json_path_append(return_path_append, append)
+        if append != "":
+            return_path_append = json_path_append(return_path_append, append)
+
         return json_path_append(path, return_path_append)
 
 
@@ -740,7 +760,7 @@ class ChoiceRule:
             value (int | bool | str | float, optional): Value to check. Defaults to None.
             next (Task, optional): Next task to execute. Defaults to None.
         """
-        if variable.startswith("$"):
+        if variable.startswith("$."):
             self.variable = variable
         else:
             self.variable: str = f"$.{variable}"
