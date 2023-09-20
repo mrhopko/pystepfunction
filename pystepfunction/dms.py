@@ -156,7 +156,7 @@ class DmsTaskDeleteReplicationTask(DmsTask):
 class DmsTaskDescribeReplicationTask(DmsTask):
     dms_cmd = "describeReplicationTasks"
 
-    def __init__(self, name: str, task_id) -> None:
+    def __init__(self, name: str, task_id: str) -> None:
         """Descrive a DMS replication task
 
         Args:
@@ -164,10 +164,12 @@ class DmsTaskDescribeReplicationTask(DmsTask):
             task_id (str): DMS task id (i.e name of DMS task)
         """
         super().__init__(name, task_id, self.dms_cmd)
+        if task_id.startswith("$."):
+            values = "Values.$"
+        else:
+            values = "Values"
         self.input_state = TaskInputState(
-            parameters={
-                "Filters": [{"Name": "replication-task-id", "Values": [task_id]}]
-            }
+            parameters={"Filters": [{"Name": "replication-task-id", values: [task_id]}]}
         )
 
     def with_resource_result_type(
