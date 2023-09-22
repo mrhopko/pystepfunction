@@ -11,7 +11,7 @@ https://mrhopko.github.io/pystepfunction/pystepfunction/
 
 ## Installation
 ```
-pip3 install pystepfunctions
+pip3 install pystepfunction
 ```
 
 ## Complete example
