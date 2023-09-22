@@ -307,9 +307,11 @@ class Task(ABC):
         """Set the next task in the stepfunction machine
 
         Overrides the immediate next task if it exists
+        Sets end to False as a task cannot have next and end
 
         Args:
             task (Task): Next task in the stepfunction machine"""
+        self.end = False
         self._next = [task]
         return self
 
@@ -332,7 +334,9 @@ class Task(ABC):
         this_next = self.next()
         if this_next is None:
             self._next = [task]
+            self.end = False
         else:
+            self.end = False
             this_next.__rshift__(task)
         return self
 
@@ -364,6 +368,8 @@ class Task(ABC):
 
     def is_end(self) -> "Task":
         """Set the task as the end of the stepfunction branch"""
+        if self.has_next():
+            raise ValueError("Task cannot be end and have next")
         self.end = True
         return self
 
@@ -579,7 +585,9 @@ class PassTask(Task):
 
     def to_asl(self) -> dict:
         """Convert to ASL"""
-        asl = {"Type": self.task_type, "End": self.end}
+        asl: Dict[str, Any] = {"Type": self.task_type}
+        if self.end:
+            asl.update({"End": self.end})
         if len(self.result.items()) > 0:
             asl.update({"Result": self.result})
         return {self.name: asl}
@@ -650,7 +658,9 @@ class WaitTask(Task):
         self.timestamp_keys: List[str] = []
         """List of keys to extract the timestamp to wait until from the state"""
 
-    def wait_seconds(self, seconds: int = 0, seconds_keys: List[str] = []) -> "Task":
+    def wait_seconds(
+        self, seconds: int = 0, seconds_keys: Optional[List[str]] = None
+    ) -> "Task":
         """Set the number of seconds to wait
 
         Args:
@@ -661,11 +671,14 @@ class WaitTask(Task):
         Returns:
             Task: The task"""
         self.seconds = seconds
-        self.seconds_keys = seconds_keys
+        if seconds_keys is None:
+            self.seconds_keys = []
+        else:
+            self.seconds_keys = seconds_keys
         return self
 
     def wait_timestamp(
-        self, timestamp: str = "", timestamp_keys: List[str] = []
+        self, timestamp: str = "", timestamp_keys: Optional[List[str]] = None
     ) -> "Task":
         """Set the timestamp to wait until
 
@@ -677,7 +690,10 @@ class WaitTask(Task):
         Returns:
             Task: The task"""
         self.timestamp = timestamp
-        self.timestamp_keys = timestamp_keys
+        if timestamp_keys is None:
+            self.timestamp_keys = []
+        else:
+            self.timestamp_keys = timestamp_keys
         return self
 
     def _to_asl(self) -> dict:
