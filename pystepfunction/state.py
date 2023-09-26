@@ -1,6 +1,7 @@
 """StateMachine is used to test the flow of data manipulations between tasks
 
-In pystepfunction, state is represented by a `State` object. It can also be used to test the flow of data manipulations.  
+In pystepfunction, state is represented by a `State` object.
+It can also be used to test the flow of data manipulations.  
 See https://docs.aws.amazon.com/step-functions/latest/dg/concepts-input-output-filtering.html
 
 jsonpath_ng is used to parse and evaluate jsonpath expressions.  
@@ -235,8 +236,10 @@ class StateMachine:
 
         Args:
             branch (Branch): The branch to apply
-            init_state (Optional[dict], optional): The initial state. If None then existing state is used. Defaults to None.
-            max_steps (int, optional): The maximum number of steps to apply. Defaults to 100. (in case of loops)
+            init_state (Optional[dict], optional): The initial state. If None then existing state is used.
+            Defaults to None.
+            max_steps (int, optional): The maximum number of steps to apply. Defaults to 100.
+            (in case of loops)
         """
         self.logger.info(f"apply branch")
         if init_state is not None:

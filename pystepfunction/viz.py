@@ -6,7 +6,7 @@ branch_c1 = Task("Task-c1")
 branch_c2 = Task("Task-c2") >> Task("Task-c3")
 choice_1 = ChoiceRule("var1", "cond1", next=branch_c1)
 choice_2 = ChoiceRule("var2", "cond2", next=branch_c2)
-fail = FailTask("Fail")
+fail = FailTask("Fail", error="Fail", cause="Fail")
 
 branch_n1 = Branch(
     Task("Task1")

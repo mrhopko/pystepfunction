@@ -729,7 +729,7 @@ class FailTask(Task):
 
     task_type = "Fail"
 
-    def __init__(self, name: str, cause: str = "", error: str = "") -> None:
+    def __init__(self, name: str, cause: str, error: str) -> None:
         super().__init__(name)
         self.cause = cause
         """Cause of the failure"""
