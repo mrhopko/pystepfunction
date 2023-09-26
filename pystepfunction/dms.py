@@ -3,7 +3,6 @@ from dataclasses import dataclass
 import datetime
 from typing import List, Optional
 from mypy_boto3_dms import type_defs
-from pytest import param
 from pystepfunction.tasks import Task, TaskInputState
 from pystepfunction import tasks
 
