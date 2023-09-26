@@ -74,6 +74,11 @@ def asl_key_path(key: str, value) -> str:
     return key
 
 
+def asl_dict_path(check_dict: dict) -> dict:
+    """add json path identifier to keys if required by values"""
+    return {asl_key_path(k, v): v for k, v in check_dict.items()}
+
+
 def json_path_strip(path: str, remove_suffix: bool = False) -> str:
     """strip a path of leading and trailing json path identifiers"""
     if path == "$":
@@ -188,7 +193,8 @@ class TaskOutputState:
         """Convert to ASL"""
         asl: Dict[str, Any] = {}
         if self.has_result_selector():
-            asl["ResultSelector"] = self.result_selector
+            result_selector = asl_dict_path(self.result_selector)
+            asl["ResultSelector"] = result_selector
         if self.has_result_path():
             asl.update({"ResultPath": self.result_path})
         if self.has_output_path():
@@ -256,7 +262,8 @@ class TaskInputState:
         if self.has_input_path():
             asl.update({"InputPath": self.input_path})
         if self.has_parameters():
-            asl.update({"Parameters": self.parameters})
+            params = asl_dict_path(self.parameters)
+            asl.update({"Parameters": params})
         return asl
 
 
