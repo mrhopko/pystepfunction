@@ -267,7 +267,7 @@ class DmsTaskStartReplicationTask(DmsTask):
 
 
 class DmsTaskStopReplicationTask(DmsTask):
-    dms_cmd = "startReplicationTask"
+    dms_cmd = "stopReplicationTask"
 
     def __init__(self, name: str, task_arn: str) -> None:
         """Starts a DMS replication task
