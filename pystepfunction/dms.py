@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import datetime
 from typing import List, Optional
 from mypy_boto3_dms import type_defs
+from pytest import param
 from pystepfunction.tasks import Task, TaskInputState
 from pystepfunction import tasks
 
@@ -96,21 +97,32 @@ class DmsTask(Task):
 
     resource_stub: str = "arn:aws:states:::aws-sdk:databasemigration"
 
-    def __init__(self, name: str, task_id: str, dms_cmd: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        dms_cmd: str,
+        task_id: Optional[str] = None,
+        task_arn: Optional[str] = None,
+    ) -> None:
         """Base Task for buiding DMS tasks
 
         Args:
             name (str): Name of the task
             task_id (str): DMS task id (i.e name of DMS task)
             dms_cmd (str): DMS command to run (i.e startReplicationTask)
+            task_arn (Optional[str], optional): DMS task arn. Defaults to None.
         """
         super().__init__(name)
         self.task_id = task_id
         self.dms_cmd = dms_cmd
+        self.task_arn = task_arn
         self.resource = f"{self.resource_stub}:{self.dms_cmd}"
-        self.input_state = TaskInputState(
-            parameters={"ReplicationTaskIdentifier": task_id}
-        )
+        parameters = {}
+        if task_id is not None:
+            parameters["ReplicationTaskIdentifier"] = task_id
+        if task_arn is not None:
+            parameters["ReplicationTaskArn"] = task_arn
+        self.input_state = TaskInputState(parameters=parameters)
 
 
 class DmsTaskCreateReplicationTask(DmsTask):
@@ -124,7 +136,9 @@ class DmsTaskCreateReplicationTask(DmsTask):
             task_id (str): DMS task id (i.e name of DMS task)
         """
         self.task_settings = task_settings
-        super().__init__(name, task_settings.ReplicationTaskIdentifier, self.dms_cmd)
+        super().__init__(
+            name, dms_cmd=self.dms_cmd, task_id=task_settings.ReplicationTaskIdentifier
+        )
         self.input_state = TaskInputState(parameters=task_settings.to_asl())
 
     def with_resource_result_type(
@@ -137,14 +151,14 @@ class DmsTaskCreateReplicationTask(DmsTask):
 class DmsTaskDeleteReplicationTask(DmsTask):
     dms_cmd = "deleteReplicationTask"
 
-    def __init__(self, name: str, task_id) -> None:
+    def __init__(self, name: str, task_arn: str) -> None:
         """Deletes a DMS replication task
 
         Args:
             name (str): Name of the task
-            task_id (str): DMS task id (i.e name of DMS task)
+            task_arn (str): DMS task ARN
         """
-        super().__init__(name, task_id, self.dms_cmd)
+        super().__init__(name, dms_cmd=self.dms_cmd, task_arn=task_arn)
 
     def with_resource_result_type(
         self, resource_result: type_defs.DeleteReplicationTaskResponseTypeDef
@@ -163,7 +177,7 @@ class DmsTaskDescribeReplicationTask(DmsTask):
             name (str): Name of the task
             task_id (str): DMS task id (i.e name of DMS task)
         """
-        super().__init__(name, task_id, self.dms_cmd)
+        super().__init__(name, dms_cmd=self.dms_cmd, task_id=task_id)
         if task_id.startswith("$."):
             values = "Values.$"
         else:
@@ -189,14 +203,14 @@ class DmsTaskDescribeReplicationTask(DmsTask):
 class DmsTaskModifyReplicationTask(DmsTask):
     dms_cmd = "modifyReplicationTask"
 
-    def __init__(self, name: str, task_id) -> None:
+    def __init__(self, name: str, task_arn: str) -> None:
         """Modifies a DMS replication task
 
         Args:
             name (str): Name of the task
-            task_id (str): DMS task id (i.e name of DMS task)
+            task_arn (str): DMS task id (i.e name of DMS task)
         """
-        super().__init__(name, task_id, self.dms_cmd)
+        super().__init__(name, dms_cmd=self.dms_cmd, task_arn=task_arn)
 
     def with_resource_result_type(
         self, resource_result: type_defs.ModifyReplicationTaskResponseTypeDef
@@ -205,55 +219,17 @@ class DmsTaskModifyReplicationTask(DmsTask):
         return super().with_resource_result(resource_result)
 
 
-class DmsTaskMoveReplicationTask(DmsTask):
-    dms_cmd = "moveReplicationTask"
-
-    def __init__(self, name: str, task_id) -> None:
-        """Moves a DMS replication task
-
-        Args:
-            name (str): Name of the task
-            task_id (str): DMS task id (i.e name of DMS task)
-        """
-        super().__init__(name, task_id, self.dms_cmd)
-
-    def with_resource_result_type(
-        self, resource_result: type_defs.MoveReplicationTaskResponseTypeDef
-    ) -> Task:
-        """Use a mypy typed definition to set the resource result"""
-        return super().with_resource_result(resource_result)
-
-
-class DmsTaskRefreshSchemas(DmsTask):
-    dms_cmd = "refreshSchemas"
-
-    def __init__(self, name: str, task_id) -> None:
-        """Refreshes a DMS endpoint schemas
-
-        Args:
-            name (str): Name of the task
-            task_id (str): DMS task id (i.e name of DMS task)
-        """
-        super().__init__(name, task_id, self.dms_cmd)
-
-    def with_resource_result_type(
-        self, resource_result: type_defs.RefreshSchemasResponseTypeDef
-    ) -> Task:
-        """Use a mypy typed definition to set the resource result"""
-        return super().with_resource_result(resource_result)
-
-
 class DmsTaskReloadTables(DmsTask):
     dms_cmd = "reloadTables"
 
-    def __init__(self, name: str, task_id) -> None:
+    def __init__(self, name: str, task_id: str) -> None:
         """Reloads a DMS endpoint tables
 
         Args:
             name (str): Name of the task
             task_id (str): DMS task id (i.e name of DMS task)
         """
-        super().__init__(name, task_id, self.dms_cmd)
+        super().__init__(name, dms_cmd=self.dms_cmd, task_id=task_id)
 
     def with_resource_result_type(
         self, resource_result: type_defs.ReloadTablesResponseTypeDef
@@ -265,14 +241,14 @@ class DmsTaskReloadTables(DmsTask):
 class DmsTaskStartReplicationTask(DmsTask):
     dms_cmd = "startReplicationTask"
 
-    def __init__(self, name: str, task_id) -> None:
+    def __init__(self, name: str, task_arn: str) -> None:
         """Starts a DMS replication task
 
         Args:
             name (str): Name of the task
-            task_id (str): DMS task id (i.e name of DMS task)
+            task_arn (str): DMS task ARN
         """
-        super().__init__(name, task_id, self.dms_cmd)
+        super().__init__(name, dms_cmd=self.dms_cmd, task_arn=task_arn)
 
     def with_resource_result_type(
         self, resource_result: type_defs.StartReplicationResponseTypeDef
@@ -284,14 +260,14 @@ class DmsTaskStartReplicationTask(DmsTask):
 class DmsTaskStopReplicationTask(DmsTask):
     dms_cmd = "startReplicationTask"
 
-    def __init__(self, name: str, task_id) -> None:
+    def __init__(self, name: str, task_arn: str) -> None:
         """Starts a DMS replication task
 
         Args:
             name (str): Name of the task
-            task_id (str): DMS task id (i.e name of DMS task)
+            task_arn (str): DMS task ARN
         """
-        super().__init__(name, task_id, self.dms_cmd)
+        super().__init__(name, dms_cmd=self.dms_cmd, task_arn=task_arn)
 
     def with_resource_result_type(
         self, resource_result: type_defs.StopReplicationResponseTypeDef
