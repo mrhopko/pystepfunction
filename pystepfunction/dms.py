@@ -240,14 +240,24 @@ class DmsTaskReloadTables(DmsTask):
 class DmsTaskStartReplicationTask(DmsTask):
     dms_cmd = "startReplicationTask"
 
-    def __init__(self, name: str, task_arn: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        task_arn: str,
+        replication_type: str = MIGRATION_TYPE_FULL_LOAD_AND_CDC,
+    ) -> None:
         """Starts a DMS replication task
 
         Args:
             name (str): Name of the task
             task_arn (str): DMS task ARN
+            task_type (str): Type of task (i.e full-load, cdc, full-load-and-cdc)
         """
         super().__init__(name, dms_cmd=self.dms_cmd, task_arn=task_arn)
+        self.replication_type = replication_type
+        assert self.input_state
+        assert self.input_state.parameters
+        self.input_state.parameters["StartReplicationTaskType"] = replication_type
 
     def with_resource_result_type(
         self, resource_result: type_defs.StartReplicationResponseTypeDef
