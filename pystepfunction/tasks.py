@@ -606,50 +606,6 @@ class PassTask(Task):
         return {self.name: asl}
 
 
-class MapTask(Task):
-    """Map task, takes a branch and runs in parallel"""
-
-    task_type = "Map"
-
-    def __init__(self, name: str, input_path: str, branch: "Branch") -> None:
-        """Initialize a map task
-
-        Args:
-            name (str): Name of the task
-        """
-        super().__init__(name)
-
-        self.input_state = TaskInputState()
-        self.input_path = input_path
-        self.items_path = "$"
-        self.branch = branch
-        self.max_concurrency = 1
-
-    def with_max_concurrency(self, max_concurrency):
-        self.max_concurrency = max_concurrency
-        return self
-
-    def with_items_path(self, items_in_input):
-        self.items_path = items_in_input
-        return self
-
-    def _to_asl(self) -> dict:
-        """Convert to ASL"""
-        asl = super()._to_asl()
-        asl.update(
-            {
-                "InputPath": self.input_path,
-                "Type": self.task_type,
-                "MaxConcurrency": self.max_concurrency,
-                "ItemProcessor": self.branch.to_asl(),
-            }
-        )
-        if self.items_path:
-            asl.update({"ItemsPath": self.items_path})
-
-        return asl
-
-
 class WaitTask(Task):
     """Wait task for stepfunction machine"""
 

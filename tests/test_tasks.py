@@ -1,4 +1,4 @@
-from pystepfunction.tasks import PassTask, Task, TaskInputState, TaskOutputState
+from pystepfunction.tasks import PassTask, Task
 
 
 # Test that PassTask creates correct ASL

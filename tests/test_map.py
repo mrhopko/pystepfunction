@@ -1,8 +1,8 @@
 import logging
-from pystepfunction.branch import Branch
+from pystepfunction.branch import Branch, MapTask, ItemProcessor, ProcessorConfig
 from pystepfunction.errors import ERROR_STATE_ALL
 from pystepfunction.lambda_function import LambdaTaskInvoke
-from pystepfunction.tasks import SucceedTask, FailTask, MapTask
+from pystepfunction.tasks import SucceedTask, FailTask
 
 logger = logging.getLogger(__name__)
 
@@ -10,6 +10,7 @@ expected = {
     "InputPath": "$.input_object",
     "ItemsPath": "$.items_in_input",
     "ItemProcessor": {
+        "ProcessorConfig": {"Mode": "INLINE"},
         "Comment": "sub_branch",
         "StartAt": "lambda_task",
         "States": {
@@ -38,7 +39,7 @@ expected = {
             "succeeded": {"Type": "Succeed"},
         },
     },
-    "MaxConcurrency": 10,
+    "MaxConcurrency": 0,
     "Type": "Map",
 }
 
@@ -65,11 +66,9 @@ def test_map():
     lambda_task = lambda_task >> SucceedTask("succeeded")
     sub_branch = Branch(comment="sub_branch", start_task=lambda_task)
 
-    map_task = (
-        MapTask("map", "$.input_object", sub_branch)
-        .with_max_concurrency(10)
-        .with_items_path("$.items_in_input")
-    )
+    item_processor = ItemProcessor(sub_branch, ProcessorConfig(), "$.items_in_input")
+
+    map_task = MapTask("map", item_processor).with_input(input_path="$.input_object")
 
     observed = map_task.to_asl()
     logger.info(str(observed))

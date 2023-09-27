@@ -44,8 +44,9 @@ branch_with_parallel.to_asl()
 
 import json
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from pystepfunction.tasks import ChoiceRule, ChoiceTask, Task
+from pystepfunction import tasks
 
 
 @dataclass
@@ -230,3 +231,59 @@ class ParallelTask(Task):
         if next is not None:
             asl["Next"] = next.name
         return {self.name: asl}
+
+
+@dataclass
+class ProcessorConfig:
+    process_mode: str = "INLINE"
+
+    def to_asl(self) -> dict:
+        return {"Mode": self.process_mode}
+
+
+@dataclass
+class ItemProcessor:
+    item_processor: Branch
+    processor_config: ProcessorConfig
+    items_path: str
+    item_selector: Optional[Dict[Any, Any]] = None
+    max_concurrency: int = 0
+
+    def to_asl(self) -> dict:
+        item_processor_asl = self.item_processor.to_asl()
+        item_processor_asl["ProcessorConfig"] = self.processor_config.to_asl()
+        asl: Dict[str, Any] = {"ItemProcessor": item_processor_asl}
+        asl["ItemsPath"] = self.items_path
+        asl["MaxConcurrency"] = self.max_concurrency
+        if self.has_item_selector():
+            assert self.item_selector
+            asl["ItemSelector"] = tasks.asl_dict_path(self.item_selector)
+        return asl
+
+    def has_item_selector(self) -> bool:
+        if self.item_selector is None:
+            return False
+        if len(self.item_selector) == 0:
+            return False
+        return True
+
+
+class MapTask(Task):
+    """Map task, takes an item_process and runs in parallel"""
+
+    task_type = "Map"
+
+    def __init__(self, name: str, item_processor: ItemProcessor) -> None:
+        """Initialize a map task
+
+        Args:
+            name (str): Name of the task
+        """
+        super().__init__(name)
+        self.item_processor = item_processor
+
+    def _to_asl(self) -> dict:
+        """Convert to ASL"""
+        asl = super()._to_asl()
+        asl.update(self.item_processor.to_asl())
+        return asl
