@@ -577,26 +577,32 @@ class PassTask(Task):
     task_type = "Pass"
     """Task type for AS = Pass"""
 
-    def __init__(self, name: str, result: Optional[dict] = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        result: Optional[dict] = None,
+        result_path: str = "$",
+    ) -> None:
         """Initialize a pass task
 
         Args:
             name (str): Name of the task
             result (dict, optional): Result of the task. Defaults to {}.
             result is the payload of the next task.
+            result_path (str, optional): Path to insert the result into the state. Defaults to "$".
         """
-        result = result or {}
+        self.result = result or {}
         super().__init__(name)
-        self.result = result
-        """Result of the task. result is the payload of the next task."""
+        self.output_state = TaskOutputState(
+            result_selector=self.result, result_path=result_path
+        )
 
     def to_asl(self) -> dict:
         """Convert to ASL"""
-        asl: Dict[str, Any] = {"Type": self.task_type}
-        if self.end:
-            asl.update({"End": self.end})
-        if len(self.result.items()) > 0:
-            asl.update({"Result": self.result})
+        assert self.output_state is not None
+        asl: Dict[str, Any] = super()._to_asl()
+        if self.output_state.has_result_selector():
+            asl["Result"] = asl.pop("ResultSelector")
         return {self.name: asl}
 
 
