@@ -221,15 +221,8 @@ class ParallelTask(Task):
 
     def to_asl(self) -> dict:
         """Convert to ASL"""
-        asl = {
-            "Type": self.task_type,
-            "Branches": [branch.to_asl() for branch in self.branches],
-        }
-        if self.end:
-            asl["End"] = True
-        next = self.next()
-        if next is not None:
-            asl["Next"] = next.name
+        asl = super()._to_asl()
+        asl["Branches"] = [branch.to_asl() for branch in self.branches]
         return {self.name: asl}
 
 

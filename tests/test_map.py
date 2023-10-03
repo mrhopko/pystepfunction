@@ -15,7 +15,13 @@ expected = {
         "StartAt": "lambda_task",
         "States": {
             "lambda_task": {
-                "Catch": [{"ErrorEquals": ["States.ALL"], "Next": "lambda_task_fail"}],
+                "Catch": [
+                    {
+                        "ErrorEquals": ["States.ALL"],
+                        "Next": "lambda_task_fail",
+                        "ResultPath": "$.LambdaTaskResult",
+                    }
+                ],
                 "Next": "succeeded",
                 "Parameters": {"FunctionName": "aws::my-lambda-arn"},
                 "Resource": "arn:aws:states:::lambda:invoke",

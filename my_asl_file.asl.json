@@ -28,7 +28,8 @@
                     "ErrorEquals": [
                         "States.ALL"
                     ],
-                    "Next": "lambda_task_fail"
+                    "Next": "lambda_task_fail",
+                    "ResultPath": "$.LambdaTaskResult"
                 }
             ]
         },
@@ -48,7 +49,8 @@
                     "ErrorEquals": [
                         "States.ALL"
                     ],
-                    "Next": "glue_task_fail"
+                    "Next": "glue_task_fail",
+                    "ResultPath": "$.GlueTaskResult"
                 }
             ]
         },

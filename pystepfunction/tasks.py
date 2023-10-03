@@ -367,6 +367,17 @@ class Task(ABC):
         if self.has_catcher():
             assert self.catcher is not None
             catch = [{"ErrorEquals": e, "Next": t.name} for e, t in self.catcher]
+            if self.has_output_state():
+                assert self.output_state is not None
+                if self.output_state.has_result_path():
+                    catch = [
+                        {
+                            "ErrorEquals": e,
+                            "Next": t.name,
+                            "ResultPath": self.output_state.result_path,
+                        }
+                        for e, t in self.catcher
+                    ]
             asl.update({"Catch": catch})
         return asl
 
